@@ -1,0 +1,768 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0,viewport-fit=cover"><title>WPS EasyMesh组网 &amp; 一键桥接自适应 | Lmiracle</title><meta name="author" content="linxuew"><meta name="copyright" content="linxuew"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="背景在无线组网场景下，STA（客户端&#x2F;下级节点）需要通过 WPS 完成入网，并自动判断上级 AP 是否支持 EasyMesh。若支持，则走 Multi-AP 组网流程成为 Mesh Agent；若不支持，则降级为普通桥接模式。本文基于一份真实的 pcapng 抓包，完整分析 WPS 握手过程、EasyMesh 探测机制。  一、WPS M1–M8 完整握手流程WPS 握手分两个阶段：M1">
+<meta property="og:type" content="article">
+<meta property="og:title" content="WPS EasyMesh组网 &amp; 一键桥接自适应">
+<meta property="og:url" content="https://linxuew.github.io/2026/03/23/2026/3-wps-easymesh-analysis/index.html">
+<meta property="og:site_name" content="Lmiracle">
+<meta property="og:description" content="背景在无线组网场景下，STA（客户端&#x2F;下级节点）需要通过 WPS 完成入网，并自动判断上级 AP 是否支持 EasyMesh。若支持，则走 Multi-AP 组网流程成为 Mesh Agent；若不支持，则降级为普通桥接模式。本文基于一份真实的 pcapng 抓包，完整分析 WPS 握手过程、EasyMesh 探测机制。  一、WPS M1–M8 完整握手流程WPS 握手分两个阶段：M1">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://lmiracleblog.oss-cn-chengdu.aliyuncs.com/blog_imgblog_log.png">
+<meta property="article:published_time" content="2026-03-23T13:00:00.000Z">
+<meta property="article:modified_time" content="2026-03-24T12:48:34.911Z">
+<meta property="article:author" content="linxuew">
+<meta property="article:tag" content="路由器">
+<meta property="article:tag" content="WPS">
+<meta property="article:tag" content="EasyMesh">
+<meta property="article:tag" content="WiFi">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://lmiracleblog.oss-cn-chengdu.aliyuncs.com/blog_imgblog_log.png"><link rel="shortcut icon" href="/img/xueicon.png"><link rel="canonical" href="https://linxuew.github.io/2026/03/23/2026/3-wps-easymesh-analysis/index.html"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css?v=4.13.0"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.5.1/css/all.min.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/ui@5.0.33/dist/fancybox/fancybox.min.css" media="print" onload="this.media='all'"><script>const GLOBAL_CONFIG = {
+  root: '/',
+  algolia: undefined,
+  localSearch: undefined,
+  translate: undefined,
+  noticeOutdate: undefined,
+  highlight: {"plugin":"highlight.js","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":false},
+  copy: {
+    success: '复制成功',
+    error: '复制错误',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '',
+  dateSuffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: undefined,
+  lightbox: 'fancybox',
+  Snackbar: undefined,
+  infinitegrid: {
+    js: 'https://cdn.jsdelivr.net/npm/@egjs/infinitegrid@4.11.1/dist/infinitegrid.min.js',
+    buttonText: '加载更多'
+  },
+  isPhotoFigcaption: false,
+  islazyload: false,
+  isAnchor: false,
+  percent: {
+    toc: true,
+    rightside: true,
+  },
+  autoDarkmode: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: 'WPS EasyMesh组网 & 一键桥接自适应',
+  isPost: true,
+  isHome: false,
+  isHighlightShrink: false,
+  isToc: true,
+  postUpdate: '2026-03-24 20:48:34'
+}</script><script>(win=>{
+      win.saveToLocal = {
+        set: (key, value, ttl) => {
+          if (ttl === 0) return
+          const now = Date.now()
+          const expiry = now + ttl * 86400000
+          const item = {
+            value,
+            expiry
+          }
+          localStorage.setItem(key, JSON.stringify(item))
+        },
+      
+        get: key => {
+          const itemStr = localStorage.getItem(key)
+      
+          if (!itemStr) {
+            return undefined
+          }
+          const item = JSON.parse(itemStr)
+          const now = Date.now()
+      
+          if (now > item.expiry) {
+            localStorage.removeItem(key)
+            return undefined
+          }
+          return item.value
+        }
+      }
+    
+      win.getScript = (url, attr = {}) => new Promise((resolve, reject) => {
+        const script = document.createElement('script')
+        script.src = url
+        script.async = true
+        script.onerror = reject
+        script.onload = script.onreadystatechange = function() {
+          const loadState = this.readyState
+          if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+          script.onload = script.onreadystatechange = null
+          resolve()
+        }
+
+        Object.keys(attr).forEach(key => {
+          script.setAttribute(key, attr[key])
+        })
+
+        document.head.appendChild(script)
+      })
+    
+      win.getCSS = (url, id = false) => new Promise((resolve, reject) => {
+        const link = document.createElement('link')
+        link.rel = 'stylesheet'
+        link.href = url
+        if (id) link.id = id
+        link.onerror = reject
+        link.onload = link.onreadystatechange = function() {
+          const loadState = this.readyState
+          if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+          link.onload = link.onreadystatechange = null
+          resolve()
+        }
+        document.head.appendChild(link)
+      })
+    
+      win.activateDarkMode = () => {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      win.activateLightMode = () => {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+        }
+      }
+      const t = saveToLocal.get('theme')
+    
+        if (t === 'dark') activateDarkMode()
+        else if (t === 'light') activateLightMode()
+      
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        if (asideStatus === 'hide') {
+          document.documentElement.classList.add('hide-aside')
+        } else {
+          document.documentElement.classList.remove('hide-aside')
+        }
+      }
+    
+      const detectApple = () => {
+        if(/iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)){
+          document.documentElement.classList.add('apple')
+        }
+      }
+      detectApple()
+    })(window)</script><meta name="generator" content="Hexo 7.3.0"></head><body><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img is-center"><img src="https://lmiracleblog.oss-cn-chengdu.aliyuncs.com/blog_imgblog_log.png" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"/></div><div class="sidebar-site-data site-data is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">8</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">14</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">4</div></a></div><hr class="custom-hr"/><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> Home</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> Archives</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> Tags</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> Categories</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> About</span></a></div></div></div></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header"><nav id="nav"><span id="blog-info"><a href="/" title="Lmiracle"><span class="site-name">Lmiracle</span></a></span><div id="menus"><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> Home</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> Archives</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> Tags</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> Categories</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> About</span></a></div></div><div id="toggle-menu"><a class="site-page" href="javascript:void(0);"><i class="fas fa-bars fa-fw"></i></a></div></div></nav><div id="post-info"><h1 class="post-title">WPS EasyMesh组网 &amp; 一键桥接自适应</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2026-03-23T13:00:00.000Z" title="发表于 2026-03-23 21:00:00">2026-03-23</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2026-03-24T12:48:34.911Z" title="更新于 2026-03-24 20:48:34">2026-03-24</time></span><span class="post-meta-categories"><span class="post-meta-separator">|</span><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/%E7%BD%91%E7%BB%9C/">网络</a></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title="WPS EasyMesh组网 &amp; 一键桥接自适应"><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">阅读量:</span><span id="busuanzi_value_page_pv"><i class="fa-solid fa-spinner fa-spin"></i></span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="post-content" id="article-container"><h2 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h2><p>在无线组网场景下，STA（客户端&#x2F;下级节点）需要通过 WPS 完成入网，并自动判断上级 AP 是否支持 EasyMesh。若支持，则走 Multi-AP 组网流程成为 Mesh Agent；若不支持，则降级为普通桥接模式。本文基于一份真实的 pcapng 抓包，完整分析 WPS 握手过程、EasyMesh 探测机制。</p>
+<hr>
+<h2 id="一、WPS-M1–M8-完整握手流程"><a href="#一、WPS-M1–M8-完整握手流程" class="headerlink" title="一、WPS M1–M8 完整握手流程"></a>一、WPS M1–M8 完整握手流程</h2><p>WPS 握手分两个阶段：<strong>M1–M4</strong> 完成密钥协商与身份验证，<strong>M5–M8</strong> 完成凭证传递。</p>
+<h3 id="消息字段详解"><a href="#消息字段详解" class="headerlink" title="消息字段详解"></a>消息字段详解</h3><table>
+<thead>
+<tr>
+<th>消息</th>
+<th>方向</th>
+<th>关键字段</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>M1</td>
+<td>STA → AP</td>
+<td>Version, UUID-E, MAC, EnrolleeNonce, Public Key (DH), Auth Type Flags, Encr Type Flags, <strong>Multi-AP Extension (0x1048, 若支持 EasyMesh)</strong></td>
+</tr>
+<tr>
+<td>M2</td>
+<td>AP → STA</td>
+<td>RegistrarNonce, Public Key (DH), EncrSettings, <strong>Multi-AP Extension (回应 EasyMesh, 若支持)</strong></td>
+</tr>
+<tr>
+<td>M3</td>
+<td>STA → AP</td>
+<td>RegistrarNonce, E-Hash1, E-Hash2 (PIN 前后半段哈希承诺)</td>
+</tr>
+<tr>
+<td>M4</td>
+<td>AP → STA</td>
+<td>EnrolleeNonce, R-Hash1, R-Hash2, Encrypted R-S1</td>
+</tr>
+<tr>
+<td>M5</td>
+<td>STA → AP</td>
+<td>EnrolleeNonce, Encrypted E-S1</td>
+</tr>
+<tr>
+<td>M6</td>
+<td>AP → STA</td>
+<td>EnrolleeNonce, Encrypted R-S2</td>
+</tr>
+<tr>
+<td>M7</td>
+<td>STA → AP</td>
+<td>EnrolleeNonce, Encrypted E-S2</td>
+</tr>
+<tr>
+<td>M8</td>
+<td>AP → STA</td>
+<td>Encrypted Settings（SSID + 密码 + 认证方式，EasyMesh 时额外含 Backhaul 配置）</td>
+</tr>
+</tbody></table>
+<!-- WPS M1–M8 交互步进器 -->
+<style>
+:root {
+  --color-border-tertiary: #e0e0e0;
+  --color-border-secondary: #d0d0d0;
+  --color-background-secondary: #f5f5f5;
+  --color-background-tertiary: #ebebeb;
+  --color-text-primary: #1a1a1a;
+  --color-text-secondary: #555;
+  --color-text-tertiary: #999;
+  --font-sans: system-ui, -apple-system, sans-serif;
+  --font-mono: 'SFMono-Regular', Consolas, monospace;
+}
+@media (prefers-color-scheme: dark) {
+  :root {
+    --color-border-tertiary: #333;
+    --color-border-secondary: #444;
+    --color-background-secondary: #1e1e1e;
+    --color-background-tertiary: #2a2a2a;
+    --color-text-primary: #e0e0e0;
+    --color-text-secondary: #aaa;
+    --color-text-tertiary: #666;
+  }
+}
+:root{--e:#185FA5;--r:#0F6E56;--ph:#534AB7;--ga:40px;}
+*{box-sizing:border-box;margin:0;padding:0;}
+body{font-family:var(--font-sans,sans-serif);}
+.wrap{padding:16px 0;}
+.nav{display:flex;align-items:center;gap:8px;margin-bottom:16px;flex-wrap:wrap;}
+.pill{padding:4px 10px;border-radius:12px;font-size:12px;cursor:pointer;border:1.5px solid transparent;color:var(--color-text-secondary);background:var(--color-background-secondary);transition:.15s;}
+.pill.active{background:#E6F1FB;border-color:#185FA5;color:#0C447C;}
+.pill:hover:not(.active){border-color:var(--color-border-secondary);}
+.btn{padding:6px 14px;border-radius:8px;font-size:13px;cursor:pointer;border:1px solid var(--color-border-secondary);background:var(--color-background-secondary);color:var(--color-text-primary);transition:.15s;}
+.btn:hover{background:var(--color-background-tertiary);}
+.btn:disabled{opacity:.4;cursor:default;}
+.spacer{flex:1;}
+.stage-label{font-size:11px;padding:2px 8px;border-radius:10px;color:#fff;}
+.phase1{background:#185FA5;}.phase2{background:#0F6E56;}
+.card{border:1px solid var(--color-border-tertiary);border-radius:12px;overflow:hidden;}
+.card-header{display:flex;align-items:center;gap:10px;padding:12px 16px;background:var(--color-background-secondary);border-bottom:1px solid var(--color-border-tertiary);}
+.msg-badge{font-size:13px;font-weight:500;padding:3px 10px;border-radius:6px;color:#fff;}
+.dir-arrow{font-size:12px;color:var(--color-text-secondary);display:flex;align-items:center;gap:4px;}
+.card-body{padding:0;}
+.lane-row{display:grid;grid-template-columns:1fr 1fr;border-bottom:1px solid var(--color-border-tertiary);}
+.lane-row:last-child{border-bottom:none;}
+.lane-hdr{padding:8px 14px;font-size:11px;font-weight:500;text-transform:uppercase;letter-spacing:.04em;color:#fff;}
+.lane-hdr.e{background:var(--e);}.lane-hdr.r{background:var(--r);}
+.fields{padding:12px 14px;display:flex;flex-direction:column;gap:6px;}
+.field{display:flex;flex-direction:column;gap:1px;}
+.fname{font-size:11px;font-weight:500;color:var(--color-text-secondary);}
+.fval{font-size:12px;color:var(--color-text-primary);font-family:var(--font-mono,monospace);line-height:1.5;}
+.note{margin:0 16px 12px;padding:8px 12px;border-radius:8px;background:var(--color-background-secondary);border-left:3px solid #7F77DD;font-size:12px;color:var(--color-text-secondary);line-height:1.6;}
+.progress{display:flex;gap:4px;margin-bottom:4px;}
+.pdot{width:8px;height:8px;border-radius:50%;background:var(--color-border-secondary);transition:.2s;}
+.pdot.done{background:#185FA5;}.pdot.cur{background:#185FA5;box-shadow:0 0 0 2px #B5D4F4;}
+</style>
+<div class="wrap">
+<div class="nav">
+  <div class="progress" id="prog"></div>
+  <div class="spacer"></div>
+  <button class="btn" id="prev" onclick="go(-1)">← 上一条</button>
+  <button class="btn" id="next" onclick="go(1)">下一条 →</button>
+</div>
+<div id="pills" class="nav" style="margin-bottom:12px;"></div>
+<div class="card" id="card"></div>
+</div>
+
+<script>
+const msgs=[
+{id:"M1",dir:"E→R",phase:1,phaseLabel:"阶段一 · 密钥协商",
+ eFields:[
+  {n:"Version",v:"0x10 (WPS 1.0) / 0x20 (WPS 2.0)"},
+  {n:"Message Type",v:"0x04 (M1)"},
+  {n:"UUID-E",v:"128-bit，Enrollee 设备唯一标识"},
+  {n:"MAC Address",v:"Enrollee 无线网卡 MAC"},
+  {n:"Enrollee Nonce (N1)",v:"128-bit 随机数，本次会话随机生成"},
+  {n:"Public Key (PKe)",v:"Enrollee DH 公钥，1536-bit (Group 14)"},
+  {n:"Auth Type Flags",v:"支持的认证类型位图 (WPA2-PSK 等)"},
+  {n:"Encr Type Flags",v:"支持的加密类型位图 (AES, TKIP)"},
+  {n:"Conn Type Flags",v:"ESS / IBSS"},
+  {n:"Config Methods",v:"PBC / PIN / NFC / Label 等支持方式"},
+  {n:"Wifi Protected Setup State",v:"Not configured / Configured"},
+  {n:"Manufacturer / Model",v:"设备厂商、型号、序列号字符串"},
+  {n:"Device Name",v:"用户可见的设备名称"},
+  {n:"Primary Device Type",v:"设备类别 OUI (e.g. 00-50-F2-04)"},
+  {n:"RF Bands",v:"2.4 GHz / 5 GHz 位图"},
+  {n:"Association State",v:"当前关联状态"},
+  {n:"Device Password ID",v:"0x0000=PIN, 0x0004=PBC"},
+  {n:"OS Version",v:"4字节 OS 版本标识"}
+ ],
+ rFields:[],
+ note:"M1 由 Enrollee 发起，携带所有能力声明和 DH 公钥。Registrar 收到后验证 Device Password ID 确认使用 PIN 还是 PBC 模式。"
+},
+{id:"M2",dir:"R→E",phase:1,phaseLabel:"阶段一 · 密钥协商",
+ eFields:[],
+ rFields:[
+  {n:"Version",v:"0x10 / 0x20"},
+  {n:"Message Type",v:"0x05 (M2)"},
+  {n:"Enrollee Nonce (N1)",v:"回显 M1 中的 N1，证明收到"},
+  {n:"Registrar Nonce (N2)",v:"128-bit，Registrar 本次随机数"},
+  {n:"UUID-R",v:"128-bit，Registrar 唯一标识"},
+  {n:"Public Key (PKr)",v:"Registrar DH 公钥，1536-bit"},
+  {n:"Auth Type Flags",v:"Registrar 支持的认证类型"},
+  {n:"Encr Type Flags",v:"Registrar 支持的加密类型"},
+  {n:"Conn Type Flags",v:"ESS / IBSS"},
+  {n:"Config Methods",v:"Registrar 支持的配置方式"},
+  {n:"Manufacturer / Model",v:"Registrar 设备信息字符串"},
+  {n:"Primary Device Type",v:"设备类别"},
+  {n:"RF Bands",v:"频段位图"},
+  {n:"Config Error",v:"0x0000=无错误"},
+  {n:"Device Password ID",v:"与 M1 匹配"},
+  {n:"Authenticator",v:"HMAC-SHA256，覆盖 M1‖M2 前 64 字节"}
+ ],
+ note:"M2 完成 DH 密钥交换。双方现在可计算共享密钥 DHKey = DH(PKe, PKr)，进而派生 AuthKey、KeyWrapKey、EMSK。"
+},
+{id:"M3",dir:"E→R",phase:1,phaseLabel:"阶段一 · PIN 验证",
+ eFields:[
+  {n:"Version",v:"0x10 / 0x20"},
+  {n:"Message Type",v:"0x06 (M3)"},
+  {n:"Registrar Nonce (N2)",v:"回显 M2 中的 N2"},
+  {n:"E-Hash1",v:"HMAC(AuthKey, E-S1 ‖ PSK1 ‖ PKe ‖ PKr)"},
+  {n:"E-Hash2",v:"HMAC(AuthKey, E-S2 ‖ PSK2 ‖ PKe ‖ PKr)"},
+  {n:"Authenticator",v:"HMAC-SHA256，覆盖 M2‖M3 前 64 字节"}
+ ],
+ rFields:[],
+ note:"E-Hash1/2 是 PIN 前后半段的零知识承诺。Registrar 保存它们，等待 M5/M7 中的明文种子来验证，从而证明双方持有相同 PIN，而不直接传 PIN。"
+},
+{id:"M4",dir:"R→E",phase:1,phaseLabel:"阶段一 · PIN 验证",
+ eFields:[],
+ rFields:[
+  {n:"Version",v:"0x10 / 0x20"},
+  {n:"Message Type",v:"0x07 (M4)"},
+  {n:"Enrollee Nonce (N1)",v:"回显 M1 中的 N1"},
+  {n:"R-Hash1",v:"HMAC(AuthKey, R-S1 ‖ PSK1 ‖ PKe ‖ PKr)"},
+  {n:"R-Hash2",v:"HMAC(AuthKey, R-S2 ‖ PSK2 ‖ PKe ‖ PKr)"},
+  {n:"Encrypted Settings",v:"AES-128-CBC(KeyWrapKey, R-S1) + KWA"},
+  {n:"Authenticator",v:"HMAC-SHA256，覆盖 M3‖M4 前 64 字节"}
+ ],
+ note:"Registrar 同样提交对自己 PIN 种子的承诺 R-Hash1/2，并在加密载荷中放入 R-S1，供 Enrollee 验证。"
+},
+{id:"M5",dir:"E→R",phase:2,phaseLabel:"阶段二 · 凭证下发",
+ eFields:[
+  {n:"Version",v:"0x10 / 0x20"},
+  {n:"Message Type",v:"0x08 (M5)"},
+  {n:"Registrar Nonce (N2)",v:"回显 N2"},
+  {n:"Encrypted Settings",v:"AES-128-CBC(KeyWrapKey, E-S1) + KWA"},
+  {n:"Authenticator",v:"HMAC-SHA256，覆盖 M4‖M5 前 64 字节"}
+ ],
+ rFields:[],
+ note:"Enrollee 在加密载荷中发送 E-S1。Registrar 解密后，计算 HMAC 与 M3 中的 E-Hash1 对比——若匹配，证明 Enrollee 持有正确 PIN 前半段。"
+},
+{id:"M6",dir:"R→E",phase:2,phaseLabel:"阶段二 · 凭证下发",
+ eFields:[],
+ rFields:[
+  {n:"Version",v:"0x10 / 0x20"},
+  {n:"Message Type",v:"0x09 (M6)"},
+  {n:"Enrollee Nonce (N1)",v:"回显 N1"},
+  {n:"Encrypted Settings",v:"AES-128-CBC(KeyWrapKey, R-S2) + KWA"},
+  {n:"Authenticator",v:"HMAC-SHA256，覆盖 M5‖M6 前 64 字节"}
+ ],
+ note:"Registrar 发送 R-S2。Enrollee 解密后，计算 HMAC 与 M4 中的 R-Hash2 对比——若匹配，证明 Registrar 也持有正确 PIN 后半段，双向认证完成。"
+},
+{id:"M7",dir:"E→R",phase:2,phaseLabel:"阶段二 · 凭证下发",
+ eFields:[
+  {n:"Version",v:"0x10 / 0x20"},
+  {n:"Message Type",v:"0x0A (M7)"},
+  {n:"Registrar Nonce (N2)",v:"回显 N2"},
+  {n:"Encrypted Settings",v:"AES-CBC(KeyWrapKey, E-S2) + KWA"},
+  {n:"Authenticator",v:"HMAC-SHA256，覆盖 M6‖M7 前 64 字节"}
+ ],
+ rFields:[],
+ note:"Enrollee 发出 E-S2，Registrar 验证 E-Hash2。至此 PIN 四段（E-S1/E-S2/R-S1/R-S2）全部交换，双方 PIN 持有一致性得到完整验证。"
+},
+{id:"M8",dir:"R→E",phase:2,phaseLabel:"阶段二 · 凭证下发",
+ eFields:[],
+ rFields:[
+  {n:"Version",v:"0x10 / 0x20"},
+  {n:"Message Type",v:"0x0B (M8)"},
+  {n:"Enrollee Nonce (N1)",v:"回显 N1"},
+  {n:"Encrypted Settings (Credential)",v:"AES-CBC(KeyWrapKey, Credential TLV)"},
+  {n:"  ∟ Network Index",v:"固定 0x01"},
+  {n:"  ∟ SSID",v:"目标网络名称（明文，已加密封装）"},
+  {n:"  ∟ Auth Type",v:"WPA2-Personal / WPA3 等"},
+  {n:"  ∟ Encr Type",v:"AES / TKIP"},
+  {n:"  ∟ Network Key",v:"Wi-Fi 密码（PSK）"},
+  {n:"  ∟ MAC Address",v:"AP BSSID"},
+  {n:"  ∟ EasyMesh MAP IE",v:"(仅 EasyMesh) Backhaul SSID、密钥、频段"},
+  {n:"Key Wrap Authenticator (KWA)",v:"HMAC-SHA256 前 8 字节，校验加密完整性"},
+  {n:"Authenticator",v:"HMAC-SHA256，覆盖 M7‖M8 前 64 字节"}
+ ],
+ note:"M8 是协议终点。Credential TLV 内包含完整的入网凭证。EasyMesh 设备额外携带 Multi-AP IE，Enrollee 获取后即可作为 Agent 注册到 Controller。"
+}
+];
+
+let cur=0;
+const prog=document.getElementById('prog');
+const pills=document.getElementById('pills');
+const card=document.getElementById('card');
+
+function renderPills(){
+  pills.innerHTML='';
+  msgs.forEach((m,i)=>{
+    const p=document.createElement('span');
+    p.className='pill'+(i===cur?' active':'');
+    p.textContent=m.id;
+    p.onclick=()=>{cur=i;render();};
+    pills.appendChild(p);
+  });
+}
+function renderProg(){
+  prog.innerHTML='';
+  msgs.forEach((_,i)=>{
+    const d=document.createElement('div');
+    d.className='pdot'+(i<cur?'done':i===cur?' cur':'');
+    prog.appendChild(d);
+  });
+}
+function field(f){
+  return `<div class="field"><div class="fname">${f.n}</div><div class="fval">${f.v}</div></div>`;
+}
+function render(){
+  const m=msgs[cur];
+  const ph=m.phase===1?'phase1':'phase2';
+  const fromE=m.dir.startsWith('E');
+
+  let eContent='<div class="fields">';
+  let rContent='<div class="fields">';
+  if(fromE){
+    m.eFields.forEach(f=>eContent+=field(f));
+    rContent+='<div class="fname" style="color:var(--color-text-tertiary);font-style:italic;">— 无内容，等待接收 —</div>';
+  } else {
+    rContent+='<div class="fname" style="color:var(--color-text-tertiary);font-style:italic;">— 等待接收 —</div>';
+    m.rFields.forEach(f=>rContent+=field(f));
+  }
+  eContent+='</div>'; rContent+='</div>';
+
+  const badgeColor=m.phase===1?'#185FA5':'#0F6E56';
+  const dirStr=fromE?'Enrollee → Registrar':'Registrar → Enrollee';
+
+  card.innerHTML=`
+    <div class="card-header">
+      <span class="msg-badge" style="background:${badgeColor}">${m.id}</span>
+      <span class="stage-label ${ph}">${m.phaseLabel}</span>
+      <span class="dir-arrow">${dirStr}</span>
+    </div>
+    <div class="card-body">
+      <div class="lane-row">
+        <div class="lane-hdr e">Enrollee（入网设备）</div>
+        <div class="lane-hdr r">Registrar（AP / 认证方）</div>
+      </div>
+      <div class="lane-row">
+        ${fromE?`<div>${eContent}</div><div>${rContent}</div>`:`<div>${eContent}</div><div>${rContent}</div>`}
+      </div>
+    </div>
+    <div class="note">${m.note}</div>`;
+
+  document.getElementById('prev').disabled=cur===0;
+  document.getElementById('next').disabled=cur===msgs.length-1;
+  renderPills();
+  renderProg();
+}
+
+render();
+
+function go(d){
+  cur=Math.max(0,Math.min(msgs.length-1,cur+d));
+  render();
+}
+</script>
+
+<h3 id="密钥派生链"><a href="#密钥派生链" class="headerlink" title="密钥派生链"></a>密钥派生链</h3><p>所有消息的加密与认证均基于同一条密钥链：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">DHKey（DH 交换结果）</span><br><span class="line">  └→ KDF(DHKey, &quot;Wi-Fi Easy and Secure Key Derivation&quot;, 640bit)</span><br><span class="line">       ├→ AuthKey    (256bit) — 所有消息的 Authenticator HMAC</span><br><span class="line">       ├→ KeyWrapKey (128bit) — AES-CBC 加密 Encrypted Settings</span><br><span class="line">       └→ EMSK       (256bit) — 扩展主密钥（EAP 场景使用）</span><br></pre></td></tr></table></figure>
+
+<h3 id="PIN-零知识证明机制"><a href="#PIN-零知识证明机制" class="headerlink" title="PIN 零知识证明机制"></a>PIN 零知识证明机制</h3><p>PIN 被切成前后两半，每半生成两个随机种子（E-S1&#x2F;E-S2、R-S1&#x2F;R-S2）：</p>
+<ul>
+<li><strong>M3&#x2F;M4</strong>：先发哈希承诺（E-Hash、R-Hash）</li>
+<li><strong>M5–M7</strong>：再分批发明文种子，对端重新计算哈希对比</li>
+</ul>
+<p>这种设计保证单条消息被截获时攻击者无法直接恢复 PIN，但也引出了著名的 <strong>Pixie Dust 漏洞</strong>（部分厂商 E-S1&#x2F;E-S2 使用弱随机数）。</p>
+<hr>
+<h2 id="二、支持与不支持-EasyMesh-的-WPS-差异"><a href="#二、支持与不支持-EasyMesh-的-WPS-差异" class="headerlink" title="二、支持与不支持 EasyMesh 的 WPS 差异"></a>二、支持与不支持 EasyMesh 的 WPS 差异</h2><h3 id="不支持-EasyMesh（标准-WPS）"><a href="#不支持-EasyMesh（标准-WPS）" class="headerlink" title="不支持 EasyMesh（标准 WPS）"></a>不支持 EasyMesh（标准 WPS）</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">STA                         普通 AP</span><br><span class="line"> |--- Assoc Req (无 MAP IE) ---&gt;|</span><br><span class="line"> |&lt;-- Assoc Resp --------------|</span><br><span class="line"> |--- EAPOL-Start ------------&gt;|</span><br><span class="line"> |&lt;-- EAP-Request (Identity) --|</span><br><span class="line"> |--- EAP-Response -----------&gt;|</span><br><span class="line"> |&lt;-- WSC_Start ---------------|</span><br><span class="line"> |--- M1 (无 Multi-AP 0x1048) -&gt;|</span><br><span class="line"> |&lt;-- M2 (无 Multi-AP 回应) ----|</span><br><span class="line"> |        ... M3–M8 ...        |</span><br><span class="line"> |&lt;-- Encrypted Settings ------|  ← 仅含前端 SSID + 密码</span><br><span class="line"> |--- WPA2 四次握手 -----------&gt;|</span><br><span class="line"> |=== 连接完成（单 AP 关联）===|</span><br></pre></td></tr></table></figure>
+
+<p>设备入网后不感知其他 AP，无缝漫游需依赖设备自身（802.11r&#x2F;k&#x2F;v，不保证生效）。</p>
+<h3 id="支持-EasyMesh（Multi-AP-WPS）"><a href="#支持-EasyMesh（Multi-AP-WPS）" class="headerlink" title="支持 EasyMesh（Multi-AP WPS）"></a>支持 EasyMesh（Multi-AP WPS）</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">STA/Agent                    EasyMesh Controller</span><br><span class="line"> |--- Assoc Req (含 MAP IE, Profile=2, Backhaul STA) ---&gt;|</span><br><span class="line"> |&lt;-- Assoc Resp ----------------------------------------|</span><br><span class="line"> |--- M1 (含 Multi-AP Extension 0x1048, flags=0x40) -----&gt;|</span><br><span class="line"> |&lt;-- M2 (含 Multi-AP Extension 回应) -------------------|</span><br><span class="line"> |        ... M3–M7 ...                                  |</span><br><span class="line"> |&lt;-- M8 Encrypted Settings -----------------------------|</span><br><span class="line"> |     ├ 前端 SSID + 密码                                 |</span><br><span class="line"> |     └ Backhaul BSS 配置（SSID/密码/频段）              |</span><br><span class="line"> |--- 1905.1 CMDU 注册 ----------------------------------&gt;|</span><br><span class="line"> |&lt;-- 拓扑/QoS/频段引导策略同步 --------------------------|</span><br><span class="line"> |=== 成为受管 Agent，全网统一 SSID 漫游 ================|</span><br></pre></td></tr></table></figure>
+
+<p><strong>核心区别</strong>：M1 中携带 <code>Multi-AP Extension (0x1048)</code>，M8 回传 Backhaul 凭证，握手结束后 Agent 通过 1905.1 消息向 Controller 注册，加入统一管控体系。</p>
+<hr>
+<h2 id="三、STA-如何自适应判断上级是否支持-EasyMesh"><a href="#三、STA-如何自适应判断上级是否支持-EasyMesh" class="headerlink" title="三、STA 如何自适应判断上级是否支持 EasyMesh"></a>三、STA 如何自适应判断上级是否支持 EasyMesh</h2><p>自适应机制分四层，逐层递进：</p>
+<!-- STA EasyMesh 四层检测机制 -->
+<style>
+:root {
+  --color-border-tertiary: #e0e0e0;
+  --color-border-secondary: #d0d0d0;
+  --color-background-secondary: #f5f5f5;
+  --color-background-tertiary: #ebebeb;
+  --color-text-primary: #1a1a1a;
+  --color-text-secondary: #555;
+  --color-text-tertiary: #999;
+  --font-sans: system-ui, -apple-system, sans-serif;
+  --font-mono: 'SFMono-Regular', Consolas, monospace;
+}
+@media (prefers-color-scheme: dark) {
+  :root {
+    --color-border-tertiary: #333;
+    --color-border-secondary: #444;
+    --color-background-secondary: #1e1e1e;
+    --color-background-tertiary: #2a2a2a;
+    --color-text-primary: #e0e0e0;
+    --color-text-secondary: #aaa;
+    --color-text-tertiary: #666;
+  }
+}
+.wrap{padding:16px 0;font-family:var(--font-sans,sans-serif);}
+.phase-block{margin-bottom:20px;border:1px solid var(--color-border-tertiary);border-radius:12px;overflow:hidden;}
+.phase-hdr{display:flex;align-items:center;gap:10px;padding:10px 16px;background:var(--color-background-secondary);}
+.phase-badge{font-size:11px;font-weight:500;color:#fff;padding:2px 9px;border-radius:10px;}
+.phase-title{font-size:13px;font-weight:500;color:var(--color-text-primary);}
+.phase-sub{font-size:12px;color:var(--color-text-secondary);margin-left:auto;}
+.rows{display:flex;flex-direction:column;}
+.row{display:grid;grid-template-columns:180px 1fr 1fr;border-top:1px solid var(--color-border-tertiary);}
+.row-hdr{display:grid;grid-template-columns:180px 1fr 1fr;background:var(--color-background-secondary);border-top:1px solid var(--color-border-tertiary);}
+.cell{padding:9px 14px;font-size:12px;color:var(--color-text-primary);line-height:1.55;}
+.cell.label{font-weight:500;color:var(--color-text-secondary);font-size:11px;background:var(--color-background-secondary);border-right:1px solid var(--color-border-tertiary);}
+.cell.hdr{font-size:11px;font-weight:500;color:var(--color-text-secondary);text-transform:uppercase;letter-spacing:.04em;}
+.cell:not(:last-child){border-right:1px solid var(--color-border-tertiary);}
+.mono{font-family:var(--font-mono,monospace);font-size:11px;color:var(--color-text-primary);}
+.tag{display:inline-block;font-size:10px;padding:1px 6px;border-radius:4px;margin-right:3px;font-weight:500;}
+.tag.yes{background:#E1F5EE;color:#085041;}.tag.no{background:#FCEBEB;color:#791F1F;}.tag.detect{background:#E6F1FB;color:#0C447C;}
+.verdict{margin:16px;padding:10px 14px;border-radius:8px;font-size:12px;line-height:1.65;border-left:3px solid;}
+.verdict.mesh{background:#E1F5EE;border-color:#0F6E56;color:#085041;}
+.verdict.plain{background:#FAEEDA;border-color:#854F0B;color:#633806;}
+.verdict.fallback{background:#E6F1FB;border-color:#185FA5;color:#0C447C;}
+.flow{display:flex;align-items:flex-start;gap:0;margin:14px 16px;flex-wrap:wrap;}
+.fbox{background:var(--color-background-secondary);border:1px solid var(--color-border-tertiary);border-radius:8px;padding:7px 11px;font-size:12px;color:var(--color-text-primary);min-width:100px;text-align:center;}
+.farr{align-self:center;padding:0 6px;font-size:14px;color:var(--color-text-tertiary);}
+.decision{border-color:#7F77DD;background:#EEEDFE;color:#3C3489;}
+</style>
+<div class="wrap">
+
+<!-- Phase 1: Beacon / Probe -->
+<div class="phase-block">
+  <div class="phase-hdr">
+    <span class="phase-badge" style="background:#185FA5">层 1</span>
+    <span class="phase-title">Beacon / Probe Response 解析</span>
+    <span class="phase-sub">802.11 管理帧，无需关联</span>
+  </div>
+  <div class="row-hdr">
+    <div class="cell hdr">检测字段</div>
+    <div class="cell hdr">EasyMesh AP 表现</div>
+    <div class="cell hdr">普通 AP 表现</div>
+  </div>
+  <div class="rows">
+    <div class="row">
+      <div class="cell label">Multi-AP IE<br><span class="mono">OUI: 50-6F-9A-1B</span></div>
+      <div class="cell"><span class="tag yes">存在</span>包含 Backhaul STA / BSS 标志位，MAP Version 字段指示 EasyMesh R1/R2/R3</div>
+      <div class="cell"><span class="tag no">缺失</span>Beacon 中无此 IE</div>
+    </div>
+    <div class="row">
+      <div class="cell label">WPS IE 中<br>Device Password ID</div>
+      <div class="cell"><span class="tag detect">0x0000 或 0x0004</span>叠加 Multi-AP IE 才能确认 EasyMesh WPS 入网意图</div>
+      <div class="cell"><span class="tag detect">0x0000 或 0x0004</span>无法单独区分，需结合其他层</div>
+    </div>
+    <div class="row">
+      <div class="cell label">WPS IE 中<br>Config Methods</div>
+      <div class="cell"><span class="tag yes">PushButton / PIN</span>EasyMesh 通常同时支持两者，PBC 为首选</div>
+      <div class="cell"><span class="tag detect">PushButton / PIN</span>同样支持，无法区分</div>
+    </div>
+    <div class="row">
+      <div class="cell label">Extended Capabilities<br>Bit 70: Multi-AP</div>
+      <div class="cell"><span class="tag yes">Bit 70 = 1</span>声明支持 IEEE 1905.1 Multi-AP</div>
+      <div class="cell"><span class="tag no">Bit 70 = 0</span>或不含该 Capability</div>
+    </div>
+  </div>
+  <div class="verdict mesh">判断逻辑：STA 扫描时，若 Beacon 中同时存在 <strong>Multi-AP IE (OUI 50-6F-9A-1B)</strong> 且 Extended Capabilities Bit 70 = 1，则标记此 BSSID 为 EasyMesh AP，后续 WPS 流程按 Multi-AP 配置路径走。</div>
+</div>
+
+<!-- Phase 2: WPS M2 -->
+<div class="phase-block">
+  <div class="phase-hdr">
+    <span class="phase-badge" style="background:#0F6E56">层 2</span>
+    <span class="phase-title">WPS M2 帧内 Multi-AP Extension</span>
+    <span class="phase-sub">握手期间动态确认</span>
+  </div>
+  <div class="row-hdr">
+    <div class="cell hdr">字段</div>
+    <div class="cell hdr">EasyMesh Registrar</div>
+    <div class="cell hdr">普通 Registrar</div>
+  </div>
+  <div class="rows">
+    <div class="row">
+      <div class="cell label">M2 WPS Attributes 中<br>Multi-AP Extension<br><span class="mono">Attr ID: 0x1048</span></div>
+      <div class="cell"><span class="tag yes">存在</span>Value = 0x00 (Teardown) 或<br>0x10 (Backhaul BSS 配置标志)</div>
+      <div class="cell"><span class="tag no">缺失</span>M2 中无 0x1048 属性</div>
+    </div>
+    <div class="row">
+      <div class="cell label">M2 Encrypted Settings<br>中 MAP IE 子属性</div>
+      <div class="cell"><span class="tag yes">存在</span>携带 Backhaul SSID、Auth Type、Network Key</div>
+      <div class="cell"><span class="tag no">缺失</span>仅含标准 Credential TLV</div>
+    </div>
+    <div class="row">
+      <div class="cell label">M1 中 STA 发送的<br>Multi-AP Extension</div>
+      <div class="cell"><span class="tag detect">STA 主动携带</span>Value = 0x40 (Backhaul STA)，告知自己是 Agent 候选</div>
+      <div class="cell"><span class="tag detect">STA 若携带</span>普通 AP 忽略该属性，返回标准 M2</div>
+    </div>
+  </div>
+  <div class="verdict mesh">关键逻辑：STA 在 M1 中<strong>主动声明自己支持 Multi-AP（0x40）</strong>，若 Registrar 返回的 M2 中也含 Multi-AP Extension (0x1048)，则双方协商一致，按 EasyMesh 路径继续；若 M2 中无此属性，STA 回退至标准 WPS 流程。</div>
+</div>
+
+<!-- Phase 3: M8 Credential -->
+<div class="phase-block">
+  <div class="phase-hdr">
+    <span class="phase-badge" style="background:#534AB7">层 3</span>
+    <span class="phase-title">M8 Credential TLV 内容验证</span>
+    <span class="phase-sub">最终确认，凭证实际内容</span>
+  </div>
+  <div class="row-hdr">
+    <div class="cell hdr">TLV 子字段</div>
+    <div class="cell hdr">EasyMesh M8</div>
+    <div class="cell hdr">普通 M8</div>
+  </div>
+  <div class="rows">
+    <div class="row">
+      <div class="cell label">标准 Credential</div>
+      <div class="cell"><span class="tag yes">存在</span>SSID + PSK（前端 Fronthaul BSS）</div>
+      <div class="cell"><span class="tag yes">存在</span>SSID + PSK</div>
+    </div>
+    <div class="row">
+      <div class="cell label">Backhaul Credential<br>(subelement 0x06)</div>
+      <div class="cell"><span class="tag yes">额外存在</span>Backhaul SSID + Backhaul PSK + 频段位图</div>
+      <div class="cell"><span class="tag no">不存在</span></div>
+    </div>
+    <div class="row">
+      <div class="cell label">MAP Version</div>
+      <div class="cell"><span class="tag yes">R1=1 / R2=2 / R3=3</span>指示 EasyMesh 协议版本</div>
+      <div class="cell"><span class="tag no">不存在</span></div>
+    </div>
+  </div>
+  <div class="verdict mesh">STA 解密 M8 后，若 Credential TLV 中含 Backhaul Credential (subelement 0x06)，则以 Backhaul 配置建立回程链路，并通过 1905.1 向 Controller 发送 AP-Autoconfiguration 消息完成注册。否则仅用前端凭证关联普通 Wi-Fi。</div>
+</div>
+
+<!-- Phase 4: Post-assoc 1905.1 -->
+<div class="phase-block">
+  <div class="phase-hdr">
+    <span class="phase-badge" style="background:#854F0B">层 4</span>
+    <span class="phase-title">关联后 IEEE 1905.1 拓扑发现</span>
+    <span class="phase-sub">兜底检测，适用于已关联但未经 WPS 的场景</span>
+  </div>
+  <div class="row-hdr">
+    <div class="cell hdr">消息类型</div>
+    <div class="cell hdr">EasyMesh Controller 响应</div>
+    <div class="cell hdr">普通 AP 响应</div>
+  </div>
+  <div class="rows">
+    <div class="row">
+      <div class="cell label">1905.1 Topology Discovery<br><span class="mono">CMDU Type: 0x0000</span></div>
+      <div class="cell"><span class="tag yes">回复 Topology Response</span>含 AL-MAC、设备能力 TLV</div>
+      <div class="cell"><span class="tag no">无响应</span>不理解 1905.1 CMDU</div>
+    </div>
+    <div class="row">
+      <div class="cell label">AP-Autoconfiguration Search<br><span class="mono">CMDU Type: 0x0001</span></div>
+      <div class="cell"><span class="tag yes">回复 AP-Autoconfig Response</span>含支持频段、MAP 角色</div>
+      <div class="cell"><span class="tag no">无响应</span></div>
+    </div>
+  </div>
+  <div class="verdict fallback">此层是 WPS 流程之外的兜底：Agent 广播 1905.1 CMDU，若上级响应则确认 EasyMesh 环境；若无响应，Agent 降级为普通 AP 模式运行。</div>
+</div>
+
+<!-- Decision Flow -->
+<div style="margin-bottom:8px;font-size:12px;font-weight:500;color:var(--color-text-secondary);">自适应决策流</div>
+<div class="flow">
+  <div class="fbox">扫描 Beacon<br>检测 Multi-AP IE</div>
+  <div class="farr">→</div>
+  <div class="fbox decision">IE 存在?</div>
+  <div class="farr">→ 是</div>
+  <div class="fbox">M1 携带<br>0x40 声明</div>
+  <div class="farr">→</div>
+  <div class="fbox decision">M2 含<br>0x1048?</div>
+  <div class="farr">→ 是</div>
+  <div class="fbox">M8 取<br>Backhaul 凭证</div>
+  <div class="farr">→</div>
+  <div class="fbox" style="background:#E1F5EE;border-color:#0F6E56;color:#085041;">EasyMesh<br>Agent 注册</div>
+</div>
+<div class="flow" style="margin-top:6px;">
+  <div class="fbox" style="opacity:.5">…</div>
+  <div class="farr">→ 否 (任一层)</div>
+  <div class="fbox">1905.1 兜底<br>探测</div>
+  <div class="farr">→ 无响应</div>
+  <div class="fbox" style="background:#FAEEDA;border-color:#854F0B;color:#633806;">标准 WPS<br>单 AP 关联</div>
+</div>
+
+</div>
+
+<hr>
+<h2 id="四、真实抓包分析"><a href="#四、真实抓包分析" class="headerlink" title="四、真实抓包分析"></a>四、真实抓包分析</h2><h3 id="基本信息"><a href="#基本信息" class="headerlink" title="基本信息"></a>基本信息</h3><table>
+<thead>
+<tr>
+<th>项目</th>
+<th>内容</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>AP MAC</td>
+<td>xx:xx:xx:xx:xx:xx</td>
+</tr>
+<tr>
+<td>AP SSID</td>
+<td>TestAP_5G（5GHz）</td>
+</tr>
+<tr>
+<td>STA MAC</td>
+<td>xx:xx:xx:xx:xx:xx</td>
+</tr>
+<tr>
+<td>抓包时长</td>
+<td>145.6 秒，共 10842 个数据包</td>
+</tr>
+</tbody></table>
+<h3 id="连接时序"><a href="#连接时序" class="headerlink" title="连接时序"></a>连接时序</h3><p><strong>阶段一（t≈7.8s）</strong>：STA 发送 Deauth 广播（原因码&#x3D;2），清除旧连接状态。</p>
+<p><strong>阶段二（t≈29.8s）EasyMesh 探测（失败）</strong>：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">STA 发送 Assoc Req（无 RSN IE，含 WPS IE + Multi-AP IE, Profile=2）</span><br><span class="line">AP 接受关联</span><br><span class="line">STA → EAPOL-Start</span><br><span class="line">AP  → EAP-Request (Identity)</span><br><span class="line">STA → WSC_MSG M1（含 Multi-AP Extension）</span><br><span class="line">AP  → WSC_MSG M3（AP 未识别 MAP enrollee，返回非标准 M3）</span><br><span class="line">STA → WSC_NACK</span><br><span class="line">AP  → EAP-Failure         ← MAP 探测失败</span><br><span class="line">STA → Disassoc（原因=8）</span><br></pre></td></tr></table></figure>
+
+<p>AP 的 Beacon 帧中无 Multi-AP IE，EAP-WSC 在 M1→M3 后即失败，确认不支持 EasyMesh。</p>
+<p><strong>阶段三（t≈72.6s）普通桥接（成功）</strong>：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">STA 发送 Assoc Req（含 RSN IE，无 MAP IE）</span><br><span class="line">AP  → Assoc Resp（Status=0）</span><br><span class="line">四次握手（PTK/GTK，耗时仅 38ms）</span><br><span class="line">=== 桥接建立成功 ===</span><br></pre></td></tr></table></figure>
+
+<p>两次关联的 IE 对比：</p>
+<table>
+<thead>
+<tr>
+<th>IE 字段</th>
+<th>第一次（MAP 探测）</th>
+<th>第二次（普通桥接）</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Multi-AP IE（50:6f:9a:1b）</td>
+<td>有，Profile&#x3D;2</td>
+<td>无</td>
+</tr>
+<tr>
+<td>RSN IE（IE 48）</td>
+<td>无</td>
+<td>有，CCMP&#x2F;PSK</td>
+</tr>
+<tr>
+<td>WPS IE（0050f2:04）</td>
+<td>有</td>
+<td>无</td>
+</tr>
+<tr>
+<td>WMM IE</td>
+<td>有</td>
+<td>有</td>
+</tr>
+</tbody></table>
+<hr>
+<h2 id="小结"><a href="#小结" class="headerlink" title="小结"></a>小结</h2><p>本文从 WPS M1–M8 协议细节出发，结合真实抓包（普通 AP 不支持 EasyMesh 场景），完整梳理了 STA 自适应探测机制的四层判断逻辑。核心思路是：<strong>STA 主动声明 EasyMesh 能力，依据 AP 响应结果分叉行为，失败后清零标志自然回退</strong>。</p>
+</article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta"><i class="fas fa-circle-user fa-fw"></i>文章作者: </span><span class="post-copyright-info"><a href="https://linxuew.github.io">linxuew</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta"><i class="fas fa-square-arrow-up-right fa-fw"></i>文章链接: </span><span class="post-copyright-info"><a href="https://linxuew.github.io/2026/03/23/2026/3-wps-easymesh-analysis/">https://linxuew.github.io/2026/03/23/2026/3-wps-easymesh-analysis/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta"><i class="fas fa-circle-exclamation fa-fw"></i>版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来自 <a href="https://linxuew.github.io" target="_blank">Lmiracle</a>！</span></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/%E8%B7%AF%E7%94%B1%E5%99%A8/">路由器</a><a class="post-meta__tags" href="/tags/WPS/">WPS</a><a class="post-meta__tags" href="/tags/EasyMesh/">EasyMesh</a><a class="post-meta__tags" href="/tags/WiFi/">WiFi</a></div><div class="post_share"></div></div><nav class="pagination-post" id="pagination"><div class="prev-post pull-left"><a href="/2026/03/24/tech-digest/tech-digest-2026-03-24/" title="无线与路由技术动态 2026-03-24"><div class="cover" style="background: var(--default-bg-color)"></div><div class="pagination-info"><div class="label">上一篇</div><div class="prev_info">无线与路由技术动态 2026-03-24</div></div></a></div><div class="next-post pull-right"><a href="/2026/03/23/2026/3-hexo-blog-setup/" title="使用 Hexo + GitHub Pages 搭建个人博客"><div class="cover" style="background: var(--default-bg-color)"></div><div class="pagination-info"><div class="label">下一篇</div><div class="next_info">使用 Hexo + GitHub Pages 搭建个人博客</div></div></a></div></nav><div class="relatedPosts"><div class="headline"><i class="fas fa-thumbs-up fa-fw"></i><span>相关推荐</span></div><div class="relatedPosts-list"><div><a href="/2024/04/22/2024/4-ecos-memory/" title="ecos内存分布"><div class="cover" style="background: var(--default-bg-color)"></div><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2024-04-22</div><div class="title">ecos内存分布</div></div></a></div><div><a href="/2024/04/22/2024/4-netif-receive-skb-for-bcm/" title="netif_receive_skb简介"><div class="cover" style="background: var(--default-bg-color)"></div><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2024-04-22</div><div class="title">netif_receive_skb简介</div></div></a></div><div><a href="/2024/04/22/2024/4-sichuan-iptv/" title="一次处理四川移动IPTV问题总结"><div class="cover" style="background: var(--default-bg-color)"></div><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2024-04-22</div><div class="title">一次处理四川移动IPTV问题总结</div></div></a></div></div></div></div><div class="aside-content" id="aside-content"><div class="card-widget card-info"><div class="is-center"><div class="avatar-img"><img src="https://lmiracleblog.oss-cn-chengdu.aliyuncs.com/blog_imgblog_log.png" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="author-info__name">linxuew</div><div class="author-info__description">低头赶路，莫问前程！</div></div><div class="card-info-data site-data is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">8</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">14</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">4</div></a></div><a id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/linxuew"><i class="fab fa-github"></i><span>GitHub</span></a><div class="card-info-social-icons is-center"><a class="social-icon" href="mailto:linxuew@gmail.com" target="_blank" title="Email"><i class="fas fa-envelope" style="color: #4a7dbe;"></i></a></div></div><div class="card-widget card-announcement"><div class="item-headline"><i class="fas fa-bullhorn fa-shake"></i><span>公告</span></div><div class="announcement_content">This is my Blog</div></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>目录</span><span class="toc-percentage"></span></div><div class="toc-content"><ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%83%8C%E6%99%AF"><span class="toc-number">1.</span> <span class="toc-text">背景</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%B8%80%E3%80%81WPS-M1%E2%80%93M8-%E5%AE%8C%E6%95%B4%E6%8F%A1%E6%89%8B%E6%B5%81%E7%A8%8B"><span class="toc-number">2.</span> <span class="toc-text">一、WPS M1–M8 完整握手流程</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%B6%88%E6%81%AF%E5%AD%97%E6%AE%B5%E8%AF%A6%E8%A7%A3"><span class="toc-number">2.1.</span> <span class="toc-text">消息字段详解</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%AF%86%E9%92%A5%E6%B4%BE%E7%94%9F%E9%93%BE"><span class="toc-number">2.2.</span> <span class="toc-text">密钥派生链</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#PIN-%E9%9B%B6%E7%9F%A5%E8%AF%86%E8%AF%81%E6%98%8E%E6%9C%BA%E5%88%B6"><span class="toc-number">2.3.</span> <span class="toc-text">PIN 零知识证明机制</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BA%8C%E3%80%81%E6%94%AF%E6%8C%81%E4%B8%8E%E4%B8%8D%E6%94%AF%E6%8C%81-EasyMesh-%E7%9A%84-WPS-%E5%B7%AE%E5%BC%82"><span class="toc-number">3.</span> <span class="toc-text">二、支持与不支持 EasyMesh 的 WPS 差异</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%B8%8D%E6%94%AF%E6%8C%81-EasyMesh%EF%BC%88%E6%A0%87%E5%87%86-WPS%EF%BC%89"><span class="toc-number">3.1.</span> <span class="toc-text">不支持 EasyMesh（标准 WPS）</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%94%AF%E6%8C%81-EasyMesh%EF%BC%88Multi-AP-WPS%EF%BC%89"><span class="toc-number">3.2.</span> <span class="toc-text">支持 EasyMesh（Multi-AP WPS）</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%B8%89%E3%80%81STA-%E5%A6%82%E4%BD%95%E8%87%AA%E9%80%82%E5%BA%94%E5%88%A4%E6%96%AD%E4%B8%8A%E7%BA%A7%E6%98%AF%E5%90%A6%E6%94%AF%E6%8C%81-EasyMesh"><span class="toc-number">4.</span> <span class="toc-text">三、STA 如何自适应判断上级是否支持 EasyMesh</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%9B%9B%E3%80%81%E7%9C%9F%E5%AE%9E%E6%8A%93%E5%8C%85%E5%88%86%E6%9E%90"><span class="toc-number">5.</span> <span class="toc-text">四、真实抓包分析</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%9F%BA%E6%9C%AC%E4%BF%A1%E6%81%AF"><span class="toc-number">5.1.</span> <span class="toc-text">基本信息</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%BF%9E%E6%8E%A5%E6%97%B6%E5%BA%8F"><span class="toc-number">5.2.</span> <span class="toc-text">连接时序</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%B0%8F%E7%BB%93"><span class="toc-number">6.</span> <span class="toc-text">小结</span></a></li></ol></div></div><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>最新文章</span></div><div class="aside-list"><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2026/03/24/tech-digest/tech-digest-2026-03-24/" title="无线与路由技术动态 2026-03-24">无线与路由技术动态 2026-03-24</a><time datetime="2026-03-23T22:00:00.000Z" title="发表于 2026-03-24 06:00:00">2026-03-24</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2026/03/23/2026/3-wps-easymesh-analysis/" title="WPS EasyMesh组网 &amp; 一键桥接自适应">WPS EasyMesh组网 &amp; 一键桥接自适应</a><time datetime="2026-03-23T13:00:00.000Z" title="发表于 2026-03-23 21:00:00">2026-03-23</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2026/03/23/2026/3-hexo-blog-setup/" title="使用 Hexo + GitHub Pages 搭建个人博客">使用 Hexo + GitHub Pages 搭建个人博客</a><time datetime="2026-03-23T04:00:00.000Z" title="发表于 2026-03-23 12:00:00">2026-03-23</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2024/07/05/2024/7-mqtt-ecos-mosquitto/" title="RTOS上移植mqtt broker(mosquitto)">RTOS上移植mqtt broker(mosquitto)</a><time datetime="2024-07-05T07:37:55.000Z" title="发表于 2024-07-05 15:37:55">2024-07-05</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2024/04/30/2024/4-linux-driver-env/" title="驱动学习-环境搭建">驱动学习-环境搭建</a><time datetime="2024-04-30T08:21:01.000Z" title="发表于 2024-04-30 16:21:01">2024-04-30</time></div></div></div></div></div></div></main><footer id="footer"><div id="footer-wrap"><div class="copyright">&copy;2024 - 2026 By linxuew</div><div class="framework-info"><span>框架 </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo</a><span class="footer-separator">|</span><span>主题 </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly</a></div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="darkmode" type="button" title="浅色和深色模式转换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside-config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="目录"><i class="fas fa-list-ul"></i></button><button id="go-up" type="button" title="回到顶部"><span class="scroll-percent"></span><i class="fas fa-arrow-up"></i></button></div></div><div><script src="/js/utils.js?v=4.13.0"></script><script src="/js/main.js?v=4.13.0"></script><script src="https://cdn.jsdelivr.net/npm/@fancyapps/ui@5.0.33/dist/fancybox/fancybox.umd.min.js"></script><div class="js-pjax"></div><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script></div></body></html>

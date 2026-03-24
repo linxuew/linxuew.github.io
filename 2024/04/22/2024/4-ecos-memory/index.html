@@ -1,0 +1,231 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0,viewport-fit=cover"><title>ecos内存分布 | Lmiracle</title><meta name="author" content="linxuew"><meta name="copyright" content="linxuew"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="简介站在内存管理的角度看eCos操作系统，就是一个进程。eCos系统中只有线程概念（任务），并没有进程概念。整个内存规划简单看就是一个进程的内存分布。  既然一个进程，内存中会有text、data、bss、heap段等。  💡 eCos线程的栈就是一块buf（内存），可以是全局buf，也可以从heap上申请。    eCos查看内存12345678910111213141516171819202">
+<meta property="og:type" content="article">
+<meta property="og:title" content="ecos内存分布">
+<meta property="og:url" content="https://linxuew.github.io/2024/04/22/2024/4-ecos-memory/index.html">
+<meta property="og:site_name" content="Lmiracle">
+<meta property="og:description" content="简介站在内存管理的角度看eCos操作系统，就是一个进程。eCos系统中只有线程概念（任务），并没有进程概念。整个内存规划简单看就是一个进程的内存分布。  既然一个进程，内存中会有text、data、bss、heap段等。  💡 eCos线程的栈就是一块buf（内存），可以是全局buf，也可以从heap上申请。    eCos查看内存12345678910111213141516171819202">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://lmiracleblog.oss-cn-chengdu.aliyuncs.com/blog_imgblog_log.png">
+<meta property="article:published_time" content="2024-04-22T11:55:36.000Z">
+<meta property="article:modified_time" content="2026-03-23T14:07:47.074Z">
+<meta property="article:author" content="linxuew">
+<meta property="article:tag" content="路由器">
+<meta property="article:tag" content="ecos">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://lmiracleblog.oss-cn-chengdu.aliyuncs.com/blog_imgblog_log.png"><link rel="shortcut icon" href="/img/xueicon.png"><link rel="canonical" href="https://linxuew.github.io/2024/04/22/2024/4-ecos-memory/index.html"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css?v=4.13.0"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.5.1/css/all.min.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/ui@5.0.33/dist/fancybox/fancybox.min.css" media="print" onload="this.media='all'"><script>const GLOBAL_CONFIG = {
+  root: '/',
+  algolia: undefined,
+  localSearch: undefined,
+  translate: undefined,
+  noticeOutdate: undefined,
+  highlight: {"plugin":"highlight.js","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":false},
+  copy: {
+    success: '复制成功',
+    error: '复制错误',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '',
+  dateSuffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: undefined,
+  lightbox: 'fancybox',
+  Snackbar: undefined,
+  infinitegrid: {
+    js: 'https://cdn.jsdelivr.net/npm/@egjs/infinitegrid@4.11.1/dist/infinitegrid.min.js',
+    buttonText: '加载更多'
+  },
+  isPhotoFigcaption: false,
+  islazyload: false,
+  isAnchor: false,
+  percent: {
+    toc: true,
+    rightside: true,
+  },
+  autoDarkmode: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: 'ecos内存分布',
+  isPost: true,
+  isHome: false,
+  isHighlightShrink: false,
+  isToc: true,
+  postUpdate: '2026-03-23 22:07:47'
+}</script><script>(win=>{
+      win.saveToLocal = {
+        set: (key, value, ttl) => {
+          if (ttl === 0) return
+          const now = Date.now()
+          const expiry = now + ttl * 86400000
+          const item = {
+            value,
+            expiry
+          }
+          localStorage.setItem(key, JSON.stringify(item))
+        },
+      
+        get: key => {
+          const itemStr = localStorage.getItem(key)
+      
+          if (!itemStr) {
+            return undefined
+          }
+          const item = JSON.parse(itemStr)
+          const now = Date.now()
+      
+          if (now > item.expiry) {
+            localStorage.removeItem(key)
+            return undefined
+          }
+          return item.value
+        }
+      }
+    
+      win.getScript = (url, attr = {}) => new Promise((resolve, reject) => {
+        const script = document.createElement('script')
+        script.src = url
+        script.async = true
+        script.onerror = reject
+        script.onload = script.onreadystatechange = function() {
+          const loadState = this.readyState
+          if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+          script.onload = script.onreadystatechange = null
+          resolve()
+        }
+
+        Object.keys(attr).forEach(key => {
+          script.setAttribute(key, attr[key])
+        })
+
+        document.head.appendChild(script)
+      })
+    
+      win.getCSS = (url, id = false) => new Promise((resolve, reject) => {
+        const link = document.createElement('link')
+        link.rel = 'stylesheet'
+        link.href = url
+        if (id) link.id = id
+        link.onerror = reject
+        link.onload = link.onreadystatechange = function() {
+          const loadState = this.readyState
+          if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+          link.onload = link.onreadystatechange = null
+          resolve()
+        }
+        document.head.appendChild(link)
+      })
+    
+      win.activateDarkMode = () => {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      win.activateLightMode = () => {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+        }
+      }
+      const t = saveToLocal.get('theme')
+    
+        if (t === 'dark') activateDarkMode()
+        else if (t === 'light') activateLightMode()
+      
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        if (asideStatus === 'hide') {
+          document.documentElement.classList.add('hide-aside')
+        } else {
+          document.documentElement.classList.remove('hide-aside')
+        }
+      }
+    
+      const detectApple = () => {
+        if(/iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)){
+          document.documentElement.classList.add('apple')
+        }
+      }
+      detectApple()
+    })(window)</script><meta name="generator" content="Hexo 7.3.0"></head><body><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img is-center"><img src="https://lmiracleblog.oss-cn-chengdu.aliyuncs.com/blog_imgblog_log.png" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"/></div><div class="sidebar-site-data site-data is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">8</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">14</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">4</div></a></div><hr class="custom-hr"/><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> Home</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> Archives</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> Tags</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> Categories</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> About</span></a></div></div></div></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header"><nav id="nav"><span id="blog-info"><a href="/" title="Lmiracle"><span class="site-name">Lmiracle</span></a></span><div id="menus"><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> Home</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> Archives</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> Tags</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> Categories</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> About</span></a></div></div><div id="toggle-menu"><a class="site-page" href="javascript:void(0);"><i class="fas fa-bars fa-fw"></i></a></div></div></nav><div id="post-info"><h1 class="post-title">ecos内存分布</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2024-04-22T11:55:36.000Z" title="发表于 2024-04-22 19:55:36">2024-04-22</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2026-03-23T14:07:47.074Z" title="更新于 2026-03-23 22:07:47">2026-03-23</time></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title="ecos内存分布"><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">阅读量:</span><span id="busuanzi_value_page_pv"><i class="fa-solid fa-spinner fa-spin"></i></span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="post-content" id="article-container"><h2 id="简介"><a href="#简介" class="headerlink" title="简介"></a>简介</h2><p>站在内存管理的角度看eCos操作系统，就是一个进程。eCos系统中只有线程概念（任务），并没有进程概念。整个内存规划简单看就是一个进程的内存分布。</p>
+<p><img src="https://lmiracleblog.oss-cn-chengdu.aliyuncs.com/blog_imgecos_32M_mem.png" alt="alt text"></p>
+<p>既然一个进程，内存中会有text、data、bss、heap段等。</p>
+<aside>
+💡 eCos线程的栈就是一块buf（内存），可以是全局buf，也可以从heap上申请。
+
+</aside>
+
+<h2 id="eCos查看内存"><a href="#eCos查看内存" class="headerlink" title="eCos查看内存"></a>eCos查看内存</h2><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"> mbuf</span><br><span class="line"> twork <span class="built_in">stack</span> mbuf stats:</span><br><span class="line">   mbufs <span class="number">69</span>, clusters <span class="number">2360</span>, <span class="built_in">free</span> clusters <span class="number">56</span></span><br><span class="line">   Failed to get <span class="number">0</span> times</span><br><span class="line">   Waited to get <span class="number">0</span> times</span><br><span class="line">   Drained queues to get <span class="number">0</span> times</span><br><span class="line">VM zone <span class="string">&#x27;ripcb&#x27;</span>:</span><br><span class="line">  Total: <span class="number">32</span>, Free: <span class="number">31</span>, Allocs: <span class="number">88</span>, Frees: <span class="number">87</span>, Fails: <span class="number">0</span></span><br><span class="line">VM zone <span class="string">&#x27;divcb&#x27;</span>:</span><br><span class="line">  Total: <span class="number">2</span>, Free: <span class="number">2</span>, Allocs: <span class="number">0</span>, Frees: <span class="number">0</span>, Fails: <span class="number">0</span></span><br><span class="line">VM zone <span class="string">&#x27;tcpcb&#x27;</span>:</span><br><span class="line">  Total: <span class="number">256</span>, Free: <span class="number">250</span>, Allocs: <span class="number">172</span>, Frees: <span class="number">166</span>, Fails: <span class="number">0</span></span><br><span class="line">VM zone <span class="string">&#x27;udpcb&#x27;</span>:</span><br><span class="line">  Total: <span class="number">256</span>, Free: <span class="number">248</span>, Allocs: <span class="number">9244</span>, Frees: <span class="number">9236</span>, Fails: <span class="number">0</span></span><br><span class="line">VM zone <span class="string">&#x27;socket&#x27;</span>:</span><br><span class="line">  Total: <span class="number">256</span>, Free: <span class="number">241</span>, Allocs: <span class="number">9504</span>, Frees: <span class="number">9489</span>, Fails: <span class="number">0</span></span><br><span class="line">Misc mpool: total <span class="number">7602176</span>, <span class="built_in">free</span> <span class="number">1797136</span>, max <span class="built_in">free</span> block <span class="number">1794852</span></span><br><span class="line">Mbufs pool: total <span class="number">1834752</span>, <span class="built_in">free</span> <span class="number">1816064</span>, blocksize  <span class="number">256</span></span><br><span class="line">Clust pool: total <span class="number">14801600</span>, <span class="built_in">free</span> <span class="number">10419584</span>, blocksize <span class="number">1856</span></span><br><span class="line"></span><br><span class="line">Memory system:</span><br><span class="line">   Total <span class="number">33554432</span> bytes</span><br><span class="line">   Heap <span class="number">533024</span> bytes, Free <span class="number">309052</span> bytes, Max <span class="number">304532</span> bytes</span><br></pre></td></tr></table></figure>
+
+<p>乍一看，mbuf打印信息很多，系统到底剩余多少内存呢？我第一次看就是一头雾水，并不像linux那么直观.</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">$ free</span><br><span class="line">               total        used        free      shared  buff/cache   available</span><br><span class="line">Mem:        32508724     1443468    22506000      175600     8559256    30422568</span><br><span class="line">Swap:       31999996           0    31999996</span><br></pre></td></tr></table></figure>
+
+<h2 id="拆解mbuf命令"><a href="#拆解mbuf命令" class="headerlink" title="拆解mbuf命令"></a>拆解mbuf命令</h2><ul>
+<li>系统内存总共32M，先看Memory system</li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">Memory system:</span><br><span class="line">   Total 33554432 bytes</span><br><span class="line">   Heap 533024 bytes, Free 309052 bytes, Max 304532 bytes</span><br></pre></td></tr></table></figure>
+
+<p>Total 为总内存：</p>
+<blockquote>
+<p>33554432&#x2F;1024&#x2F;1024<br>32.0</p>
+</blockquote>
+<p>Heap为应用线程使用的内存。533024 bytes.</p>
+<p>这里的Heap内存为上图中的heap区域。</p>
+<ul>
+<li>pool内存</li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">Misc mpool: total 7602176, free 1797136, max free block 1794852</span><br><span class="line">Mbufs pool: total 1834752, free 1816064, blocksize  256</span><br><span class="line">Clust pool: total 14801600, free 10419584, blocksize 1856</span><br></pre></td></tr></table></figure>
+
+<ol>
+<li>Misc mpool为驱动kmalloc提供内存分配（没有slab机制，后期内存碎片化较严重）</li>
+<li>Mbufs pool是一个真正意义上的内存池（固定长度内存），为网络协议栈mbuf m_mballoc提供内存。</li>
+<li>Clust pool是另一个内存池，为网络协议栈mbuf m_clalloc提供内存。</li>
+</ol>
+<p>Misc mpool、Mbufs pool、Clust pool这三块内存是eCos定义的三个大buff，然后自己玩的。这点可以从bss段大小可以说明，这三个buf占了总内存的72%。</p>
+<blockquote>
+<p>(7602176+1834752+14801600)&#x2F;1024&#x2F;1024<br>23.11566162109375</p>
+</blockquote>
+<ul>
+<li>bss段</li>
+</ul>
+<p>通过<code>readelf -sa ecos.elf | grep __bss</code>命令，查看bss段。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">12329: 8063d5a0     0 NOTYPE  GLOBAL DEFAULT    7 __bss_start</span><br><span class="line">15222: 81f80000     0 NOTYPE  GLOBAL DEFAULT    9 __bss_end</span><br></pre></td></tr></table></figure>
+
+<p>可以看到bss段有25M以上。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">&gt;&gt;&gt; int(<span class="string">&#x27;81f80000&#x27;</span>,16) - int(<span class="string">&#x27;8063d5a0&#x27;</span>,16) = 26487392</span><br><span class="line">&gt;&gt;&gt; 26487392/1024/1024 = 25.260345458984375</span><br></pre></td></tr></table></figure>
+
+<p>这里也可以说明eCos的内存管理方式很暴力，在程序中开一个buff，然后自己来玩这块buff。</p>
+<p><img src="https://lmiracleblog.oss-cn-chengdu.aliyuncs.com/blog_imgecos_32M_mem_bss.png" alt="alt text"></p>
+<h2 id="eCos提供两种内存机制"><a href="#eCos提供两种内存机制" class="headerlink" title="eCos提供两种内存机制"></a>eCos提供两种内存机制</h2><ul>
+<li>固定大小内存</li>
+</ul>
+<p>固定大小内存分配其实就时内存中，在ecos中使用<code>cyg_mempool_fix_create</code>创建，使用<code>cyg_mempool_fix_alloc</code>和<code>cyg_mempool_fix_try_alloc</code>申请。</p>
+<ul>
+<li>不固定大小内存</li>
+</ul>
+<p>不固定大小内存系统启动前期可以最大限度使用内存，但是<strong>随着系统运行会产生内存碎片</strong>。ecos中使用<code>cyg_mempool_var_create</code>创建，<code>cyg_mempool_var_alloc</code>和<code>cyg_mempool_var_try_alloc</code>申请内存。</p>
+<h2 id="eCos中的函数接口"><a href="#eCos中的函数接口" class="headerlink" title="eCos中的函数接口"></a>eCos中的函数接口</h2><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">./ecos<span class="number">-3.0</span>/packages/net/bsd_tcpip/v3_0/src/ecos/support.c</span><br><span class="line"></span><br><span class="line"><span class="title function_">cyg_net_malloc</span><span class="params">()</span>;</span><br><span class="line"></span><br><span class="line">cyg_net_mbuf_alloc();</span><br><span class="line">cyg_net_cluster_alloc();</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>cyg_net_malloc</li>
+</ul>
+<p>驱动中kmalloc的内存申请，</p>
+<ul>
+<li>cyg_net_mbuf_alloc</li>
+</ul>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// ./ecos-3.0/packages/net/bsd_tcpip/v3_0/src/sys/kern/uipc_mbuf.c</span></span><br><span class="line">m_mballoc();</span><br><span class="line">	cyg_net_mbuf_alloc();</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>cyg_net_cluster_alloc</li>
+</ul>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// ./ecos-3.0/packages/net/bsd_tcpip/v3_0/src/sys/kern/uipc_mbuf.c</span></span><br><span class="line">m_clalloc();</span><br><span class="line">	cyg_net_cluster_alloc();</span><br></pre></td></tr></table></figure>
+
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>eCos再我所在的公司目前用在家用路由器产品中，可以看到内存基本都是在服务协议栈mbuf这块。而供给驱动（kmalloc）内存较少，而且目前内存模块老旧，不支持slab等先进内存分配机制。顾随着系统运行时间增加，kmalloc部分内存碎片化验证，在设备高负载情况下，后期驱动很难分配出大块内存。</p>
+</article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta"><i class="fas fa-circle-user fa-fw"></i>文章作者: </span><span class="post-copyright-info"><a href="https://linxuew.github.io">linxuew</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta"><i class="fas fa-square-arrow-up-right fa-fw"></i>文章链接: </span><span class="post-copyright-info"><a href="https://linxuew.github.io/2024/04/22/2024/4-ecos-memory/">https://linxuew.github.io/2024/04/22/2024/4-ecos-memory/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta"><i class="fas fa-circle-exclamation fa-fw"></i>版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来自 <a href="https://linxuew.github.io" target="_blank">Lmiracle</a>！</span></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/%E8%B7%AF%E7%94%B1%E5%99%A8/">路由器</a><a class="post-meta__tags" href="/tags/ecos/">ecos</a></div><div class="post_share"></div></div><nav class="pagination-post" id="pagination"><div class="prev-post pull-left"><a href="/2024/04/22/2024/4-netif-receive-skb-for-bcm/" title="netif_receive_skb简介"><div class="cover" style="background: var(--default-bg-color)"></div><div class="pagination-info"><div class="label">上一篇</div><div class="prev_info">netif_receive_skb简介</div></div></a></div><div class="next-post pull-right"><a href="/2024/04/22/2024/4-sichuan-iptv/" title="一次处理四川移动IPTV问题总结"><div class="cover" style="background: var(--default-bg-color)"></div><div class="pagination-info"><div class="label">下一篇</div><div class="next_info">一次处理四川移动IPTV问题总结</div></div></a></div></nav><div class="relatedPosts"><div class="headline"><i class="fas fa-thumbs-up fa-fw"></i><span>相关推荐</span></div><div class="relatedPosts-list"><div><a href="/2024/04/22/2024/4-netif-receive-skb-for-bcm/" title="netif_receive_skb简介"><div class="cover" style="background: var(--default-bg-color)"></div><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2024-04-22</div><div class="title">netif_receive_skb简介</div></div></a></div><div><a href="/2024/04/22/2024/4-sichuan-iptv/" title="一次处理四川移动IPTV问题总结"><div class="cover" style="background: var(--default-bg-color)"></div><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2024-04-22</div><div class="title">一次处理四川移动IPTV问题总结</div></div></a></div><div><a href="/2026/03/23/2026/3-wps-easymesh-analysis/" title="WPS EasyMesh组网 &amp; 一键桥接自适应"><div class="cover" style="background: var(--default-bg-color)"></div><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2026-03-23</div><div class="title">WPS EasyMesh组网 &amp; 一键桥接自适应</div></div></a></div></div></div></div><div class="aside-content" id="aside-content"><div class="card-widget card-info"><div class="is-center"><div class="avatar-img"><img src="https://lmiracleblog.oss-cn-chengdu.aliyuncs.com/blog_imgblog_log.png" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="author-info__name">linxuew</div><div class="author-info__description">低头赶路，莫问前程！</div></div><div class="card-info-data site-data is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">8</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">14</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">4</div></a></div><a id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/linxuew"><i class="fab fa-github"></i><span>GitHub</span></a><div class="card-info-social-icons is-center"><a class="social-icon" href="mailto:linxuew@gmail.com" target="_blank" title="Email"><i class="fas fa-envelope" style="color: #4a7dbe;"></i></a></div></div><div class="card-widget card-announcement"><div class="item-headline"><i class="fas fa-bullhorn fa-shake"></i><span>公告</span></div><div class="announcement_content">This is my Blog</div></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>目录</span><span class="toc-percentage"></span></div><div class="toc-content"><ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%AE%80%E4%BB%8B"><span class="toc-number">1.</span> <span class="toc-text">简介</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#eCos%E6%9F%A5%E7%9C%8B%E5%86%85%E5%AD%98"><span class="toc-number">2.</span> <span class="toc-text">eCos查看内存</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%8B%86%E8%A7%A3mbuf%E5%91%BD%E4%BB%A4"><span class="toc-number">3.</span> <span class="toc-text">拆解mbuf命令</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#eCos%E6%8F%90%E4%BE%9B%E4%B8%A4%E7%A7%8D%E5%86%85%E5%AD%98%E6%9C%BA%E5%88%B6"><span class="toc-number">4.</span> <span class="toc-text">eCos提供两种内存机制</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#eCos%E4%B8%AD%E7%9A%84%E5%87%BD%E6%95%B0%E6%8E%A5%E5%8F%A3"><span class="toc-number">5.</span> <span class="toc-text">eCos中的函数接口</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%80%BB%E7%BB%93"><span class="toc-number">6.</span> <span class="toc-text">总结</span></a></li></ol></div></div><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>最新文章</span></div><div class="aside-list"><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2026/03/24/tech-digest/tech-digest-2026-03-24/" title="无线与路由技术动态 2026-03-24">无线与路由技术动态 2026-03-24</a><time datetime="2026-03-23T22:00:00.000Z" title="发表于 2026-03-24 06:00:00">2026-03-24</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2026/03/23/2026/3-wps-easymesh-analysis/" title="WPS EasyMesh组网 &amp; 一键桥接自适应">WPS EasyMesh组网 &amp; 一键桥接自适应</a><time datetime="2026-03-23T13:00:00.000Z" title="发表于 2026-03-23 21:00:00">2026-03-23</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2026/03/23/2026/3-hexo-blog-setup/" title="使用 Hexo + GitHub Pages 搭建个人博客">使用 Hexo + GitHub Pages 搭建个人博客</a><time datetime="2026-03-23T04:00:00.000Z" title="发表于 2026-03-23 12:00:00">2026-03-23</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2024/07/05/2024/7-mqtt-ecos-mosquitto/" title="RTOS上移植mqtt broker(mosquitto)">RTOS上移植mqtt broker(mosquitto)</a><time datetime="2024-07-05T07:37:55.000Z" title="发表于 2024-07-05 15:37:55">2024-07-05</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2024/04/30/2024/4-linux-driver-env/" title="驱动学习-环境搭建">驱动学习-环境搭建</a><time datetime="2024-04-30T08:21:01.000Z" title="发表于 2024-04-30 16:21:01">2024-04-30</time></div></div></div></div></div></div></main><footer id="footer"><div id="footer-wrap"><div class="copyright">&copy;2024 - 2026 By linxuew</div><div class="framework-info"><span>框架 </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo</a><span class="footer-separator">|</span><span>主题 </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly</a></div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="darkmode" type="button" title="浅色和深色模式转换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside-config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="目录"><i class="fas fa-list-ul"></i></button><button id="go-up" type="button" title="回到顶部"><span class="scroll-percent"></span><i class="fas fa-arrow-up"></i></button></div></div><div><script src="/js/utils.js?v=4.13.0"></script><script src="/js/main.js?v=4.13.0"></script><script src="https://cdn.jsdelivr.net/npm/@fancyapps/ui@5.0.33/dist/fancybox/fancybox.umd.min.js"></script><div class="js-pjax"></div><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script></div></body></html>
