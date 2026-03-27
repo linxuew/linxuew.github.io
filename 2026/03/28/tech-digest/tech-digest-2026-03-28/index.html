@@ -1,0 +1,194 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0,viewport-fit=cover"><title>无线与路由技术动态 2026-03-28 | Lmiracle</title><meta name="author" content="linxuew"><meta name="copyright" content="linxuew"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="本期摘要本期重点关注 PyPI 供应链安全连续告警——LiteLLM 与 telnyx 相继被植入恶意代码，警示开源依赖风险；OpenWrt 社区则围绕 25.12.x 升级路径与华为、MikroTik 等设备适配展开热烈讨论。 Linux 动态LiteLLM PyPI 包遭供应链攻击，信息窃取恶意软件曝光3 月 24 日，广泛使用的 LLM 网关库 LiteLLM 在 PyPI 上发布的版本被发">
+<meta property="og:type" content="article">
+<meta property="og:title" content="无线与路由技术动态 2026-03-28">
+<meta property="og:url" content="https://linxuew.github.io/2026/03/28/tech-digest/tech-digest-2026-03-28/index.html">
+<meta property="og:site_name" content="Lmiracle">
+<meta property="og:description" content="本期摘要本期重点关注 PyPI 供应链安全连续告警——LiteLLM 与 telnyx 相继被植入恶意代码，警示开源依赖风险；OpenWrt 社区则围绕 25.12.x 升级路径与华为、MikroTik 等设备适配展开热烈讨论。 Linux 动态LiteLLM PyPI 包遭供应链攻击，信息窃取恶意软件曝光3 月 24 日，广泛使用的 LLM 网关库 LiteLLM 在 PyPI 上发布的版本被发">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://lmiracleblog.oss-cn-chengdu.aliyuncs.com/blog_imgblog_log.png">
+<meta property="article:published_time" content="2026-03-27T22:00:00.000Z">
+<meta property="article:modified_time" content="2026-03-27T19:01:36.655Z">
+<meta property="article:author" content="linxuew">
+<meta property="article:tag" content="技术动态">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://lmiracleblog.oss-cn-chengdu.aliyuncs.com/blog_imgblog_log.png"><link rel="shortcut icon" href="/img/xueicon.png"><link rel="canonical" href="https://linxuew.github.io/2026/03/28/tech-digest/tech-digest-2026-03-28/index.html"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css?v=4.13.0"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.5.1/css/all.min.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/ui@5.0.33/dist/fancybox/fancybox.min.css" media="print" onload="this.media='all'"><script>const GLOBAL_CONFIG = {
+  root: '/',
+  algolia: undefined,
+  localSearch: undefined,
+  translate: undefined,
+  noticeOutdate: undefined,
+  highlight: {"plugin":"highlight.js","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":false},
+  copy: {
+    success: '复制成功',
+    error: '复制错误',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '',
+  dateSuffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: undefined,
+  lightbox: 'fancybox',
+  Snackbar: undefined,
+  infinitegrid: {
+    js: 'https://cdn.jsdelivr.net/npm/@egjs/infinitegrid@4.11.1/dist/infinitegrid.min.js',
+    buttonText: '加载更多'
+  },
+  isPhotoFigcaption: false,
+  islazyload: false,
+  isAnchor: false,
+  percent: {
+    toc: true,
+    rightside: true,
+  },
+  autoDarkmode: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: '无线与路由技术动态 2026-03-28',
+  isPost: true,
+  isHome: false,
+  isHighlightShrink: false,
+  isToc: true,
+  postUpdate: '2026-03-28 03:01:36'
+}</script><script>(win=>{
+      win.saveToLocal = {
+        set: (key, value, ttl) => {
+          if (ttl === 0) return
+          const now = Date.now()
+          const expiry = now + ttl * 86400000
+          const item = {
+            value,
+            expiry
+          }
+          localStorage.setItem(key, JSON.stringify(item))
+        },
+      
+        get: key => {
+          const itemStr = localStorage.getItem(key)
+      
+          if (!itemStr) {
+            return undefined
+          }
+          const item = JSON.parse(itemStr)
+          const now = Date.now()
+      
+          if (now > item.expiry) {
+            localStorage.removeItem(key)
+            return undefined
+          }
+          return item.value
+        }
+      }
+    
+      win.getScript = (url, attr = {}) => new Promise((resolve, reject) => {
+        const script = document.createElement('script')
+        script.src = url
+        script.async = true
+        script.onerror = reject
+        script.onload = script.onreadystatechange = function() {
+          const loadState = this.readyState
+          if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+          script.onload = script.onreadystatechange = null
+          resolve()
+        }
+
+        Object.keys(attr).forEach(key => {
+          script.setAttribute(key, attr[key])
+        })
+
+        document.head.appendChild(script)
+      })
+    
+      win.getCSS = (url, id = false) => new Promise((resolve, reject) => {
+        const link = document.createElement('link')
+        link.rel = 'stylesheet'
+        link.href = url
+        if (id) link.id = id
+        link.onerror = reject
+        link.onload = link.onreadystatechange = function() {
+          const loadState = this.readyState
+          if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+          link.onload = link.onreadystatechange = null
+          resolve()
+        }
+        document.head.appendChild(link)
+      })
+    
+      win.activateDarkMode = () => {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      win.activateLightMode = () => {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+        }
+      }
+      const t = saveToLocal.get('theme')
+    
+        if (t === 'dark') activateDarkMode()
+        else if (t === 'light') activateLightMode()
+      
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        if (asideStatus === 'hide') {
+          document.documentElement.classList.add('hide-aside')
+        } else {
+          document.documentElement.classList.remove('hide-aside')
+        }
+      }
+    
+      const detectApple = () => {
+        if(/iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)){
+          document.documentElement.classList.add('apple')
+        }
+      }
+      detectApple()
+    })(window)</script><meta name="generator" content="Hexo 7.3.0"></head><body><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img is-center"><img src="https://lmiracleblog.oss-cn-chengdu.aliyuncs.com/blog_imgblog_log.png" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"/></div><div class="sidebar-site-data site-data is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">12</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">14</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">4</div></a></div><hr class="custom-hr"/><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> Home</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> Archives</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> Tags</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> Categories</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> About</span></a></div></div></div></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header"><nav id="nav"><span id="blog-info"><a href="/" title="Lmiracle"><span class="site-name">Lmiracle</span></a></span><div id="menus"><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> Home</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> Archives</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> Tags</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> Categories</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> About</span></a></div></div><div id="toggle-menu"><a class="site-page" href="javascript:void(0);"><i class="fas fa-bars fa-fw"></i></a></div></div></nav><div id="post-info"><h1 class="post-title">无线与路由技术动态 2026-03-28</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2026-03-27T22:00:00.000Z" title="发表于 2026-03-28 06:00:00">2026-03-28</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2026-03-27T19:01:36.655Z" title="更新于 2026-03-28 03:01:36">2026-03-28</time></span><span class="post-meta-categories"><span class="post-meta-separator">|</span><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/%E6%8A%80%E6%9C%AF%E5%8A%A8%E6%80%81/">技术动态</a></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title="无线与路由技术动态 2026-03-28"><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">阅读量:</span><span id="busuanzi_value_page_pv"><i class="fa-solid fa-spinner fa-spin"></i></span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="post-content" id="article-container"><h2 id="本期摘要"><a href="#本期摘要" class="headerlink" title="本期摘要"></a>本期摘要</h2><p>本期重点关注 PyPI 供应链安全连续告警——LiteLLM 与 telnyx 相继被植入恶意代码，警示开源依赖风险；OpenWrt 社区则围绕 25.12.x 升级路径与华为、MikroTik 等设备适配展开热烈讨论。</p>
+<h2 id="Linux-动态"><a href="#Linux-动态" class="headerlink" title="Linux 动态"></a>Linux 动态</h2><h3 id="LiteLLM-PyPI-包遭供应链攻击，信息窃取恶意软件曝光"><a href="#LiteLLM-PyPI-包遭供应链攻击，信息窃取恶意软件曝光" class="headerlink" title="LiteLLM PyPI 包遭供应链攻击，信息窃取恶意软件曝光"></a>LiteLLM PyPI 包遭供应链攻击，信息窃取恶意软件曝光</h3><p>3 月 24 日，广泛使用的 LLM 网关库 LiteLLM 在 PyPI 上发布的版本被发现植入信息窃取恶意软件。攻击者通过污染上传流程将恶意代码混入正式包，波及大量依赖该库的 AI 基础设施项目。LWN 详细复盘了此次事件中多个环节失守的根本原因，包括发布流程缺乏签名校验与二次审核机制。</p>
+<blockquote>
+<p>🔗 <a target="_blank" rel="noopener" href="https://lwn.net/Articles/1064693/">原文</a></p>
+</blockquote>
+<h3 id="telnyx-PyPI-包被注入恶意代码，周下载量逾百万受波及"><a href="#telnyx-PyPI-包被注入恶意代码，周下载量逾百万受波及" class="headerlink" title="telnyx PyPI 包被注入恶意代码，周下载量逾百万受波及"></a>telnyx PyPI 包被注入恶意代码，周下载量逾百万受波及</h3><p>SafeDep 研究人员发现，telnyx 4.87.1 与 4.87.2 两个版本于 3 月 27 日上传至 PyPI 时，<code>telnyx/_client.py</code> 已被注入恶意代码。该包周均下载量超过 100 万次，潜在影响范围极广。事件与 LiteLLM 攻击时间高度重叠，疑似同一攻击者或组织所为，建议所有使用者立即锁定版本并核查环境。</p>
+<blockquote>
+<p>🔗 <a target="_blank" rel="noopener" href="https://lwn.net/Articles/1065059/">原文</a></p>
+</blockquote>
+<h3 id="稳定版内核-6-12-79-紧急发布，回滚-LoongArch-构建破坏性补丁"><a href="#稳定版内核-6-12-79-紧急发布，回滚-LoongArch-构建破坏性补丁" class="headerlink" title="稳定版内核 6.12.79 紧急发布，回滚 LoongArch 构建破坏性补丁"></a>稳定版内核 6.12.79 紧急发布，回滚 LoongArch 构建破坏性补丁</h3><p>Greg Kroah-Hartman 宣布发布 6.12.79 稳定版内核，此版本仅包含单一变更：回滚导致 LoongArch 平台无法构建 6.12.78 的问题补丁。受影响的龙芯用户应尽快升级以恢复正常构建流程，其余平台用户可按常规节奏跟进。</p>
+<blockquote>
+<p>🔗 <a target="_blank" rel="noopener" href="https://lwn.net/Articles/1065018/">原文</a></p>
+</blockquote>
+<h3 id="多发行版周五安全更新集中推送"><a href="#多发行版周五安全更新集中推送" class="headerlink" title="多发行版周五安全更新集中推送"></a>多发行版周五安全更新集中推送</h3><p>AlmaLinux、Debian、Fedora 等主流发行版于 3 月 27 日集中发布安全更新，涉及 GnuTLS、nginx、Firefox ESR、Thunderbird、python3、vim 等高频组件。网络设备与服务器管理员应重点关注 GnuTLS 与 nginx 相关补丁，尽快完成线上环境修复。</p>
+<blockquote>
+<p>🔗 <a target="_blank" rel="noopener" href="https://lwn.net/Articles/1065015/">原文</a></p>
+</blockquote>
+<h2 id="芯片-硬件"><a href="#芯片-硬件" class="headerlink" title="芯片 &amp; 硬件"></a>芯片 &amp; 硬件</h2><h3 id="Musk-提出-TERAFAB-轨道算力构想：80-AI-算力迁移至太空"><a href="#Musk-提出-TERAFAB-轨道算力构想：80-AI-算力迁移至太空" class="headerlink" title="Musk 提出 TERAFAB 轨道算力构想：80% AI 算力迁移至太空"></a>Musk 提出 TERAFAB 轨道算力构想：80% AI 算力迁移至太空</h3><p>马斯克在 3 月 21 日 TERAFAB 发布活动上提出颠覆性预言：未来约 80% 的 AI 算力将离开地面数据中心，转移至太空轨道平台。其逻辑基础在于地球散热资源有限，而轨道具备近乎无限的太阳能与辐射散热条件。这一构想与 SpaceX 的 Starlink 算力延伸路线图深度契合，但工程落地与成本可行性仍存在巨大挑战。</p>
+<blockquote>
+<p>🔗 <a target="_blank" rel="noopener" href="https://semiwiki.com/semiconductor-manufacturers/367798-musks-orbital-compute-vision-terafab-and-the-end-of-the-terrestrial-data-center/">原文</a></p>
+</blockquote>
+<h2 id="路由器-OpenWrt"><a href="#路由器-OpenWrt" class="headerlink" title="路由器 &amp; OpenWrt"></a>路由器 &amp; OpenWrt</h2><h3 id="MikroTik-hAP-AC3-v7-版-OpenWrt-固件缺失，用户安装受阻"><a href="#MikroTik-hAP-AC3-v7-版-OpenWrt-固件缺失，用户安装受阻" class="headerlink" title="MikroTik hAP AC3 v7 版 OpenWrt 固件缺失，用户安装受阻"></a>MikroTik hAP AC3 v7 版 OpenWrt 固件缺失，用户安装受阻</h3><p>有用户反映，OpenWrt 25.12.2 官方下载页面针对 ipq40xx&#x2F;mikrotik 目标的 <code>mikrotik_hap-ac3-squashfs-sysupgrade-v7.bin</code> 文件缺失，导致出厂搭载 RouterOS v7 的全新 hAP AC3 无法完成刷机。该固件在早期版本中曾存在，疑为本次 Release 构建时遗漏，社区正在跟进确认。</p>
+<blockquote>
+<p>🔗 <a target="_blank" rel="noopener" href="https://forum.openwrt.org/t/install-on-mikrotik-hap-ac3-v7/248298">原文</a></p>
+</blockquote>
+<h3 id="Attended-Sysupgrade-服务器过载，25-12-1-→-25-12-2-升级受阻"><a href="#Attended-Sysupgrade-服务器过载，25-12-1-→-25-12-2-升级受阻" class="headerlink" title="Attended Sysupgrade 服务器过载，25.12.1 → 25.12.2 升级受阻"></a>Attended Sysupgrade 服务器过载，25.12.1 → 25.12.2 升级受阻</h3><p>多名用户尝试通过 LuCI 的 Attended Sysupgrade 功能从 25.12.1 升至 25.12.2 时遭遇”server overload”错误。命令行方式（<code>auc</code>）可作为临时替代方案，已安装软件包可通过 <code>/etc/opkg/customfeeds.conf</code> 与备份还原机制保留。建议用户错峰操作或等待服务器压力缓解后再行升级。</p>
+<blockquote>
+<p>🔗 <a target="_blank" rel="noopener" href="https://forum.openwrt.org/t/attended-sysupgrade-preserving-packages/248296">原文</a></p>
+</blockquote>
+<h3 id="华为-HG8145V-移植-OpenWrt-实践：HiSilicon-SD5116-平台探索"><a href="#华为-HG8145V-移植-OpenWrt-实践：HiSilicon-SD5116-平台探索" class="headerlink" title="华为 HG8145V 移植 OpenWrt 实践：HiSilicon SD5116 平台探索"></a>华为 HG8145V 移植 OpenWrt 实践：HiSilicon SD5116 平台探索</h3><p>社区开发者正尝试将 OpenWrt 移植至搭载 HiSilicon SD5116 SoC 的华为 HG8145V（板丝印 HG8245A ver 2）。目前已通过 Dopra Linux 环境获取 root shell，但刷写过程中不慎损坏 KernelA 分区，现寻求恢复方案。HiSilicon 平台的 OpenWrt 支持度历来有限，此移植尝试具有一定参考价值。</p>
+<blockquote>
+<p>🔗 <a target="_blank" rel="noopener" href="https://forum.openwrt.org/t/building-openwrt-for-huawei-hg8145v/248300">原文</a></p>
+</blockquote>
+<h3 id="SD-卡部署-OpenWrt-后分区扩容操作指引"><a href="#SD-卡部署-OpenWrt-后分区扩容操作指引" class="headerlink" title="SD 卡部署 OpenWrt 后分区扩容操作指引"></a>SD 卡部署 OpenWrt 后分区扩容操作指引</h3><p>用户在 64GB SD 卡上全新安装 OpenWrt 后，通过 <code>parted</code>、<code>losetup</code>、<code>resize2fs</code> 等工具尝试扩展根分区，但不确定操作是否生效。社区建议扩容后执行 <code>df -h</code> 与 <code>lsblk</code> 进行验证，并提示 overlay 分区与根分区扩容逻辑存在差异，需区分处理。</p>
+<blockquote>
+<p>🔗 <a target="_blank" rel="noopener" href="https://forum.openwrt.org/t/help-with-expanding-partiton-on-sd-card/248299">原文</a></p>
+</blockquote>
+<h2 id="编辑小结"><a href="#编辑小结" class="headerlink" title="编辑小结"></a>编辑小结</h2><p>本周最值得警惕的是 PyPI 供应链攻击的连续爆发：LiteLLM 与 telnyx 在同一周内相继中招，表明针对 AI 与通信类高价值 Python 包的定向投毒已成体系，开发者应将依赖锁定（<code>pip freeze</code> + hash 校验）与私有镜像缓存纳入 CI 标准流程。OpenWrt 方面，25.12.2 发布后暴露出 Attended Sysupgrade 服务容量不足与个别目标固件缺失的问题，建议持观望态度的用户再等一至两周待社区确认稳定后再升级。Musk 的轨道算力构想虽然引人注目，但短期内对路由器与无线芯片产业链的直接影响有限，更值得关注的仍是 HiSilicon 等非主流 SoC 的 OpenWrt 适配进展——这类工作直接决定老旧设备的可持续使用寿命。</p>
+</article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta"><i class="fas fa-circle-user fa-fw"></i>文章作者: </span><span class="post-copyright-info"><a href="https://linxuew.github.io">linxuew</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta"><i class="fas fa-square-arrow-up-right fa-fw"></i>文章链接: </span><span class="post-copyright-info"><a href="https://linxuew.github.io/2026/03/28/tech-digest/tech-digest-2026-03-28/">https://linxuew.github.io/2026/03/28/tech-digest/tech-digest-2026-03-28/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta"><i class="fas fa-circle-exclamation fa-fw"></i>版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来自 <a href="https://linxuew.github.io" target="_blank">Lmiracle</a>！</span></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/%E6%8A%80%E6%9C%AF%E5%8A%A8%E6%80%81/">技术动态</a></div><div class="post_share"></div></div><nav class="pagination-post" id="pagination"><div class="next-post pull-full"><a href="/2026/03/27/tech-digest/tech-digest-2026-03-27/" title="无线与路由技术动态 2026-03-27"><div class="cover" style="background: var(--default-bg-color)"></div><div class="pagination-info"><div class="label">下一篇</div><div class="next_info">无线与路由技术动态 2026-03-27</div></div></a></div></nav><div class="relatedPosts"><div class="headline"><i class="fas fa-thumbs-up fa-fw"></i><span>相关推荐</span></div><div class="relatedPosts-list"><div><a href="/2026/03/24/tech-digest/tech-digest-2026-03-24/" title="无线与路由技术动态 2026-03-24"><div class="cover" style="background: var(--default-bg-color)"></div><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2026-03-24</div><div class="title">无线与路由技术动态 2026-03-24</div></div></a></div><div><a href="/2026/03/25/tech-digest/tech-digest-2026-03-25/" title="无线与路由技术动态 2026-03-25"><div class="cover" style="background: var(--default-bg-color)"></div><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2026-03-25</div><div class="title">无线与路由技术动态 2026-03-25</div></div></a></div><div><a href="/2026/03/26/tech-digest/tech-digest-2026-03-26/" title="无线与路由技术动态 2026-03-26"><div class="cover" style="background: var(--default-bg-color)"></div><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2026-03-26</div><div class="title">无线与路由技术动态 2026-03-26</div></div></a></div><div><a href="/2026/03/27/tech-digest/tech-digest-2026-03-27/" title="无线与路由技术动态 2026-03-27"><div class="cover" style="background: var(--default-bg-color)"></div><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2026-03-27</div><div class="title">无线与路由技术动态 2026-03-27</div></div></a></div></div></div></div><div class="aside-content" id="aside-content"><div class="card-widget card-info"><div class="is-center"><div class="avatar-img"><img src="https://lmiracleblog.oss-cn-chengdu.aliyuncs.com/blog_imgblog_log.png" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="author-info__name">linxuew</div><div class="author-info__description">低头赶路，莫问前程！</div></div><div class="card-info-data site-data is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">12</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">14</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">4</div></a></div><a id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/linxuew"><i class="fab fa-github"></i><span>GitHub</span></a><div class="card-info-social-icons is-center"><a class="social-icon" href="mailto:linxuew@gmail.com" target="_blank" title="Email"><i class="fas fa-envelope" style="color: #4a7dbe;"></i></a></div></div><div class="card-widget card-announcement"><div class="item-headline"><i class="fas fa-bullhorn fa-shake"></i><span>公告</span></div><div class="announcement_content">This is my Blog</div></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>目录</span><span class="toc-percentage"></span></div><div class="toc-content"><ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%9C%AC%E6%9C%9F%E6%91%98%E8%A6%81"><span class="toc-number">1.</span> <span class="toc-text">本期摘要</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Linux-%E5%8A%A8%E6%80%81"><span class="toc-number">2.</span> <span class="toc-text">Linux 动态</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#LiteLLM-PyPI-%E5%8C%85%E9%81%AD%E4%BE%9B%E5%BA%94%E9%93%BE%E6%94%BB%E5%87%BB%EF%BC%8C%E4%BF%A1%E6%81%AF%E7%AA%83%E5%8F%96%E6%81%B6%E6%84%8F%E8%BD%AF%E4%BB%B6%E6%9B%9D%E5%85%89"><span class="toc-number">2.1.</span> <span class="toc-text">LiteLLM PyPI 包遭供应链攻击，信息窃取恶意软件曝光</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#telnyx-PyPI-%E5%8C%85%E8%A2%AB%E6%B3%A8%E5%85%A5%E6%81%B6%E6%84%8F%E4%BB%A3%E7%A0%81%EF%BC%8C%E5%91%A8%E4%B8%8B%E8%BD%BD%E9%87%8F%E9%80%BE%E7%99%BE%E4%B8%87%E5%8F%97%E6%B3%A2%E5%8F%8A"><span class="toc-number">2.2.</span> <span class="toc-text">telnyx PyPI 包被注入恶意代码，周下载量逾百万受波及</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%A8%B3%E5%AE%9A%E7%89%88%E5%86%85%E6%A0%B8-6-12-79-%E7%B4%A7%E6%80%A5%E5%8F%91%E5%B8%83%EF%BC%8C%E5%9B%9E%E6%BB%9A-LoongArch-%E6%9E%84%E5%BB%BA%E7%A0%B4%E5%9D%8F%E6%80%A7%E8%A1%A5%E4%B8%81"><span class="toc-number">2.3.</span> <span class="toc-text">稳定版内核 6.12.79 紧急发布，回滚 LoongArch 构建破坏性补丁</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%A4%9A%E5%8F%91%E8%A1%8C%E7%89%88%E5%91%A8%E4%BA%94%E5%AE%89%E5%85%A8%E6%9B%B4%E6%96%B0%E9%9B%86%E4%B8%AD%E6%8E%A8%E9%80%81"><span class="toc-number">2.4.</span> <span class="toc-text">多发行版周五安全更新集中推送</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%8A%AF%E7%89%87-%E7%A1%AC%E4%BB%B6"><span class="toc-number">3.</span> <span class="toc-text">芯片 &amp; 硬件</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Musk-%E6%8F%90%E5%87%BA-TERAFAB-%E8%BD%A8%E9%81%93%E7%AE%97%E5%8A%9B%E6%9E%84%E6%83%B3%EF%BC%9A80-AI-%E7%AE%97%E5%8A%9B%E8%BF%81%E7%A7%BB%E8%87%B3%E5%A4%AA%E7%A9%BA"><span class="toc-number">3.1.</span> <span class="toc-text">Musk 提出 TERAFAB 轨道算力构想：80% AI 算力迁移至太空</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%B7%AF%E7%94%B1%E5%99%A8-OpenWrt"><span class="toc-number">4.</span> <span class="toc-text">路由器 &amp; OpenWrt</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#MikroTik-hAP-AC3-v7-%E7%89%88-OpenWrt-%E5%9B%BA%E4%BB%B6%E7%BC%BA%E5%A4%B1%EF%BC%8C%E7%94%A8%E6%88%B7%E5%AE%89%E8%A3%85%E5%8F%97%E9%98%BB"><span class="toc-number">4.1.</span> <span class="toc-text">MikroTik hAP AC3 v7 版 OpenWrt 固件缺失，用户安装受阻</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Attended-Sysupgrade-%E6%9C%8D%E5%8A%A1%E5%99%A8%E8%BF%87%E8%BD%BD%EF%BC%8C25-12-1-%E2%86%92-25-12-2-%E5%8D%87%E7%BA%A7%E5%8F%97%E9%98%BB"><span class="toc-number">4.2.</span> <span class="toc-text">Attended Sysupgrade 服务器过载，25.12.1 → 25.12.2 升级受阻</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%8D%8E%E4%B8%BA-HG8145V-%E7%A7%BB%E6%A4%8D-OpenWrt-%E5%AE%9E%E8%B7%B5%EF%BC%9AHiSilicon-SD5116-%E5%B9%B3%E5%8F%B0%E6%8E%A2%E7%B4%A2"><span class="toc-number">4.3.</span> <span class="toc-text">华为 HG8145V 移植 OpenWrt 实践：HiSilicon SD5116 平台探索</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#SD-%E5%8D%A1%E9%83%A8%E7%BD%B2-OpenWrt-%E5%90%8E%E5%88%86%E5%8C%BA%E6%89%A9%E5%AE%B9%E6%93%8D%E4%BD%9C%E6%8C%87%E5%BC%95"><span class="toc-number">4.4.</span> <span class="toc-text">SD 卡部署 OpenWrt 后分区扩容操作指引</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%BC%96%E8%BE%91%E5%B0%8F%E7%BB%93"><span class="toc-number">5.</span> <span class="toc-text">编辑小结</span></a></li></ol></div></div><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>最新文章</span></div><div class="aside-list"><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2026/03/28/tech-digest/tech-digest-2026-03-28/" title="无线与路由技术动态 2026-03-28">无线与路由技术动态 2026-03-28</a><time datetime="2026-03-27T22:00:00.000Z" title="发表于 2026-03-28 06:00:00">2026-03-28</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2026/03/27/tech-digest/tech-digest-2026-03-27/" title="无线与路由技术动态 2026-03-27">无线与路由技术动态 2026-03-27</a><time datetime="2026-03-26T22:00:00.000Z" title="发表于 2026-03-27 06:00:00">2026-03-27</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2026/03/26/tech-digest/tech-digest-2026-03-26/" title="无线与路由技术动态 2026-03-26">无线与路由技术动态 2026-03-26</a><time datetime="2026-03-25T22:00:00.000Z" title="发表于 2026-03-26 06:00:00">2026-03-26</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2026/03/25/tech-digest/tech-digest-2026-03-25/" title="无线与路由技术动态 2026-03-25">无线与路由技术动态 2026-03-25</a><time datetime="2026-03-24T22:00:00.000Z" title="发表于 2026-03-25 06:00:00">2026-03-25</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2026/03/24/tech-digest/tech-digest-2026-03-24/" title="无线与路由技术动态 2026-03-24">无线与路由技术动态 2026-03-24</a><time datetime="2026-03-23T22:00:00.000Z" title="发表于 2026-03-24 06:00:00">2026-03-24</time></div></div></div></div></div></div></main><footer id="footer"><div id="footer-wrap"><div class="copyright">&copy;2024 - 2026 By linxuew</div><div class="framework-info"><span>框架 </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo</a><span class="footer-separator">|</span><span>主题 </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly</a></div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="darkmode" type="button" title="浅色和深色模式转换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside-config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="目录"><i class="fas fa-list-ul"></i></button><button id="go-up" type="button" title="回到顶部"><span class="scroll-percent"></span><i class="fas fa-arrow-up"></i></button></div></div><div><script src="/js/utils.js?v=4.13.0"></script><script src="/js/main.js?v=4.13.0"></script><script src="https://cdn.jsdelivr.net/npm/@fancyapps/ui@5.0.33/dist/fancybox/fancybox.umd.min.js"></script><div class="js-pjax"></div><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script></div></body></html>
