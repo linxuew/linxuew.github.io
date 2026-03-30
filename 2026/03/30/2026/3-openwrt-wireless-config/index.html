@@ -1,0 +1,380 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0,viewport-fit=cover"><title>OpenWrt 无线下发配置流程 | Lmiracle</title><meta name="author" content="linxuew"><meta name="copyright" content="linxuew"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="OpenWrt WiFi栈全貌OpenWrt 无线子系统从上到下分为六层，各层职责明确、接口固定。wifi scripts 是控制器，负责生成配置并启动进程；hostapd&#x2F;wpa_supplicant 是独立的用户态 daemon，两者之间有明确的生成配置→拉起进程的层次关系。  各层职责：  应用层：UCI 文件、LuCI、自定义脚本，通过 uci 命令或 ubus RPC 写入配置">
+<meta property="og:type" content="article">
+<meta property="og:title" content="OpenWrt 无线下发配置流程">
+<meta property="og:url" content="https://linxuew.github.io/2026/03/30/2026/3-openwrt-wireless-config/index.html">
+<meta property="og:site_name" content="Lmiracle">
+<meta property="og:description" content="OpenWrt WiFi栈全貌OpenWrt 无线子系统从上到下分为六层，各层职责明确、接口固定。wifi scripts 是控制器，负责生成配置并启动进程；hostapd&#x2F;wpa_supplicant 是独立的用户态 daemon，两者之间有明确的生成配置→拉起进程的层次关系。  各层职责：  应用层：UCI 文件、LuCI、自定义脚本，通过 uci 命令或 ubus RPC 写入配置">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://lmiracleblog.oss-cn-chengdu.aliyuncs.com/blog_imgblog_log.png">
+<meta property="article:published_time" content="2026-03-30T12:57:00.000Z">
+<meta property="article:modified_time" content="2026-03-30T13:38:50.808Z">
+<meta property="article:author" content="linxuew">
+<meta property="article:tag" content="路由器">
+<meta property="article:tag" content="WiFi">
+<meta property="article:tag" content="OpenWrt">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://lmiracleblog.oss-cn-chengdu.aliyuncs.com/blog_imgblog_log.png"><link rel="shortcut icon" href="/img/xueicon.png"><link rel="canonical" href="https://linxuew.github.io/2026/03/30/2026/3-openwrt-wireless-config/index.html"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css?v=4.13.0"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.5.1/css/all.min.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/ui@5.0.33/dist/fancybox/fancybox.min.css" media="print" onload="this.media='all'"><script>const GLOBAL_CONFIG = {
+  root: '/',
+  algolia: undefined,
+  localSearch: undefined,
+  translate: undefined,
+  noticeOutdate: undefined,
+  highlight: {"plugin":"highlight.js","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":false},
+  copy: {
+    success: '复制成功',
+    error: '复制错误',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '',
+  dateSuffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: undefined,
+  lightbox: 'fancybox',
+  Snackbar: undefined,
+  infinitegrid: {
+    js: 'https://cdn.jsdelivr.net/npm/@egjs/infinitegrid@4.11.1/dist/infinitegrid.min.js',
+    buttonText: '加载更多'
+  },
+  isPhotoFigcaption: false,
+  islazyload: false,
+  isAnchor: false,
+  percent: {
+    toc: true,
+    rightside: true,
+  },
+  autoDarkmode: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: 'OpenWrt 无线下发配置流程',
+  isPost: true,
+  isHome: false,
+  isHighlightShrink: false,
+  isToc: true,
+  postUpdate: '2026-03-30 21:38:50'
+}</script><script>(win=>{
+      win.saveToLocal = {
+        set: (key, value, ttl) => {
+          if (ttl === 0) return
+          const now = Date.now()
+          const expiry = now + ttl * 86400000
+          const item = {
+            value,
+            expiry
+          }
+          localStorage.setItem(key, JSON.stringify(item))
+        },
+      
+        get: key => {
+          const itemStr = localStorage.getItem(key)
+      
+          if (!itemStr) {
+            return undefined
+          }
+          const item = JSON.parse(itemStr)
+          const now = Date.now()
+      
+          if (now > item.expiry) {
+            localStorage.removeItem(key)
+            return undefined
+          }
+          return item.value
+        }
+      }
+    
+      win.getScript = (url, attr = {}) => new Promise((resolve, reject) => {
+        const script = document.createElement('script')
+        script.src = url
+        script.async = true
+        script.onerror = reject
+        script.onload = script.onreadystatechange = function() {
+          const loadState = this.readyState
+          if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+          script.onload = script.onreadystatechange = null
+          resolve()
+        }
+
+        Object.keys(attr).forEach(key => {
+          script.setAttribute(key, attr[key])
+        })
+
+        document.head.appendChild(script)
+      })
+    
+      win.getCSS = (url, id = false) => new Promise((resolve, reject) => {
+        const link = document.createElement('link')
+        link.rel = 'stylesheet'
+        link.href = url
+        if (id) link.id = id
+        link.onerror = reject
+        link.onload = link.onreadystatechange = function() {
+          const loadState = this.readyState
+          if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+          link.onload = link.onreadystatechange = null
+          resolve()
+        }
+        document.head.appendChild(link)
+      })
+    
+      win.activateDarkMode = () => {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      win.activateLightMode = () => {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+        }
+      }
+      const t = saveToLocal.get('theme')
+    
+        if (t === 'dark') activateDarkMode()
+        else if (t === 'light') activateLightMode()
+      
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        if (asideStatus === 'hide') {
+          document.documentElement.classList.add('hide-aside')
+        } else {
+          document.documentElement.classList.remove('hide-aside')
+        }
+      }
+    
+      const detectApple = () => {
+        if(/iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)){
+          document.documentElement.classList.add('apple')
+        }
+      }
+      detectApple()
+    })(window)</script><meta name="generator" content="Hexo 7.3.0"></head><body><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img is-center"><img src="https://lmiracleblog.oss-cn-chengdu.aliyuncs.com/blog_imgblog_log.png" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"/></div><div class="sidebar-site-data site-data is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">15</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">15</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">5</div></a></div><hr class="custom-hr"/><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> Home</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> Archives</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> Tags</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> Categories</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> About</span></a></div></div></div></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header"><nav id="nav"><span id="blog-info"><a href="/" title="Lmiracle"><span class="site-name">Lmiracle</span></a></span><div id="menus"><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> Home</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> Archives</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> Tags</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> Categories</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> About</span></a></div></div><div id="toggle-menu"><a class="site-page" href="javascript:void(0);"><i class="fas fa-bars fa-fw"></i></a></div></div></nav><div id="post-info"><h1 class="post-title">OpenWrt 无线下发配置流程</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2026-03-30T12:57:00.000Z" title="发表于 2026-03-30 20:57:00">2026-03-30</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2026-03-30T13:38:50.808Z" title="更新于 2026-03-30 21:38:50">2026-03-30</time></span><span class="post-meta-categories"><span class="post-meta-separator">|</span><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/WiFi/">WiFi</a></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title="OpenWrt 无线下发配置流程"><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">阅读量:</span><span id="busuanzi_value_page_pv"><i class="fa-solid fa-spinner fa-spin"></i></span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="post-content" id="article-container"><h2 id="OpenWrt-WiFi栈全貌"><a href="#OpenWrt-WiFi栈全貌" class="headerlink" title="OpenWrt WiFi栈全貌"></a>OpenWrt WiFi栈全貌</h2><p>OpenWrt 无线子系统从上到下分为六层，各层职责明确、接口固定。wifi scripts 是控制器，负责生成配置并启动进程；hostapd&#x2F;wpa_supplicant 是独立的用户态 daemon，两者之间有明确的生成配置→拉起进程的层次关系。</p>
+<p><img src="https://lmiracleblog.oss-cn-chengdu.aliyuncs.com/blog_imgopenwrt-wifi-stack.svg" alt="OpenWrt 无线协议栈"></p>
+<p>各层职责：</p>
+<ul>
+<li>应用层：UCI 文件、LuCI、自定义脚本，通过 <code>uci</code> 命令或 ubus RPC 写入配置</li>
+<li>netifd：网络管理守护进程，解析 UCI，维护接口状态机，调度 wifi scripts；同时通过 ubus 被动感知事件，同步接口状态</li>
+<li>wifi scripts（控制器）：<code>mac80211.sh</code> &#x2F; <code>hostapd.sh</code> 等，生成 <code>hostapd.conf</code> 并通过 procd 拉起 hostapd 进程</li>
+<li>hostapd &#x2F; wpa_supplicant（执行器）：独立用户态 daemon，AP 认证、802.11i&#x2F;r&#x2F;k&#x2F;v、WPS、EasyMesh；通过 nl80211 netlink API 与 cfg80211 通信</li>
+<li>cfg80211 &#x2F; nl80211：内核统一无线接口，管理 channel、txpower、scan、regulatory（国家码），屏蔽驱动差异</li>
+<li>驱动层（三类）：MTK 商用 mt_wifi（闭源 vendor SDK）、SoftMAC（mt76&#x2F;ath9k，完整走 mac80211）、FullMAC（ath10k&#x2F;ath11k mac80211控制+firmware执行MAC；brcmfmac cfg80211 thin wrap；wl 私有 ioctl 旁路 cfg80211）</li>
+</ul>
+<p>事件路径分两条并行通道：路径 A 经 driver → cfg80211 → nl80211 → hostapd → ubus → netifd 状态同步 + app 订阅；路径 B 由 cfg80211 → nl80211 multicast 直接到 <code>iw event</code> &#x2F; <code>wpa_cli</code>，不经过 hostapd。</p>
+<hr>
+<h2 id="驱动层分类"><a href="#驱动层分类" class="headerlink" title="驱动层分类"></a>驱动层分类</h2><p>驱动层分三类，选型直接影响调试命令和运行时配置接口：</p>
+<table>
+<thead>
+<tr>
+<th>类型</th>
+<th>代表驱动</th>
+<th>与 mac80211 关系</th>
+<th>配置接口</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>MTK 商用（闭源）</td>
+<td>mt_wifi（MT7986&#x2F;MT7987&#x2F;MT7990）</td>
+<td>cfg80211 注册，但大量通过私有 nl80211 vendor cmd 下发</td>
+<td><code>iwpriv ra0</code> &#x2F; <code>mtwifi_dbg</code></td>
+</tr>
+<tr>
+<td>SoftMAC（开源）</td>
+<td>mt76（社区版）&#x2F; ath9k</td>
+<td>驱动调用 mac80211，完整走标准协议栈</td>
+<td><code>iw</code> &#x2F; <code>debugfs</code></td>
+</tr>
+<tr>
+<td>FullMAC</td>
+<td>ath10k &#x2F; ath11k</td>
+<td>mac80211 作控制层，firmware 执行大量 MAC 逻辑</td>
+<td><code>iw</code>（有限）&#x2F; vendor cmd</td>
+</tr>
+<tr>
+<td>私有接口</td>
+<td>brcmfmac &#x2F; wl</td>
+<td>brcmfmac 是 cfg80211 thin wrap；wl 私有 ioctl 旁路 cfg80211</td>
+<td><code>wl assoclist</code> &#x2F; <code>wl bss info</code></td>
+</tr>
+</tbody></table>
+<blockquote>
+<p>MT7990 商用平台使用 mt_wifi，不是开源 mt76。两者 debugfs 路径、iwpriv 命令、txbf 控制方式完全不同，不可混用。</p>
+</blockquote>
+<hr>
+<h2 id="UCI-wireless-配置"><a href="#UCI-wireless-配置" class="headerlink" title="UCI wireless 配置"></a>UCI wireless 配置</h2><p>所有无线配置集中在 <code>/etc/config/wireless</code>，分两类块：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"># radio 块：描述物理 PHY</span><br><span class="line">config wifi-device &#x27;MT7993_1_2&#x27;</span><br><span class="line">    option type     mac80211</span><br><span class="line">    option channel  36</span><br><span class="line">    option htmode   VHT80</span><br><span class="line">    option country  CN</span><br><span class="line"></span><br><span class="line"># iface 块：描述虚拟 BSS</span><br><span class="line">config wifi-iface &#x27;rai0&#x27;</span><br><span class="line">    option device     MT7993_1_2</span><br><span class="line">    option mode       ap</span><br><span class="line">    option ssid       MTK_WiFi_5G</span><br><span class="line">    option encryption psk2</span><br><span class="line">    option key        Aa12345678</span><br></pre></td></tr></table></figure>
+
+<p>MT7990 双频设备命名约定：</p>
+<table>
+<thead>
+<tr>
+<th>OpenWrt 设备名</th>
+<th>频段</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>MT7993_1_1</code> &#x2F; <code>ra0</code></td>
+<td>2.4G</td>
+<td>2.4GHz radio</td>
+</tr>
+<tr>
+<td><code>MT7993_1_2</code> &#x2F; <code>rai0</code></td>
+<td>5G</td>
+<td>5GHz radio</td>
+</tr>
+<tr>
+<td><code>apmld1</code></td>
+<td>MLD</td>
+<td>Multi-Link Device（MLO）</td>
+</tr>
+</tbody></table>
+<hr>
+<h2 id="netifd-的调度职责"><a href="#netifd-的调度职责" class="headerlink" title="netifd 的调度职责"></a>netifd 的调度职责</h2><p>netifd 是 OpenWrt 网络管理守护进程，跑在 <code>uloop</code> 单线程事件循环上，核心职责：</p>
+<ul>
+<li>解析 <code>config wifi-device</code> &#x2F; <code>config wifi-iface</code>，转成运行时对象</li>
+<li>维护接口状态机：<code>idle → pending → connecting → connected</code></li>
+<li>通过 ubus 暴露 <code>network.wireless</code>、<code>network.interface.*</code> RPC 对象</li>
+<li>调用 <code>/lib/netifd/wireless/mac80211.sh</code> 驱动 hostapd 生命周期（配置路径）</li>
+<li>被动感知事件：订阅 hostapd 通过 ubus 上报的状态变更，同步接口 up&#x2F;down 状态后对外广播（事件路径 A）</li>
+</ul>
+<p><code>/lib/netifd/</code> 关键文件：</p>
+<table>
+<thead>
+<tr>
+<th>文件</th>
+<th>作用</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>netifd-wireless.sh</code></td>
+<td>无线 shell API 库，所有驱动脚本 source 它</td>
+</tr>
+<tr>
+<td><code>hostapd.sh</code></td>
+<td>hostapd 配置生成 + 进程管理</td>
+</tr>
+<tr>
+<td><code>wireless/mac80211.sh</code></td>
+<td>mac80211 驱动入口，连接 netifd 与 hostapd</td>
+</tr>
+<tr>
+<td><code>netifd-proto.sh</code></td>
+<td>proto handler shell API 库</td>
+</tr>
+<tr>
+<td><code>proto/dhcp.sh</code></td>
+<td>调用 udhcpc，汇报 IP 给 netifd</td>
+</tr>
+</tbody></table>
+<hr>
+<h2 id="一次-wifi-reload-的完整调用链"><a href="#一次-wifi-reload-的完整调用链" class="headerlink" title="一次 wifi reload 的完整调用链"></a>一次 wifi reload 的完整调用链</h2><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">wifi reload</span><br><span class="line">  ├─ ubus call network.wireless down</span><br><span class="line">  │     └─ netifd → mac80211.sh teardown → SIGTERM hostapd</span><br><span class="line">  │</span><br><span class="line">  ├─ ubus call network reload</span><br><span class="line">  │     └─ netifd 重新解析 /etc/config/wireless</span><br><span class="line">  │</span><br><span class="line">  └─ ubus call network.wireless up</span><br><span class="line">        └─ netifd → mac80211.sh setup</span><br><span class="line">              ├─ iw phy 探测 HE/VHT/HT 能力</span><br><span class="line">              ├─ hostapd.sh 生成 /var/run/hostapd-phy0.conf</span><br><span class="line">              ├─ procd 拉起 hostapd 进程</span><br><span class="line">              ├─ hostapd_cli status 轮询 AP-ENABLED</span><br><span class="line">              └─ wireless_set_up → netifd 标记接口 up</span><br><span class="line">                    └─ ubus 广播 network.interface.wlan0 ifup</span><br></pre></td></tr></table></figure>
+
+<p><code>hostapd.sh</code> 核心函数：</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">hostapd_common_add_device   <span class="comment"># 写 phy 级配置（country、beacon_int 等）</span></span><br><span class="line">hostapd_common_add_bss      <span class="comment"># 写每个 BSS（ssid、加密、802.11r 等）</span></span><br><span class="line">hostapd_start               <span class="comment"># procd_open_service 启动 hostapd</span></span><br><span class="line">hostapd_wait_enabled        <span class="comment"># 轮询 AP-ENABLED，超时则 wireless_setup_failed</span></span><br><span class="line">hostapd_config_reload       <span class="comment"># hostapd_cli reload（不断线热更新）</span></span><br></pre></td></tr></table></figure>
+
+<hr>
+<h2 id="配置变更的三个级别"><a href="#配置变更的三个级别" class="headerlink" title="配置变更的三个级别"></a>配置变更的三个级别</h2><p>不同参数刷新代价差异极大，必须按级别选择最小代价路径。</p>
+<p><img src="https://lmiracleblog.oss-cn-chengdu.aliyuncs.com/blog_imgopenwrt-wifi-dispatch.svg" alt="配置变更三级下发路径"></p>
+<table>
+<thead>
+<tr>
+<th>级别</th>
+<th>触发参数</th>
+<th>路径</th>
+<th>STA 断线</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>PHY 级</td>
+<td><code>channel</code> · <code>htmode</code> · <code>country</code> · <code>noscan</code></td>
+<td><code>uci commit + wifi reload</code></td>
+<td>是，全部</td>
+</tr>
+<tr>
+<td>BSS 级（持久）</td>
+<td><code>ssid</code> · <code>encryption</code> · <code>ieee80211r</code></td>
+<td><code>uci commit + hostapd_cli reload</code></td>
+<td>否</td>
+</tr>
+<tr>
+<td>BSS 级（临时）</td>
+<td><code>wpa_passphrase</code> · <code>ap_isolate</code> · <code>max_num_sta</code></td>
+<td><code>hostapd_cli set</code></td>
+<td>否</td>
+</tr>
+<tr>
+<td>运行时</td>
+<td><code>txpower</code> · <code>txbf</code> · bitrate mask</td>
+<td><code>iw</code> &#x2F; <code>debugfs</code></td>
+<td>否</td>
+</tr>
+</tbody></table>
+<p>运行时级别绕过 hostapd 直接写内核：</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># txpower（mBm = dBm × 100）</span></span><br><span class="line">iw phy phy0 <span class="built_in">set</span> txpower fixed 2000</span><br><span class="line"></span><br><span class="line"><span class="comment"># TxBF — mt76 开源驱动（社区版，非 MTK 商用 mt_wifi）</span></span><br><span class="line"><span class="built_in">echo</span> 1 &gt; /sys/kernel/debug/ieee80211/phy0/mt76/txbf_enable</span><br><span class="line"></span><br><span class="line"><span class="comment"># TxBF — mt_wifi 商用驱动</span></span><br><span class="line">iwpriv ra0 <span class="built_in">set</span> txbf=1</span><br><span class="line"></span><br><span class="line"><span class="comment"># bitrate mask</span></span><br><span class="line">iw dev wlan0 <span class="built_in">set</span> bitrates vht-mcs-5 0:0-9</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p><code>tx_queue_*</code> 是 QoS 队列权重，与射频发射功率无关。mt_wifi 商用驱动大量配置通过 iwpriv 私有命令下发，而非标准 <code>iw</code>。</p>
+</blockquote>
+<hr>
+<h2 id="查询接口体系"><a href="#查询接口体系" class="headerlink" title="查询接口体系"></a>查询接口体系</h2><p><img src="https://lmiracleblog.oss-cn-chengdu.aliyuncs.com/blog_imgopenwrt-wifi-query.svg" alt="查询接口层次"></p>
+<h4 id="iwinfo（首选，跨平台）"><a href="#iwinfo（首选，跨平台）" class="headerlink" title="iwinfo（首选，跨平台）"></a>iwinfo（首选，跨平台）</h4><p>内部自动选择后端（<code>nl80211 → wext → wl</code>），Broadcom 闭源平台自动落到 <code>wl</code> 后端。</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">iwinfo wlan0 info          <span class="comment"># SSID · 信道 · RSSI · 速率</span></span><br><span class="line">iwinfo wlan0 assoclist     <span class="comment"># 关联 STA 列表</span></span><br><span class="line">iwinfo wlan0 txpowerlist   <span class="comment"># 支持的发射功率档位</span></span><br></pre></td></tr></table></figure>
+
+<h4 id="iw（能力探测与精细控制）"><a href="#iw（能力探测与精细控制）" class="headerlink" title="iw（能力探测与精细控制）"></a>iw（能力探测与精细控制）</h4><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">iw phy phy0 info              <span class="comment"># HT/VHT/HE 能力矩阵</span></span><br><span class="line">iw dev wlan0 station dump     <span class="comment"># STA 详细统计（含 TID、BA）</span></span><br><span class="line">iw dev wlan0 survey dump      <span class="comment"># 信道占用率</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 写 htmode 前先探测能力</span></span><br><span class="line">iw phy phy0 info | grep -q <span class="string">&quot;HE Iftypes&quot;</span> &amp;&amp; <span class="built_in">echo</span> <span class="string">&quot;HE80&quot;</span> \</span><br><span class="line">  || iw phy phy0 info | grep -q <span class="string">&quot;VHT Capabilities&quot;</span> &amp;&amp; <span class="built_in">echo</span> <span class="string">&quot;VHT80&quot;</span> \</span><br><span class="line">  || <span class="built_in">echo</span> <span class="string">&quot;HT40&quot;</span></span><br></pre></td></tr></table></figure>
+
+<h4 id="ubus（结构化-JSON）"><a href="#ubus（结构化-JSON）" class="headerlink" title="ubus（结构化 JSON）"></a>ubus（结构化 JSON）</h4><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">ubus call network.wireless status</span><br><span class="line">ubus call network.interface.wlan0 status</span><br></pre></td></tr></table></figure>
+
+<h4 id="hostapd-cli（AP-精细操作）"><a href="#hostapd-cli（AP-精细操作）" class="headerlink" title="hostapd_cli（AP 精细操作）"></a>hostapd_cli（AP 精细操作）</h4><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">hostapd_cli -i wlan0 all_sta</span><br><span class="line">hostapd_cli -i wlan0 deny_acl ADD 00:11:22:33:44:55</span><br><span class="line">hostapd_cli -i wlan0 deauthenticate 00:11:22:33:44:55 reason=3</span><br></pre></td></tr></table></figure>
+
+<hr>
+<h2 id="事件与通知"><a href="#事件与通知" class="headerlink" title="事件与通知"></a>事件与通知</h2><p><img src="https://lmiracleblog.oss-cn-chengdu.aliyuncs.com/blog_imgopenwrt-wifi-events.svg" alt="事件通知总线"></p>
+<p>无线事件有两条并行的上报路径，不可混淆：</p>
+<ul>
+<li><strong>路径 A（经 hostapd）</strong>：driver → cfg80211 → nl80211 event → hostapd → ubus notify。netifd 订阅 ubus 被动感知状态变更（vif up&#x2F;down），完成自身状态机同步后再对外广播；app 同样通过 ubus 订阅归一化后的事件。</li>
+<li><strong>路径 B（直接）</strong>：cfg80211 → nl80211 multicast group → <code>iw event</code> &#x2F; <code>wpa_cli</code>。不经过 hostapd，适合低延迟诊断工具或底层守护进程直接订阅。</li>
+</ul>
+<table>
+<thead>
+<tr>
+<th>总线 &#x2F; 路径</th>
+<th>订阅方式</th>
+<th>适用场景</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>hostapd ctrl_iface（路径 A）</td>
+<td><code>hostapd_cli -i wlan0 -a script</code></td>
+<td>STA 上下线，含 MAC&#x2F;reason，最及时</td>
+</tr>
+<tr>
+<td>ubus 事件（路径 A 汇总）</td>
+<td><code>ubus listen network.interface.*</code></td>
+<td>netifd 归一化后的 ifup&#x2F;ifdown，含 IP</td>
+</tr>
+<tr>
+<td>iw event（路径 B）</td>
+<td><code>iw event</code></td>
+<td>nl80211 multicast，不经 hostapd，诊断用</td>
+</tr>
+<tr>
+<td>内核 netlink（路径 B）</td>
+<td><code>nl_socket_add_membership MCGRP_MLME</code></td>
+<td>MLME 原始事件，适合 C 守护进程</td>
+</tr>
+</tbody></table>
+<p>hostapd 常见事件：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">AP-STA-CONNECTED    xx:xx:xx:xx:xx:xx</span><br><span class="line">AP-STA-DISCONNECTED xx:xx:xx:xx:xx:xx</span><br><span class="line">AP-ENABLED</span><br><span class="line">AP-DISABLED</span><br><span class="line">CTRL-EVENT-TERMINATING</span><br></pre></td></tr></table></figure>
+
+<h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h2><ul>
+<li>OpenWrt 源码：<code>package/network/services/hostapd/</code></li>
+<li>netifd 源码：<code>package/network/config/netifd/</code></li>
+<li><code>iw help</code> | <code>hostapd_cli help</code> | <code>iwpriv ra0 show</code></li>
+</ul>
+</article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta"><i class="fas fa-circle-user fa-fw"></i>文章作者: </span><span class="post-copyright-info"><a href="https://linxuew.github.io">linxuew</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta"><i class="fas fa-square-arrow-up-right fa-fw"></i>文章链接: </span><span class="post-copyright-info"><a href="https://linxuew.github.io/2026/03/30/2026/3-openwrt-wireless-config/">https://linxuew.github.io/2026/03/30/2026/3-openwrt-wireless-config/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta"><i class="fas fa-circle-exclamation fa-fw"></i>版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来自 <a href="https://linxuew.github.io" target="_blank">Lmiracle</a>！</span></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/%E8%B7%AF%E7%94%B1%E5%99%A8/">路由器</a><a class="post-meta__tags" href="/tags/WiFi/">WiFi</a><a class="post-meta__tags" href="/tags/OpenWrt/">OpenWrt</a></div><div class="post_share"></div></div><nav class="pagination-post" id="pagination"><div class="next-post pull-full"><a href="/2026/03/30/tech-digest/tech-digest-2026-03-30/" title="无线与路由技术动态 2026-03-30"><div class="cover" style="background: var(--default-bg-color)"></div><div class="pagination-info"><div class="label">下一篇</div><div class="next_info">无线与路由技术动态 2026-03-30</div></div></a></div></nav><div class="relatedPosts"><div class="headline"><i class="fas fa-thumbs-up fa-fw"></i><span>相关推荐</span></div><div class="relatedPosts-list"><div><a href="/2026/03/23/2026/3-wps-easymesh-analysis/" title="WPS EasyMesh组网 &amp; 一键桥接自适应"><div class="cover" style="background: var(--default-bg-color)"></div><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2026-03-23</div><div class="title">WPS EasyMesh组网 &amp; 一键桥接自适应</div></div></a></div><div><a href="/2024/04/22/2024/4-ecos-memory/" title="ecos内存分布"><div class="cover" style="background: var(--default-bg-color)"></div><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2024-04-22</div><div class="title">ecos内存分布</div></div></a></div><div><a href="/2024/04/22/2024/4-netif-receive-skb-for-bcm/" title="netif_receive_skb简介"><div class="cover" style="background: var(--default-bg-color)"></div><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2024-04-22</div><div class="title">netif_receive_skb简介</div></div></a></div><div><a href="/2024/04/22/2024/4-sichuan-iptv/" title="一次处理四川移动IPTV问题总结"><div class="cover" style="background: var(--default-bg-color)"></div><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2024-04-22</div><div class="title">一次处理四川移动IPTV问题总结</div></div></a></div></div></div></div><div class="aside-content" id="aside-content"><div class="card-widget card-info"><div class="is-center"><div class="avatar-img"><img src="https://lmiracleblog.oss-cn-chengdu.aliyuncs.com/blog_imgblog_log.png" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="author-info__name">linxuew</div><div class="author-info__description">低头赶路，莫问前程！</div></div><div class="card-info-data site-data is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">15</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">15</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">5</div></a></div><a id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/linxuew"><i class="fab fa-github"></i><span>GitHub</span></a><div class="card-info-social-icons is-center"><a class="social-icon" href="mailto:linxuew@gmail.com" target="_blank" title="Email"><i class="fas fa-envelope" style="color: #4a7dbe;"></i></a></div></div><div class="card-widget card-announcement"><div class="item-headline"><i class="fas fa-bullhorn fa-shake"></i><span>公告</span></div><div class="announcement_content">This is my Blog</div></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>目录</span><span class="toc-percentage"></span></div><div class="toc-content"><ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#OpenWrt-WiFi%E6%A0%88%E5%85%A8%E8%B2%8C"><span class="toc-number">1.</span> <span class="toc-text">OpenWrt WiFi栈全貌</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E9%A9%B1%E5%8A%A8%E5%B1%82%E5%88%86%E7%B1%BB"><span class="toc-number">2.</span> <span class="toc-text">驱动层分类</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#UCI-wireless-%E9%85%8D%E7%BD%AE"><span class="toc-number">3.</span> <span class="toc-text">UCI wireless 配置</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#netifd-%E7%9A%84%E8%B0%83%E5%BA%A6%E8%81%8C%E8%B4%A3"><span class="toc-number">4.</span> <span class="toc-text">netifd 的调度职责</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%B8%80%E6%AC%A1-wifi-reload-%E7%9A%84%E5%AE%8C%E6%95%B4%E8%B0%83%E7%94%A8%E9%93%BE"><span class="toc-number">5.</span> <span class="toc-text">一次 wifi reload 的完整调用链</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E9%85%8D%E7%BD%AE%E5%8F%98%E6%9B%B4%E7%9A%84%E4%B8%89%E4%B8%AA%E7%BA%A7%E5%88%AB"><span class="toc-number">6.</span> <span class="toc-text">配置变更的三个级别</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%9F%A5%E8%AF%A2%E6%8E%A5%E5%8F%A3%E4%BD%93%E7%B3%BB"><span class="toc-number">7.</span> <span class="toc-text">查询接口体系</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#iwinfo%EF%BC%88%E9%A6%96%E9%80%89%EF%BC%8C%E8%B7%A8%E5%B9%B3%E5%8F%B0%EF%BC%89"><span class="toc-number">7.0.1.</span> <span class="toc-text">iwinfo（首选，跨平台）</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#iw%EF%BC%88%E8%83%BD%E5%8A%9B%E6%8E%A2%E6%B5%8B%E4%B8%8E%E7%B2%BE%E7%BB%86%E6%8E%A7%E5%88%B6%EF%BC%89"><span class="toc-number">7.0.2.</span> <span class="toc-text">iw（能力探测与精细控制）</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#ubus%EF%BC%88%E7%BB%93%E6%9E%84%E5%8C%96-JSON%EF%BC%89"><span class="toc-number">7.0.3.</span> <span class="toc-text">ubus（结构化 JSON）</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#hostapd-cli%EF%BC%88AP-%E7%B2%BE%E7%BB%86%E6%93%8D%E4%BD%9C%EF%BC%89"><span class="toc-number">7.0.4.</span> <span class="toc-text">hostapd_cli（AP 精细操作）</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BA%8B%E4%BB%B6%E4%B8%8E%E9%80%9A%E7%9F%A5"><span class="toc-number">8.</span> <span class="toc-text">事件与通知</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%8F%82%E8%80%83"><span class="toc-number">9.</span> <span class="toc-text">参考</span></a></li></ol></div></div><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>最新文章</span></div><div class="aside-list"><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2026/03/30/2026/3-openwrt-wireless-config/" title="OpenWrt 无线下发配置流程">OpenWrt 无线下发配置流程</a><time datetime="2026-03-30T12:57:00.000Z" title="发表于 2026-03-30 20:57:00">2026-03-30</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2026/03/30/tech-digest/tech-digest-2026-03-30/" title="无线与路由技术动态 2026-03-30">无线与路由技术动态 2026-03-30</a><time datetime="2026-03-29T22:00:00.000Z" title="发表于 2026-03-30 06:00:00">2026-03-30</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2026/03/29/tech-digest/tech-digest-2026-03-29/" title="无线与路由技术动态 2026-03-29">无线与路由技术动态 2026-03-29</a><time datetime="2026-03-28T22:00:00.000Z" title="发表于 2026-03-29 06:00:00">2026-03-29</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2026/03/28/tech-digest/tech-digest-2026-03-28/" title="无线与路由技术动态 2026-03-28">无线与路由技术动态 2026-03-28</a><time datetime="2026-03-27T22:00:00.000Z" title="发表于 2026-03-28 06:00:00">2026-03-28</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2026/03/27/tech-digest/tech-digest-2026-03-27/" title="无线与路由技术动态 2026-03-27">无线与路由技术动态 2026-03-27</a><time datetime="2026-03-26T22:00:00.000Z" title="发表于 2026-03-27 06:00:00">2026-03-27</time></div></div></div></div></div></div></main><footer id="footer"><div id="footer-wrap"><div class="copyright">&copy;2024 - 2026 By linxuew</div><div class="framework-info"><span>框架 </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo</a><span class="footer-separator">|</span><span>主题 </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly</a></div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="darkmode" type="button" title="浅色和深色模式转换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside-config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="目录"><i class="fas fa-list-ul"></i></button><button id="go-up" type="button" title="回到顶部"><span class="scroll-percent"></span><i class="fas fa-arrow-up"></i></button></div></div><div><script src="/js/utils.js?v=4.13.0"></script><script src="/js/main.js?v=4.13.0"></script><script src="https://cdn.jsdelivr.net/npm/@fancyapps/ui@5.0.33/dist/fancybox/fancybox.umd.min.js"></script><div class="js-pjax"></div><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script></div></body></html>
