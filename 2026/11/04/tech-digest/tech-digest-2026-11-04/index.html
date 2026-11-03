@@ -1,0 +1,237 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0,viewport-fit=cover"><title>无线与路由技术动态 2026-11-04 | Lmiracle</title><meta name="author" content="linxuew"><meta name="copyright" content="linxuew"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="本期摘要本期 Linux 发行版迎来集中更新（openSUSE Leap 16.1、Fedora 45、Tor Browser 16.0），OpenWrt 社区则围绕 Wi-Fi 7 新硬件支持、LTS 内核实验构建与升级兼容性问题展开讨论；无线侧，6 GHz 频段归属之争与运营商资本开支周期成为焦点。 Linux 动态openSUSE Leap 16.1 发布openSUSE 项目宣布 open">
+<meta property="og:type" content="article">
+<meta property="og:title" content="无线与路由技术动态 2026-11-04">
+<meta property="og:url" content="https://linxuew.github.io/2026/11/04/tech-digest/tech-digest-2026-11-04/index.html">
+<meta property="og:site_name" content="Lmiracle">
+<meta property="og:description" content="本期摘要本期 Linux 发行版迎来集中更新（openSUSE Leap 16.1、Fedora 45、Tor Browser 16.0），OpenWrt 社区则围绕 Wi-Fi 7 新硬件支持、LTS 内核实验构建与升级兼容性问题展开讨论；无线侧，6 GHz 频段归属之争与运营商资本开支周期成为焦点。 Linux 动态openSUSE Leap 16.1 发布openSUSE 项目宣布 open">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://linxuew.github.io/img/brand/avatar.png">
+<meta property="article:published_time" content="2026-11-03T21:00:00.000Z">
+<meta property="article:modified_time" content="2026-11-03T21:11:42.210Z">
+<meta property="article:author" content="linxuew">
+<meta property="article:tag" content="技术动态">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://linxuew.github.io/img/brand/avatar.png"><link rel="shortcut icon" href="/img/brand/favicon.ico"><link rel="canonical" href="https://linxuew.github.io/2026/11/04/tech-digest/tech-digest-2026-11-04/index.html"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css?v=4.13.0"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.5.1/css/all.min.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/ui@5.0.33/dist/fancybox/fancybox.min.css" media="print" onload="this.media='all'"><script>const GLOBAL_CONFIG = {
+  root: '/',
+  algolia: undefined,
+  localSearch: undefined,
+  translate: undefined,
+  noticeOutdate: undefined,
+  highlight: {"plugin":"highlight.js","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":false},
+  copy: {
+    success: '复制成功',
+    error: '复制错误',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '',
+  dateSuffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: undefined,
+  lightbox: 'fancybox',
+  Snackbar: undefined,
+  infinitegrid: {
+    js: 'https://cdn.jsdelivr.net/npm/@egjs/infinitegrid@4.11.1/dist/infinitegrid.min.js',
+    buttonText: '加载更多'
+  },
+  isPhotoFigcaption: false,
+  islazyload: false,
+  isAnchor: false,
+  percent: {
+    toc: true,
+    rightside: true,
+  },
+  autoDarkmode: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: '无线与路由技术动态 2026-11-04',
+  isPost: true,
+  isHome: false,
+  isHighlightShrink: false,
+  isToc: true,
+  postUpdate: '2026-11-04 06:11:42'
+}</script><script>(win=>{
+      win.saveToLocal = {
+        set: (key, value, ttl) => {
+          if (ttl === 0) return
+          const now = Date.now()
+          const expiry = now + ttl * 86400000
+          const item = {
+            value,
+            expiry
+          }
+          localStorage.setItem(key, JSON.stringify(item))
+        },
+      
+        get: key => {
+          const itemStr = localStorage.getItem(key)
+      
+          if (!itemStr) {
+            return undefined
+          }
+          const item = JSON.parse(itemStr)
+          const now = Date.now()
+      
+          if (now > item.expiry) {
+            localStorage.removeItem(key)
+            return undefined
+          }
+          return item.value
+        }
+      }
+    
+      win.getScript = (url, attr = {}) => new Promise((resolve, reject) => {
+        const script = document.createElement('script')
+        script.src = url
+        script.async = true
+        script.onerror = reject
+        script.onload = script.onreadystatechange = function() {
+          const loadState = this.readyState
+          if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+          script.onload = script.onreadystatechange = null
+          resolve()
+        }
+
+        Object.keys(attr).forEach(key => {
+          script.setAttribute(key, attr[key])
+        })
+
+        document.head.appendChild(script)
+      })
+    
+      win.getCSS = (url, id = false) => new Promise((resolve, reject) => {
+        const link = document.createElement('link')
+        link.rel = 'stylesheet'
+        link.href = url
+        if (id) link.id = id
+        link.onerror = reject
+        link.onload = link.onreadystatechange = function() {
+          const loadState = this.readyState
+          if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+          link.onload = link.onreadystatechange = null
+          resolve()
+        }
+        document.head.appendChild(link)
+      })
+    
+      win.activateDarkMode = () => {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      win.activateLightMode = () => {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+        }
+      }
+      const t = saveToLocal.get('theme')
+    
+        if (t === 'dark') activateDarkMode()
+        else if (t === 'light') activateLightMode()
+      
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        if (asideStatus === 'hide') {
+          document.documentElement.classList.add('hide-aside')
+        } else {
+          document.documentElement.classList.remove('hide-aside')
+        }
+      }
+    
+      const detectApple = () => {
+        if(/iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)){
+          document.documentElement.classList.add('apple')
+        }
+      }
+      detectApple()
+    })(window)</script><link rel="icon" type="image/svg+xml" sizes="any" href="/img/brand/favicon.svg"><link rel="apple-touch-icon" sizes="180x180" href="/img/brand/apple-touch-icon.png"><meta name="generator" content="Hexo 7.1.1"></head><body><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img is-center"><img src="/img/brand/avatar.png" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"/></div><div class="sidebar-site-data site-data is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">39</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">15</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">5</div></a></div><hr class="custom-hr"/><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> Home</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> Archives</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> Tags</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> Categories</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> About</span></a></div></div></div></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header"><nav id="nav"><span id="blog-info"><a href="/" title="Lmiracle"><span class="site-name">Lmiracle</span></a></span><div id="menus"><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> Home</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> Archives</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> Tags</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> Categories</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> About</span></a></div></div><div id="toggle-menu"><a class="site-page" href="javascript:void(0);"><i class="fas fa-bars fa-fw"></i></a></div></div></nav><div id="post-info"><h1 class="post-title">无线与路由技术动态 2026-11-04</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2026-11-03T21:00:00.000Z" title="发表于 2026-11-04 06:00:00">2026-11-04</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2026-11-03T21:11:42.210Z" title="更新于 2026-11-04 06:11:42">2026-11-04</time></span><span class="post-meta-categories"><span class="post-meta-separator">|</span><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/%E6%8A%80%E6%9C%AF%E5%8A%A8%E6%80%81/">技术动态</a></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title="无线与路由技术动态 2026-11-04"><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">阅读量:</span><span id="busuanzi_value_page_pv"><i class="fa-solid fa-spinner fa-spin"></i></span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="post-content" id="article-container"><h2 id="本期摘要"><a href="#本期摘要" class="headerlink" title="本期摘要"></a>本期摘要</h2><p>本期 Linux 发行版迎来集中更新（openSUSE Leap 16.1、Fedora 45、Tor Browser 16.0），OpenWrt 社区则围绕 Wi-Fi 7 新硬件支持、LTS 内核实验构建与升级兼容性问题展开讨论；无线侧，6 GHz 频段归属之争与运营商资本开支周期成为焦点。</p>
+<h2 id="Linux-动态"><a href="#Linux-动态" class="headerlink" title="Linux 动态"></a>Linux 动态</h2><h3 id="openSUSE-Leap-16-1-发布"><a href="#openSUSE-Leap-16-1-发布" class="headerlink" title="openSUSE Leap 16.1 发布"></a>openSUSE Leap 16.1 发布</h3><p>openSUSE 项目宣布 openSUSE Leap 16.1 正式发布。该版本既支持传统安装方式，也提供带事务性更新的不可变镜像（immutable images）。此前不可变镜像仅见于 Leap Micro，如今已扩展到所有平台。</p>
+<blockquote>
+<p>🔗 <a target="_blank" rel="noopener" href="https://lwn.net/Articles/1105131/">原文</a></p>
+</blockquote>
+<h3 id="Debian-新包队列引入-LLM-评审引发争论"><a href="#Debian-新包队列引入-LLM-评审引发争论" class="headerlink" title="Debian 新包队列引入 LLM 评审引发争论"></a>Debian 新包队列引入 LLM 评审引发争论</h3><p>Debian 项目在 8 月就 LLM 使用进行全体决议投票，最终选择“负责任地使用生成式 AI”方案。此后 DFSG、许可与新包团队在新包队列中引入 LLM 评审，这一做法在社区内引发讨论。</p>
+<blockquote>
+<p>🔗 <a target="_blank" rel="noopener" href="https://lwn.net/Articles/1103674/">原文</a></p>
+</blockquote>
+<h3 id="Fedora-Linux-45-发布"><a href="#Fedora-Linux-45-发布" class="headerlink" title="Fedora Linux 45 发布"></a>Fedora Linux 45 发布</h3><p>Fedora Linux 45 正式发布，涵盖 Workstation、KDE Plasma Desktop、Server、Cloud、CoreOS、IoT 以及 Atomic Desktops 和 Spins 等全部版本。此次更新新增通过 Anaconda 或 Kickstart 在 Stratis 存储上安装系统的支持。</p>
+<blockquote>
+<p>🔗 <a target="_blank" rel="noopener" href="https://lwn.net/Articles/1105121/">原文</a></p>
+</blockquote>
+<h3 id="Tor-Browser-16-0-发布"><a href="#Tor-Browser-16-0-发布" class="headerlink" title="Tor Browser 16.0 发布"></a>Tor Browser 16.0 发布</h3><p>Tor Browser 16.0 发布，这是首个基于 Firefox ESR 153 的稳定版本。主要变化包括支持 64 位 Arm 架构 Linux、重新设计的设置界面，以及可防止其他应用窥探窗口标题的“通用窗口标题”功能。</p>
+<blockquote>
+<p>🔗 <a target="_blank" rel="noopener" href="https://lwn.net/Articles/1104846/">原文</a></p>
+</blockquote>
+<h3 id="Linux-7-4-内核特性预览"><a href="#Linux-7-4-内核特性预览" class="headerlink" title="Linux 7.4 内核特性预览"></a>Linux 7.4 内核特性预览</h3><p>Phoronix 汇总了 Linux 7.4 的新特性，该版本有望成为今年的 LTS 内核。内容包括 Steam Frame VR 头显支持、更多 AMD Zen 6 平台启用，以及 Apple M4 &#x2F; A18 Pro 的初步支持。</p>
+<blockquote>
+<p>🔗 <a target="_blank" rel="noopener" href="https://www.phoronix.com/review/linux-74-features">原文</a></p>
+</blockquote>
+<h2 id="无线通信动态"><a href="#无线通信动态" class="headerlink" title="无线通信动态"></a>无线通信动态</h2><h3 id="SBA：频谱、AI-与-6G-延长无线投资周期"><a href="#SBA：频谱、AI-与-6G-延长无线投资周期" class="headerlink" title="SBA：频谱、AI 与 6G 延长无线投资周期"></a>SBA：频谱、AI 与 6G 延长无线投资周期</h3><p>SBA 首席执行官 Brendan Cavanagh 表示，美国客户第三季度活动略低于上半年水平，但仍符合预期，运营商持续投入。频谱资源、AI 需求与 6G 演进被视为延长本轮无线投资周期的三大驱动力。</p>
+<blockquote>
+<p>🔗 <a target="_blank" rel="noopener" href="https://rcrwireless.com/20261103/network-infrastructure/towers/sba-spectrum-ai-wireless">原文</a></p>
+</blockquote>
+<h3 id="Virgin-Media-O2-削减成本，光纤收缩与裁员并行"><a href="#Virgin-Media-O2-削减成本，光纤收缩与裁员并行" class="headerlink" title="Virgin Media O2 削减成本，光纤收缩与裁员并行"></a>Virgin Media O2 削减成本，光纤收缩与裁员并行</h3><p>Virgin Media O2 计划到 2029 年实现 8 亿英镑年度成本节约，包括大规模裁员。收入下滑、用户流失与光纤业务经济性不佳，迫使该公司进行战略重置。</p>
+<blockquote>
+<p>🔗 <a target="_blank" rel="noopener" href="https://rcrwireless.com/20261103/carriers/virgin-media-o2-slashes-costs-as-fiber-retreat-and-job-cuts-loom">原文</a></p>
+</blockquote>
+<h3 id="6-GHz-上半段之争：移动阵营的叙事"><a href="#6-GHz-上半段之争：移动阵营的叙事" class="headerlink" title="6 GHz 上半段之争：移动阵营的叙事"></a>6 GHz 上半段之争：移动阵营的叙事</h3><p>GSMA 为 6 GHz 上半段（upper 6 GHz）的移动优先使用权进行论证，称 Wi-Fi 的容量瓶颈在于终端设备升级而非频谱不足。但分析师指出，其基于全城范围的数据仍留下若干未解问题。</p>
+<blockquote>
+<p>🔗 <a target="_blank" rel="noopener" href="https://rcrwireless.com/20261103/analyst-angle/upper-6-ghz-the-mobile-side-of-the-story-analyst-angle">原文</a></p>
+</blockquote>
+<h3 id="SpaceX-或收购-Boost-Mobile"><a href="#SpaceX-或收购-Boost-Mobile" class="headerlink" title="SpaceX 或收购 Boost Mobile"></a>SpaceX 或收购 Boost Mobile</h3><p>据通讯简报消息，SpaceX 正与 EchoStar 洽谈收购 Boost Mobile，此举可能为其提供进入移动市场的 MVNO 路径。该交易若达成，将对美国移动虚拟运营格局产生影响。</p>
+<blockquote>
+<p>🔗 <a target="_blank" rel="noopener" href="https://rcrwireless.com/20261103/network-infrastructure/spacex-to-buy-boost-mobile-telco-diary">原文</a></p>
+</blockquote>
+<h2 id="WiFi-标准-技术"><a href="#WiFi-标准-技术" class="headerlink" title="WiFi 标准 &amp; 技术"></a>WiFi 标准 &amp; 技术</h2><h3 id="802-11s-VXLAN-简易中继配置文档更新"><a href="#802-11s-VXLAN-简易中继配置文档更新" class="headerlink" title="802.11s + VXLAN 简易中继配置文档更新"></a>802.11s + VXLAN 简易中继配置文档更新</h3><p>OpenWrt 文档更新了“802.11s - Simple VXLAN trunk”页面，新增配置步骤与配置文件示例。该方案在 802.11s mesh 之上叠加 VXLAN，用于简化多节点二层互联，目前仍标注为 WIP。</p>
+<blockquote>
+<p>🔗 <a target="_blank" rel="noopener" href="https://openwrt.org/docs/guide-user/network/wifi/mesh/vxlan?rev=1793727303&do=diff">原文</a></p>
+</blockquote>
+<blockquote>
+<p>说明：本期抓取材料中 WiFi 标准与认证类条目有限，其余相关讨论主要出现在 OpenWrt 社区硬件支持帖中，见下节。</p>
+</blockquote>
+<h2 id="芯片-硬件"><a href="#芯片-硬件" class="headerlink" title="芯片 &amp; 硬件"></a>芯片 &amp; 硬件</h2><h3 id="Marvell-收购光子芯片厂商-Lumentum"><a href="#Marvell-收购光子芯片厂商-Lumentum" class="headerlink" title="Marvell 收购光子芯片厂商 Lumentum"></a>Marvell 收购光子芯片厂商 Lumentum</h3><p>Marvell 以 1150 亿美元收购光子芯片公司 Lumentum，目标是打造 AI 连接领域的品类领导者。双方将联合设计面向光模块的网络处理器与激光器，强化 AI 数据中心互联能力。</p>
+<blockquote>
+<p>🔗 <a target="_blank" rel="noopener" href="https://www.eetimes.com/marvell-snaps-photonics-chipmaker-lumentum-to-bolster-ai-connectivity/">原文</a></p>
+</blockquote>
+<h3 id="Ceva-新一代-NeuPro-NPU-扩展-AI-版图"><a href="#Ceva-新一代-NeuPro-NPU-扩展-AI-版图" class="headerlink" title="Ceva 新一代 NeuPro NPU 扩展 AI 版图"></a>Ceva 新一代 NeuPro NPU 扩展 AI 版图</h3><p>Ceva 推出新一代 NeuPro 神经网络处理器产品组合，以统一架构和统一软件环境覆盖传感器、智能设备与云基础设施等场景。该产品于 10 月 28 日发布，意在降低 AI 芯片的设计门槛。</p>
+<blockquote>
+<p>🔗 <a target="_blank" rel="noopener" href="https://semiwiki.com/ip/ceva/375670-cevas-next-neupro-generation-opens-new-possibilities-across-ai/">原文</a></p>
+</blockquote>
+<h3 id="Imagination-CTO-谈图形、计算与-AI-融合"><a href="#Imagination-CTO-谈图形、计算与-AI-融合" class="headerlink" title="Imagination  CTO 谈图形、计算与 AI 融合"></a>Imagination  CTO 谈图形、计算与 AI 融合</h3><p>Imagination Technologies CTO Ed Plowman 接受采访，介绍其技术战略与先进架构研究方向。他重点关注图形、计算与人工智能的融合，以塑造下一代高能效计算架构。</p>
+<blockquote>
+<p>🔗 <a target="_blank" rel="noopener" href="https://semiwiki.com/ip/imagination-technologies/375737-cto-interview-with-ed-plowman-of-imagination-technologies/">原文</a></p>
+</blockquote>
+<h3 id="AI-硬件的隐性成本：订单与产出之间"><a href="#AI-硬件的隐性成本：订单与产出之间" class="headerlink" title="AI 硬件的隐性成本：订单与产出之间"></a>AI 硬件的隐性成本：订单与产出之间</h3><p>文章分析 Alphabet 的 TPU 库存、Intel 的制造权衡以及设备供应商的资产负债表，揭示资本如何在通往可用 AI 算力的路径上逐步积累。订单增长与真实产出之间的时滞，构成 AI 硬件扩张的隐性成本。</p>
+<blockquote>
+<p>🔗 <a target="_blank" rel="noopener" href="https://www.eetimes.com/ai-hardwares-hidden-cost-between-orders-and-output/">原文</a></p>
+</blockquote>
+<h2 id="路由器-OpenWrt"><a href="#路由器-OpenWrt" class="headerlink" title="路由器 &amp; OpenWrt"></a>路由器 &amp; OpenWrt</h2><h3 id="TP-Link-Archer-AX50-v1：LTS-6-12-实验构建"><a href="#TP-Link-Archer-AX50-v1：LTS-6-12-实验构建" class="headerlink" title="TP-Link Archer AX50 v1：LTS 6.12 实验构建"></a>TP-Link Archer AX50 v1：LTS 6.12 实验构建</h3><p>有开发者发布面向 TP-Link Archer AX50 v1 的 OpenWrt 25.12 master 实验构建，基于 LTS 6.12 内核。该构建的驱动基于 TP-Link 提供的 GPL 源码重新实现，但设备官方支持状态仍需注意。</p>
+<blockquote>
+<p>🔗 <a target="_blank" rel="noopener" href="https://forum.openwrt.org/t/wip-tp-link-archer-ax50-v1-lts-kernel-6-12-experimental-build/255163">原文</a></p>
+</blockquote>
+<h3 id="Cudy-WR5000-EU1-0（BE5000-Wi-Fi-7）支持咨询"><a href="#Cudy-WR5000-EU1-0（BE5000-Wi-Fi-7）支持咨询" class="headerlink" title="Cudy WR5000 EU1.0（BE5000 Wi-Fi 7）支持咨询"></a>Cudy WR5000 EU1.0（BE5000 Wi-Fi 7）支持咨询</h3><p>用户询问 Cudy WR5000 硬件版本 EU1.0（BE5000，Wi-Fi 7）是否已获 OpenWrt 上游支持，该型号未出现在硬件表与固件选择器中。帖中征询需要提交哪些信息以推进适配工作。</p>
+<blockquote>
+<p>🔗 <a target="_blank" rel="noopener" href="https://forum.openwrt.org/t/openwrt-support-for-cudy-wr5000-eu1-0-be5000-wi-fi-7/255158">原文</a></p>
+</blockquote>
+<h3 id="ASUS-RT-AC1200G-（BCM47189）非官方移植"><a href="#ASUS-RT-AC1200G-（BCM47189）非官方移植" class="headerlink" title="ASUS RT-AC1200G+（BCM47189）非官方移植"></a>ASUS RT-AC1200G+（BCM47189）非官方移植</h3><p>ASUS RT-AC1200G+ rev A 尚无 OpenWrt 官方支持，但其硬件与 Tenda AC9 接近：同为 BCM47189 SoC、BCM53125 交换芯片与 BCM43217 2.4 GHz 射频。发帖者已在 GitHub 发布基于 OpenWrt 25.12.6 的镜像与构建脚本。</p>
+<blockquote>
+<p>🔗 <a target="_blank" rel="noopener" href="https://forum.openwrt.org/t/asus-rt-ac1200g-bcm47189/255161">原文</a></p>
+</blockquote>
+<h3 id="25-12-6-无法识别-USB-设备"><a href="#25-12-6-无法识别-USB-设备" class="headerlink" title="25.12.6 无法识别 USB 设备"></a>25.12.6 无法识别 USB 设备</h3><p>有用户报告在 Raspberry Pi 5 上升级至 OpenWrt 25.12.6 后，Realtek R8156 网卡不再被识别。经排查，使用 25.12-SNAPSHOT 的 imagebuilder 或固件选择器构建同样异常，而每日快照与旧版本工作正常。</p>
+<blockquote>
+<p>🔗 <a target="_blank" rel="noopener" href="https://forum.openwrt.org/t/25-12-6-not-recognising-usb-devices/255153">原文</a></p>
+</blockquote>
+<h3 id="Netgear-R7800-升级-25-12-6-后-WAN-丢失"><a href="#Netgear-R7800-升级-25-12-6-后-WAN-丢失" class="headerlink" title="Netgear R7800 升级 25.12.6 后 WAN 丢失"></a>Netgear R7800 升级 25.12.6 后 WAN 丢失</h3><p>用户通过 LuCI attended-upgrade 从 25.12.4 升级到 25.12.6 后，设备提示 WAN 缺失、互联网连接中断。此前该机通过 WAN 口以 IPv4 + PPPoE 连接光纤调制解调器，发帖者寻求排查思路。</p>
+<blockquote>
+<p>🔗 <a target="_blank" rel="noopener" href="https://forum.openwrt.org/t/netgear-r7800-update-from-25-12-4-to-25-12-6-wan-lost/255146">原文</a></p>
+</blockquote>
+<h2 id="编辑小结"><a href="#编辑小结" class="headerlink" title="编辑小结"></a>编辑小结</h2><p>本期最值得留意的信号有两个：一是 OpenWrt 25.12.6 接连出现 USB 识别与 WAN 连接回归问题，涉及树莓派与 Netgear 等常见平台，建议生产环境暂缓跨小版本升级、先在小范围验证；二是 Wi-Fi 7 设备（如 Cudy BE5000 级别）进入社区适配咨询阶段，说明新硬件的 OpenWrt 支持正在从旗舰向中端铺开。Linux 侧，Fedora 45 与 openSUSE Leap 16.1 同步强调不可变&#x2F;事务性更新，这一思路未来也可能影响路由固件与边缘设备的系统设计。频谱层面，6 GHz 上半段之争仍在持续，Wi-Fi 阵营需要用终端生态数据回应移动阵营的质疑。</p>
+</article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta"><i class="fas fa-circle-user fa-fw"></i>文章作者: </span><span class="post-copyright-info"><a href="https://linxuew.github.io">linxuew</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta"><i class="fas fa-square-arrow-up-right fa-fw"></i>文章链接: </span><span class="post-copyright-info"><a href="https://linxuew.github.io/2026/11/04/tech-digest/tech-digest-2026-11-04/">https://linxuew.github.io/2026/11/04/tech-digest/tech-digest-2026-11-04/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta"><i class="fas fa-circle-exclamation fa-fw"></i>版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来自 <a href="https://linxuew.github.io" target="_blank">Lmiracle</a>！</span></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/%E6%8A%80%E6%9C%AF%E5%8A%A8%E6%80%81/">技术动态</a></div><div class="post_share"></div></div><nav class="pagination-post" id="pagination"><div class="next-post pull-full"><a href="/2026/11/03/tech-digest/tech-digest-2026-11-03/" title="无线与路由技术动态 2026-11-03"><div class="cover" style="background: var(--default-bg-color)"></div><div class="pagination-info"><div class="label">下一篇</div><div class="next_info">无线与路由技术动态 2026-11-03</div></div></a></div></nav><div class="relatedPosts"><div class="headline"><i class="fas fa-thumbs-up fa-fw"></i><span>相关推荐</span></div><div class="relatedPosts-list"><div><a href="/2026/03/24/tech-digest/tech-digest-2026-03-24/" title="无线与路由技术动态 2026-03-24"><div class="cover" style="background: var(--default-bg-color)"></div><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2026-03-24</div><div class="title">无线与路由技术动态 2026-03-24</div></div></a></div><div><a href="/2026/03/26/tech-digest/tech-digest-2026-03-26/" title="无线与路由技术动态 2026-03-26"><div class="cover" style="background: var(--default-bg-color)"></div><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2026-03-26</div><div class="title">无线与路由技术动态 2026-03-26</div></div></a></div><div><a href="/2026/03/25/tech-digest/tech-digest-2026-03-25/" title="无线与路由技术动态 2026-03-25"><div class="cover" style="background: var(--default-bg-color)"></div><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2026-03-25</div><div class="title">无线与路由技术动态 2026-03-25</div></div></a></div><div><a href="/2026/03/28/tech-digest/tech-digest-2026-03-28/" title="无线与路由技术动态 2026-03-28"><div class="cover" style="background: var(--default-bg-color)"></div><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2026-03-28</div><div class="title">无线与路由技术动态 2026-03-28</div></div></a></div><div><a href="/2026/03/27/tech-digest/tech-digest-2026-03-27/" title="无线与路由技术动态 2026-03-27"><div class="cover" style="background: var(--default-bg-color)"></div><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2026-03-27</div><div class="title">无线与路由技术动态 2026-03-27</div></div></a></div><div><a href="/2026/03/29/tech-digest/tech-digest-2026-03-29/" title="无线与路由技术动态 2026-03-29"><div class="cover" style="background: var(--default-bg-color)"></div><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2026-03-29</div><div class="title">无线与路由技术动态 2026-03-29</div></div></a></div></div></div></div><div class="aside-content" id="aside-content"><div class="card-widget card-info"><div class="is-center"><div class="avatar-img"><img src="/img/brand/avatar.png" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="author-info__name">linxuew</div><div class="author-info__description">低头赶路，莫问前程！</div></div><div class="card-info-data site-data is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">39</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">15</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">5</div></a></div><a id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/linxuew"><i class="fab fa-github"></i><span>GitHub</span></a><div class="card-info-social-icons is-center"><a class="social-icon" href="mailto:linxuew@gmail.com" target="_blank" title="Email"><i class="fas fa-envelope" style="color: #4a7dbe;"></i></a></div></div><div class="card-widget card-announcement"><div class="item-headline"><i class="fas fa-bullhorn fa-shake"></i><span>公告</span></div><div class="announcement_content">This is my Blog</div></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>目录</span><span class="toc-percentage"></span></div><div class="toc-content"><ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%9C%AC%E6%9C%9F%E6%91%98%E8%A6%81"><span class="toc-number">1.</span> <span class="toc-text">本期摘要</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Linux-%E5%8A%A8%E6%80%81"><span class="toc-number">2.</span> <span class="toc-text">Linux 动态</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#openSUSE-Leap-16-1-%E5%8F%91%E5%B8%83"><span class="toc-number">2.1.</span> <span class="toc-text">openSUSE Leap 16.1 发布</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Debian-%E6%96%B0%E5%8C%85%E9%98%9F%E5%88%97%E5%BC%95%E5%85%A5-LLM-%E8%AF%84%E5%AE%A1%E5%BC%95%E5%8F%91%E4%BA%89%E8%AE%BA"><span class="toc-number">2.2.</span> <span class="toc-text">Debian 新包队列引入 LLM 评审引发争论</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Fedora-Linux-45-%E5%8F%91%E5%B8%83"><span class="toc-number">2.3.</span> <span class="toc-text">Fedora Linux 45 发布</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Tor-Browser-16-0-%E5%8F%91%E5%B8%83"><span class="toc-number">2.4.</span> <span class="toc-text">Tor Browser 16.0 发布</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Linux-7-4-%E5%86%85%E6%A0%B8%E7%89%B9%E6%80%A7%E9%A2%84%E8%A7%88"><span class="toc-number">2.5.</span> <span class="toc-text">Linux 7.4 内核特性预览</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%97%A0%E7%BA%BF%E9%80%9A%E4%BF%A1%E5%8A%A8%E6%80%81"><span class="toc-number">3.</span> <span class="toc-text">无线通信动态</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#SBA%EF%BC%9A%E9%A2%91%E8%B0%B1%E3%80%81AI-%E4%B8%8E-6G-%E5%BB%B6%E9%95%BF%E6%97%A0%E7%BA%BF%E6%8A%95%E8%B5%84%E5%91%A8%E6%9C%9F"><span class="toc-number">3.1.</span> <span class="toc-text">SBA：频谱、AI 与 6G 延长无线投资周期</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Virgin-Media-O2-%E5%89%8A%E5%87%8F%E6%88%90%E6%9C%AC%EF%BC%8C%E5%85%89%E7%BA%A4%E6%94%B6%E7%BC%A9%E4%B8%8E%E8%A3%81%E5%91%98%E5%B9%B6%E8%A1%8C"><span class="toc-number">3.2.</span> <span class="toc-text">Virgin Media O2 削减成本，光纤收缩与裁员并行</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#6-GHz-%E4%B8%8A%E5%8D%8A%E6%AE%B5%E4%B9%8B%E4%BA%89%EF%BC%9A%E7%A7%BB%E5%8A%A8%E9%98%B5%E8%90%A5%E7%9A%84%E5%8F%99%E4%BA%8B"><span class="toc-number">3.3.</span> <span class="toc-text">6 GHz 上半段之争：移动阵营的叙事</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#SpaceX-%E6%88%96%E6%94%B6%E8%B4%AD-Boost-Mobile"><span class="toc-number">3.4.</span> <span class="toc-text">SpaceX 或收购 Boost Mobile</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#WiFi-%E6%A0%87%E5%87%86-%E6%8A%80%E6%9C%AF"><span class="toc-number">4.</span> <span class="toc-text">WiFi 标准 &amp; 技术</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#802-11s-VXLAN-%E7%AE%80%E6%98%93%E4%B8%AD%E7%BB%A7%E9%85%8D%E7%BD%AE%E6%96%87%E6%A1%A3%E6%9B%B4%E6%96%B0"><span class="toc-number">4.1.</span> <span class="toc-text">802.11s + VXLAN 简易中继配置文档更新</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%8A%AF%E7%89%87-%E7%A1%AC%E4%BB%B6"><span class="toc-number">5.</span> <span class="toc-text">芯片 &amp; 硬件</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Marvell-%E6%94%B6%E8%B4%AD%E5%85%89%E5%AD%90%E8%8A%AF%E7%89%87%E5%8E%82%E5%95%86-Lumentum"><span class="toc-number">5.1.</span> <span class="toc-text">Marvell 收购光子芯片厂商 Lumentum</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Ceva-%E6%96%B0%E4%B8%80%E4%BB%A3-NeuPro-NPU-%E6%89%A9%E5%B1%95-AI-%E7%89%88%E5%9B%BE"><span class="toc-number">5.2.</span> <span class="toc-text">Ceva 新一代 NeuPro NPU 扩展 AI 版图</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Imagination-CTO-%E8%B0%88%E5%9B%BE%E5%BD%A2%E3%80%81%E8%AE%A1%E7%AE%97%E4%B8%8E-AI-%E8%9E%8D%E5%90%88"><span class="toc-number">5.3.</span> <span class="toc-text">Imagination  CTO 谈图形、计算与 AI 融合</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#AI-%E7%A1%AC%E4%BB%B6%E7%9A%84%E9%9A%90%E6%80%A7%E6%88%90%E6%9C%AC%EF%BC%9A%E8%AE%A2%E5%8D%95%E4%B8%8E%E4%BA%A7%E5%87%BA%E4%B9%8B%E9%97%B4"><span class="toc-number">5.4.</span> <span class="toc-text">AI 硬件的隐性成本：订单与产出之间</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%B7%AF%E7%94%B1%E5%99%A8-OpenWrt"><span class="toc-number">6.</span> <span class="toc-text">路由器 &amp; OpenWrt</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#TP-Link-Archer-AX50-v1%EF%BC%9ALTS-6-12-%E5%AE%9E%E9%AA%8C%E6%9E%84%E5%BB%BA"><span class="toc-number">6.1.</span> <span class="toc-text">TP-Link Archer AX50 v1：LTS 6.12 实验构建</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Cudy-WR5000-EU1-0%EF%BC%88BE5000-Wi-Fi-7%EF%BC%89%E6%94%AF%E6%8C%81%E5%92%A8%E8%AF%A2"><span class="toc-number">6.2.</span> <span class="toc-text">Cudy WR5000 EU1.0（BE5000 Wi-Fi 7）支持咨询</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#ASUS-RT-AC1200G-%EF%BC%88BCM47189%EF%BC%89%E9%9D%9E%E5%AE%98%E6%96%B9%E7%A7%BB%E6%A4%8D"><span class="toc-number">6.3.</span> <span class="toc-text">ASUS RT-AC1200G+（BCM47189）非官方移植</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#25-12-6-%E6%97%A0%E6%B3%95%E8%AF%86%E5%88%AB-USB-%E8%AE%BE%E5%A4%87"><span class="toc-number">6.4.</span> <span class="toc-text">25.12.6 无法识别 USB 设备</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Netgear-R7800-%E5%8D%87%E7%BA%A7-25-12-6-%E5%90%8E-WAN-%E4%B8%A2%E5%A4%B1"><span class="toc-number">6.5.</span> <span class="toc-text">Netgear R7800 升级 25.12.6 后 WAN 丢失</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%BC%96%E8%BE%91%E5%B0%8F%E7%BB%93"><span class="toc-number">7.</span> <span class="toc-text">编辑小结</span></a></li></ol></div></div><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>最新文章</span></div><div class="aside-list"><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2026/11/04/tech-digest/tech-digest-2026-11-04/" title="无线与路由技术动态 2026-11-04">无线与路由技术动态 2026-11-04</a><time datetime="2026-11-03T21:00:00.000Z" title="发表于 2026-11-04 06:00:00">2026-11-04</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2026/11/03/tech-digest/tech-digest-2026-11-03/" title="无线与路由技术动态 2026-11-03">无线与路由技术动态 2026-11-03</a><time datetime="2026-11-02T21:00:00.000Z" title="发表于 2026-11-03 06:00:00">2026-11-03</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2026/11/02/tech-digest/tech-digest-2026-11-02/" title="无线与路由技术动态 2026-11-02">无线与路由技术动态 2026-11-02</a><time datetime="2026-11-01T21:00:00.000Z" title="发表于 2026-11-02 06:00:00">2026-11-02</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2026/11/01/tech-digest/tech-digest-2026-11-01/" title="无线与路由技术动态 2026-11-01">无线与路由技术动态 2026-11-01</a><time datetime="2026-10-31T21:00:00.000Z" title="发表于 2026-11-01 06:00:00">2026-11-01</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2026/10/31/tech-digest/tech-digest-2026-10-31/" title="无线与路由技术动态 2026-10-31">无线与路由技术动态 2026-10-31</a><time datetime="2026-10-30T21:00:00.000Z" title="发表于 2026-10-31 06:00:00">2026-10-31</time></div></div></div></div></div></div></main><footer id="footer"><div id="footer-wrap"><div class="copyright">&copy;2024 - 2026 By linxuew</div><div class="framework-info"><span>框架 </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo</a><span class="footer-separator">|</span><span>主题 </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly</a></div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="darkmode" type="button" title="浅色和深色模式转换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside-config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="目录"><i class="fas fa-list-ul"></i></button><button id="go-up" type="button" title="回到顶部"><span class="scroll-percent"></span><i class="fas fa-arrow-up"></i></button></div></div><div><script src="/js/utils.js?v=4.13.0"></script><script src="/js/main.js?v=4.13.0"></script><script src="https://cdn.jsdelivr.net/npm/@fancyapps/ui@5.0.33/dist/fancybox/fancybox.umd.min.js"></script><div class="js-pjax"></div><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script></div></body></html>
