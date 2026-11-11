@@ -1,0 +1,234 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0,viewport-fit=cover"><title>无线与路由技术动态 2026-11-12 | Lmiracle</title><meta name="author" content="linxuew"><meta name="copyright" content="linxuew"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="本期摘要OpenWrt 社区围绕多网段路由、iPhone USB 网络共享的 CPU 需求与 GCC 工具链升级展开讨论，并出现一款面向游戏的 QoS-Ex 套件；芯片侧聚焦物理 AI、STM32 平台整合与 NVLink Fusion 主权 AI 合作。 Linux 动态Zellij 0.46 发布，新增桌面终端模式终端工作区工具 Zellij 发布 0.46 版本，最大新增能力是可直接作为桌面">
+<meta property="og:type" content="article">
+<meta property="og:title" content="无线与路由技术动态 2026-11-12">
+<meta property="og:url" content="https://linxuew.github.io/2026/11/12/tech-digest/tech-digest-2026-11-12/index.html">
+<meta property="og:site_name" content="Lmiracle">
+<meta property="og:description" content="本期摘要OpenWrt 社区围绕多网段路由、iPhone USB 网络共享的 CPU 需求与 GCC 工具链升级展开讨论，并出现一款面向游戏的 QoS-Ex 套件；芯片侧聚焦物理 AI、STM32 平台整合与 NVLink Fusion 主权 AI 合作。 Linux 动态Zellij 0.46 发布，新增桌面终端模式终端工作区工具 Zellij 发布 0.46 版本，最大新增能力是可直接作为桌面">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://linxuew.github.io/img/brand/avatar.png">
+<meta property="article:published_time" content="2026-11-11T21:00:00.000Z">
+<meta property="article:modified_time" content="2026-11-11T21:11:35.296Z">
+<meta property="article:author" content="linxuew">
+<meta property="article:tag" content="技术动态">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://linxuew.github.io/img/brand/avatar.png"><link rel="shortcut icon" href="/img/brand/favicon.ico"><link rel="canonical" href="https://linxuew.github.io/2026/11/12/tech-digest/tech-digest-2026-11-12/index.html"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css?v=4.13.0"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.5.1/css/all.min.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/ui@5.0.33/dist/fancybox/fancybox.min.css" media="print" onload="this.media='all'"><script>const GLOBAL_CONFIG = {
+  root: '/',
+  algolia: undefined,
+  localSearch: undefined,
+  translate: undefined,
+  noticeOutdate: undefined,
+  highlight: {"plugin":"highlight.js","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":false},
+  copy: {
+    success: '复制成功',
+    error: '复制错误',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '',
+  dateSuffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: undefined,
+  lightbox: 'fancybox',
+  Snackbar: undefined,
+  infinitegrid: {
+    js: 'https://cdn.jsdelivr.net/npm/@egjs/infinitegrid@4.11.1/dist/infinitegrid.min.js',
+    buttonText: '加载更多'
+  },
+  isPhotoFigcaption: false,
+  islazyload: false,
+  isAnchor: false,
+  percent: {
+    toc: true,
+    rightside: true,
+  },
+  autoDarkmode: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: '无线与路由技术动态 2026-11-12',
+  isPost: true,
+  isHome: false,
+  isHighlightShrink: false,
+  isToc: true,
+  postUpdate: '2026-11-12 06:11:35'
+}</script><script>(win=>{
+      win.saveToLocal = {
+        set: (key, value, ttl) => {
+          if (ttl === 0) return
+          const now = Date.now()
+          const expiry = now + ttl * 86400000
+          const item = {
+            value,
+            expiry
+          }
+          localStorage.setItem(key, JSON.stringify(item))
+        },
+      
+        get: key => {
+          const itemStr = localStorage.getItem(key)
+      
+          if (!itemStr) {
+            return undefined
+          }
+          const item = JSON.parse(itemStr)
+          const now = Date.now()
+      
+          if (now > item.expiry) {
+            localStorage.removeItem(key)
+            return undefined
+          }
+          return item.value
+        }
+      }
+    
+      win.getScript = (url, attr = {}) => new Promise((resolve, reject) => {
+        const script = document.createElement('script')
+        script.src = url
+        script.async = true
+        script.onerror = reject
+        script.onload = script.onreadystatechange = function() {
+          const loadState = this.readyState
+          if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+          script.onload = script.onreadystatechange = null
+          resolve()
+        }
+
+        Object.keys(attr).forEach(key => {
+          script.setAttribute(key, attr[key])
+        })
+
+        document.head.appendChild(script)
+      })
+    
+      win.getCSS = (url, id = false) => new Promise((resolve, reject) => {
+        const link = document.createElement('link')
+        link.rel = 'stylesheet'
+        link.href = url
+        if (id) link.id = id
+        link.onerror = reject
+        link.onload = link.onreadystatechange = function() {
+          const loadState = this.readyState
+          if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+          link.onload = link.onreadystatechange = null
+          resolve()
+        }
+        document.head.appendChild(link)
+      })
+    
+      win.activateDarkMode = () => {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      win.activateLightMode = () => {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+        }
+      }
+      const t = saveToLocal.get('theme')
+    
+        if (t === 'dark') activateDarkMode()
+        else if (t === 'light') activateLightMode()
+      
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        if (asideStatus === 'hide') {
+          document.documentElement.classList.add('hide-aside')
+        } else {
+          document.documentElement.classList.remove('hide-aside')
+        }
+      }
+    
+      const detectApple = () => {
+        if(/iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)){
+          document.documentElement.classList.add('apple')
+        }
+      }
+      detectApple()
+    })(window)</script><link rel="icon" type="image/svg+xml" sizes="any" href="/img/brand/favicon.svg"><link rel="apple-touch-icon" sizes="180x180" href="/img/brand/apple-touch-icon.png"><meta name="generator" content="Hexo 7.1.1"></head><body><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img is-center"><img src="/img/brand/avatar.png" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"/></div><div class="sidebar-site-data site-data is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">47</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">15</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">5</div></a></div><hr class="custom-hr"/><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> Home</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> Archives</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> Tags</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> Categories</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> About</span></a></div></div></div></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header"><nav id="nav"><span id="blog-info"><a href="/" title="Lmiracle"><span class="site-name">Lmiracle</span></a></span><div id="menus"><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> Home</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> Archives</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> Tags</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> Categories</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> About</span></a></div></div><div id="toggle-menu"><a class="site-page" href="javascript:void(0);"><i class="fas fa-bars fa-fw"></i></a></div></div></nav><div id="post-info"><h1 class="post-title">无线与路由技术动态 2026-11-12</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2026-11-11T21:00:00.000Z" title="发表于 2026-11-12 06:00:00">2026-11-12</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2026-11-11T21:11:35.296Z" title="更新于 2026-11-12 06:11:35">2026-11-12</time></span><span class="post-meta-categories"><span class="post-meta-separator">|</span><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/%E6%8A%80%E6%9C%AF%E5%8A%A8%E6%80%81/">技术动态</a></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title="无线与路由技术动态 2026-11-12"><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">阅读量:</span><span id="busuanzi_value_page_pv"><i class="fa-solid fa-spinner fa-spin"></i></span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="post-content" id="article-container"><h2 id="本期摘要"><a href="#本期摘要" class="headerlink" title="本期摘要"></a>本期摘要</h2><p>OpenWrt 社区围绕多网段路由、iPhone USB 网络共享的 CPU 需求与 GCC 工具链升级展开讨论，并出现一款面向游戏的 QoS-Ex 套件；芯片侧聚焦物理 AI、STM32 平台整合与 NVLink Fusion 主权 AI 合作。</p>
+<h2 id="Linux-动态"><a href="#Linux-动态" class="headerlink" title="Linux 动态"></a>Linux 动态</h2><h3 id="Zellij-0-46-发布，新增桌面终端模式"><a href="#Zellij-0-46-发布，新增桌面终端模式" class="headerlink" title="Zellij 0.46 发布，新增桌面终端模式"></a>Zellij 0.46 发布，新增桌面终端模式</h3><p>终端工作区工具 Zellij 发布 0.46 版本，最大新增能力是可直接作为桌面终端运行（<code>zellij terminal</code>），覆盖 Linux、macOS 与 Windows。原有 multiplexer 用法保持不变，仍可嵌套在其他终端内。</p>
+<blockquote>
+<p>🔗 <a target="_blank" rel="noopener" href="https://lwn.net/Articles/1106903/">原文</a></p>
+</blockquote>
+<h3 id="悼念-Tim-Peters（1952–2026）"><a href="#悼念-Tim-Peters（1952–2026）" class="headerlink" title="悼念 Tim Peters（1952–2026）"></a>悼念 Tim Peters（1952–2026）</h3><p>Guido van Rossum 转达了 Tim Peters 去世的消息。他是《Python 之禅》（PEP 20）的作者，更早之前便作为导师与语言共同设计者深度参与 Python 演进。</p>
+<blockquote>
+<p>🔗 <a target="_blank" rel="noopener" href="https://lwn.net/Articles/1106901/">原文</a></p>
+</blockquote>
+<h3 id="glibc-动态链接器追加加固措施"><a href="#glibc-动态链接器追加加固措施" class="headerlink" title="glibc 动态链接器追加加固措施"></a>glibc 动态链接器追加加固措施</h3><p>文章以 Node.js 的 Brotli 解码器缓冲区溢出漏洞为引，讨论官方 Linux 二进制的构建方式如何影响缓冲区溢出转化为远程代码执行的可能性，并提出对 glibc 动态链接器的进一步加固思路。</p>
+<blockquote>
+<p>🔗 <a target="_blank" rel="noopener" href="https://lwn.net/Articles/1105134/">原文</a></p>
+</blockquote>
+<h3 id="Intel-持续推进-GPU-D-系列“Crescent-Island”驱动支持"><a href="#Intel-持续推进-GPU-D-系列“Crescent-Island”驱动支持" class="headerlink" title="Intel 持续推进 GPU D 系列“Crescent Island”驱动支持"></a>Intel 持续推进 GPU D 系列“Crescent Island”驱动支持</h3><p>面向 Linux 7.5 内核，Intel 继续完善基于 Xe3P 架构的 GPU D 系列（Crescent Island）AI 加速器驱动支持，相关内核活动频繁。该硬件定位为面向推理场景的加速卡。</p>
+<blockquote>
+<p>🔗 <a target="_blank" rel="noopener" href="https://www.phoronix.com/news/More-Intel-D-Series-Linux-7.5">原文</a></p>
+</blockquote>
+<h2 id="无线通信动态"><a href="#无线通信动态" class="headerlink" title="无线通信动态"></a>无线通信动态</h2><h3 id="Nvidia、Rebellions-与-SK-Telecom-签署-NVLink-Fusion-主权-AI-合作备忘录"><a href="#Nvidia、Rebellions-与-SK-Telecom-签署-NVLink-Fusion-主权-AI-合作备忘录" class="headerlink" title="Nvidia、Rebellions 与 SK Telecom 签署 NVLink Fusion 主权 AI 合作备忘录"></a>Nvidia、Rebellions 与 SK Telecom 签署 NVLink Fusion 主权 AI 合作备忘录</h3><p>三方 MOU 计划将 Nvidia GPU 与 Rebellions NPU 组合，服务于韩国的主权推理基础设施。合作以 NVLink Fusion 为互联基础，体现各国推动本地化 AI 算力栈的趋势。</p>
+<blockquote>
+<p>🔗 <a target="_blank" rel="noopener" href="https://rcrwireless.com/20261111/ai/nvlink-fusion-sovereign-ai-korea">原文</a></p>
+</blockquote>
+<h3 id="欧洲-MDU-连接机会背后的房东格局"><a href="#欧洲-MDU-连接机会背后的房东格局" class="headerlink" title="欧洲 MDU 连接机会背后的房东格局"></a>欧洲 MDU 连接机会背后的房东格局</h3><p>研究指出，欧洲最大的 680 万套多住户住宅（MDU）主要由社会性与公共房东持有，而非私人投资者。这一所有权结构对光纤等宽带接入的部署策略具有直接影响。</p>
+<blockquote>
+<p>🔗 <a target="_blank" rel="noopener" href="https://rcrwireless.com/20261111/analyst-angle/the-landlords-behind-europes-mdu-connectivity-opportunity-analyst-angle">原文</a></p>
+</blockquote>
+<h3 id="5G、固定无线与-6G：Inseego-CEO-谈全球连接未来"><a href="#5G、固定无线与-6G：Inseego-CEO-谈全球连接未来" class="headerlink" title="5G、固定无线与 6G：Inseego CEO 谈全球连接未来"></a>5G、固定无线与 6G：Inseego CEO 谈全球连接未来</h3><p>播客访谈中，Inseego CEO Juho Sarvikas 回顾其在 Nokia、HMD Global 与 Qualcomm 的经历，并分享对 5G、固定无线接入（FWA）与 6G 演进路径的判断。</p>
+<blockquote>
+<p>🔗 <a target="_blank" rel="noopener" href="https://rcrwireless.com/20261111/podcast/5g-fixed-wireless-6g-the-future-of-global-connectivity-with-juho-sarvikas-of-inseego">原文</a></p>
+</blockquote>
+<h3 id="移动行业如何将电子废弃物转化为循环经济机会"><a href="#移动行业如何将电子废弃物转化为循环经济机会" class="headerlink" title="移动行业如何将电子废弃物转化为循环经济机会"></a>移动行业如何将电子废弃物转化为循环经济机会</h3><p>GSMA 赞助内容讨论移动连接在推动社会与经济增长的同时，如何通过回收与循环设计应对电子废弃物问题，并将其转化为产业机会。</p>
+<blockquote>
+<p>🔗 <a target="_blank" rel="noopener" href="https://rcrwireless.com/20261111/sponsored/e-waste-circularity-gsma">原文</a></p>
+</blockquote>
+<h2 id="WiFi-标准-技术"><a href="#WiFi-标准-技术" class="headerlink" title="WiFi 标准 &amp; 技术"></a>WiFi 标准 &amp; 技术</h2><h3 id="Grok-Build-编码代理泄露大量机密信息"><a href="#Grok-Build-编码代理泄露大量机密信息" class="headerlink" title="Grok Build 编码代理泄露大量机密信息"></a>Grok Build 编码代理泄露大量机密信息</h3><p>研究者发现约 3.5 万个 Grok Build 应用处于对任何人开放的状态，泄露内容包含部分属于 SpaceX 的机密信息。该事件与 WiFi 标准无直接关联，但涉及终端与云端服务的安全边界，值得关注。</p>
+<blockquote>
+<p>🔗 <a target="_blank" rel="noopener" href="https://arstechnica.com/security/2026/11/grok-build-coding-agent-leaks-oodles-of-confidential-info-some-belonging-to-spacexsi/">原文</a></p>
+</blockquote>
+<h2 id="芯片-硬件"><a href="#芯片-硬件" class="headerlink" title="芯片 &amp; 硬件"></a>芯片 &amp; 硬件</h2><h3 id="NXP-CTO-Lars-Reger-谈物理-AI、机器人、无人机与信任"><a href="#NXP-CTO-Lars-Reger-谈物理-AI、机器人、无人机与信任" class="headerlink" title="NXP CTO Lars Reger 谈物理 AI、机器人、无人机与信任"></a>NXP CTO Lars Reger 谈物理 AI、机器人、无人机与信任</h3><p>访谈探讨 NXP 对“物理 AI”的理解如何超越人形机器人，涵盖 NavQ95 机器人套件、边缘信任与安全，以及地缘政治对半导体供应的影响。</p>
+<blockquote>
+<p>🔗 <a target="_blank" rel="noopener" href="https://www.eetimes.com/nxp-cto-lars-reger-on-physical-ai-robots-drones-and-trust/">原文</a></p>
+</blockquote>
+<h3 id="STMicro-的-Maria-Heriz-谈将所有-MCU-统一到-STM32-平台"><a href="#STMicro-的-Maria-Heriz-谈将所有-MCU-统一到-STM32-平台" class="headerlink" title="STMicro 的 Maria Heriz 谈将所有 MCU 统一到 STM32 平台"></a>STMicro 的 Maria Heriz 谈将所有 MCU 统一到 STM32 平台</h3><p>STMicro 正推动 MCU 产品线向单一 STM32 平台整合，同时为欧盟网络安全法规做准备，并评估 RISC-V、AI agent 与机器人等方向。</p>
+<blockquote>
+<p>🔗 <a target="_blank" rel="noopener" href="https://www.eetimes.com/stmicros-maria-heriz-on-moving-all-its-mcus-to-one-stm32-platform/">原文</a></p>
+</blockquote>
+<h3 id="NVHBM：定制-HBM-会改变存储堆栈的建造者吗"><a href="#NVHBM：定制-HBM-会改变存储堆栈的建造者吗" class="headerlink" title="NVHBM：定制 HBM 会改变存储堆栈的建造者吗"></a>NVHBM：定制 HBM 会改变存储堆栈的建造者吗</h3><p>据 Seoul Economic Daily 10 月 18 日报道，Nvidia 的 NVHBM 可能不仅改变 HBM 与 AI 加速器的连接方式，还会重塑设计、制造与验证高带宽存储的产业分工。</p>
+<blockquote>
+<p>🔗 <a target="_blank" rel="noopener" href="https://semiwiki.com/semiconductor-manufacturers/376093-nvhbm-can-custom-hbm-change-who-builds-the-memory-stack/">原文</a></p>
+</blockquote>
+<h3 id="Credo-在-OCP-2026：微发射器光学与-AI-互连可靠性"><a href="#Credo-在-OCP-2026：微发射器光学与-AI-互连可靠性" class="headerlink" title="Credo 在 OCP 2026：微发射器光学与 AI 互连可靠性"></a>Credo 在 OCP 2026：微发射器光学与 AI 互连可靠性</h3><p>Credo 的 Don Barnetson 介绍 micro-emitter 光学方案与 1.6T ZeroFlap ALC，强调其在 AI 集群互连中提升可靠性的作用。</p>
+<blockquote>
+<p>🔗 <a target="_blank" rel="noopener" href="https://www.eetimes.com/credo-at-ocp-2026-micro-emitter-optics-and-ai-interconnect-reliability/">原文</a></p>
+</blockquote>
+<h3 id="视频处理为何对下一代机器人至关重要"><a href="#视频处理为何对下一代机器人至关重要" class="headerlink" title="视频处理为何对下一代机器人至关重要"></a>视频处理为何对下一代机器人至关重要</h3><p>Mobilint 已量产集成 Chips&amp;Media 视频编解码技术的边缘 AI 芯片，面向人形机器人等应用——多摄像头产生的视频数据量对编码与处理能力提出更高要求。</p>
+<blockquote>
+<p>🔗 <a target="_blank" rel="noopener" href="https://semiwiki.com/ip/chipsmedia/375958-why-video-processing-matters-for-the-next-generation-of-robots/">原文</a></p>
+</blockquote>
+<h2 id="路由器-OpenWrt"><a href="#路由器-OpenWrt" class="headerlink" title="路由器 &amp; OpenWrt"></a>路由器 &amp; OpenWrt</h2><h3 id="两个家庭网段的-IPv4-路由入门问题"><a href="#两个家庭网段的-IPv4-路由入门问题" class="headerlink" title="两个家庭网段的 IPv4 路由入门问题"></a>两个家庭网段的 IPv4 路由入门问题</h3><p>用户以 Fritzbox（192.168.1.1）为主路由，接 UGreen NAS（192.168.1.2，跑 Jellyfin 与 Minimserver 容器），另在客厅使用 CUDY X6 路由，询问跨网段访问的正确路由配置。属于典型的双 NAT&#x2F;多子网排障场景。</p>
+<blockquote>
+<p>🔗 <a target="_blank" rel="noopener" href="https://forum.openwrt.org/t/elementary-ipv4-routing-question-about-2-home-nets/255402">原文</a></p>
+</blockquote>
+<h3 id="QoS-Ex：面向游戏的-QoS-与游戏服务器-Ping-过滤器（OpenWrt-24-10-25-12）"><a href="#QoS-Ex：面向游戏的-QoS-与游戏服务器-Ping-过滤器（OpenWrt-24-10-25-12）" class="headerlink" title="QoS-Ex：面向游戏的 QoS 与游戏服务器 Ping 过滤器（OpenWrt 24.10 &#x2F; 25.12）"></a>QoS-Ex：面向游戏的 QoS 与游戏服务器 Ping 过滤器（OpenWrt 24.10 &#x2F; 25.12）</h3><p>QoS-Ex 是面向 OpenWrt 24.10 与 25.12 的游戏 QoS 套件，包含整形器（默认 CAKE）、可选的游戏服务器过滤器与 LuCI 应用，支持一键配置。项目在 GitHub 开源并提供最新 release。</p>
+<blockquote>
+<p>🔗 <a target="_blank" rel="noopener" href="https://forum.openwrt.org/t/qos-ex-gaming-qos-and-a-game-server-ping-filter-for-openwrt-24-10-25-12-luci-app/255400">原文</a></p>
+</blockquote>
+<h3 id="iPhone-USB-网络共享的-CPU-需求"><a href="#iPhone-USB-网络共享的-CPU-需求" class="headerlink" title="iPhone USB 网络共享的 CPU 需求"></a>iPhone USB 网络共享的 CPU 需求</h3><p>用户将旧 iPhone 通过 USB 接到 GL.iNet Mango，希望以约 60 Mbit&#x2F;s 共享蜂窝网络给局域网，询问需要何种级别的设备才不成为瓶颈。对低端 ARM 路由器的 USB 网络共享吞吐能力具有参考价值。</p>
+<blockquote>
+<p>🔗 <a target="_blank" rel="noopener" href="https://forum.openwrt.org/t/cpu-requirements-for-iphone-tethering/255397">原文</a></p>
+</blockquote>
+<h3 id="是否应在固件选择器中这样配置-WiFi"><a href="#是否应在固件选择器中这样配置-WiFi" class="headerlink" title="是否应在固件选择器中这样配置 WiFi"></a>是否应在固件选择器中这样配置 WiFi</h3><p>用户贴出一段 UCI 脚本，设置 radio0 与 default_radio0 启用、SSID、<code>sae+ccmp</code> 加密、密码与随机 MAC，询问是否可在 Firmware Selector 中以此预置 WiFi。涉及首次启动即生效的无线配置方式。</p>
+<blockquote>
+<p>🔗 <a target="_blank" rel="noopener" href="https://forum.openwrt.org/t/is-this-how-to-set-up-wifi-in-the-firmware-selector/255393">原文</a></p>
+</blockquote>
+<h3 id="GCC-更新至-14-4-0-的讨论"><a href="#GCC-更新至-14-4-0-的讨论" class="headerlink" title="GCC 更新至 14.4.0 的讨论"></a>GCC 更新至 14.4.0 的讨论</h3><p>GCC 14.3.0 存在 SVE 相关问题，已在 14.4.0 修复。社区询问 OpenWrt 25.12 是否有计划跟进升级工具链，关系到 ARM 平台编译与优化表现。</p>
+<blockquote>
+<p>🔗 <a target="_blank" rel="noopener" href="https://forum.openwrt.org/t/gcc-update-14-4-0/255395">原文</a></p>
+</blockquote>
+<h2 id="编辑小结"><a href="#编辑小结" class="headerlink" title="编辑小结"></a>编辑小结</h2><p>本期 OpenWrt 社区的热点集中在“可用性”而非新硬件：多子网路由、USB 网络共享性能、无线配置预置与工具链版本，都是部署与维护中的真实痛点，QoS-Ex 这类围绕 CAKE 的垂直场景套件值得关注。芯片侧的关键词是物理 AI 与平台整合，NXP、STMicro 与 Nvidia 的动作都指向边缘推理与本地化算力。对路由器读者而言，若计划在 25.12 上使用新工具链，建议先跟进 GCC 14.4.0 的合入进度再决定编译策略。</p>
+</article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta"><i class="fas fa-circle-user fa-fw"></i>文章作者: </span><span class="post-copyright-info"><a href="https://linxuew.github.io">linxuew</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta"><i class="fas fa-square-arrow-up-right fa-fw"></i>文章链接: </span><span class="post-copyright-info"><a href="https://linxuew.github.io/2026/11/12/tech-digest/tech-digest-2026-11-12/">https://linxuew.github.io/2026/11/12/tech-digest/tech-digest-2026-11-12/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta"><i class="fas fa-circle-exclamation fa-fw"></i>版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来自 <a href="https://linxuew.github.io" target="_blank">Lmiracle</a>！</span></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/%E6%8A%80%E6%9C%AF%E5%8A%A8%E6%80%81/">技术动态</a></div><div class="post_share"></div></div><nav class="pagination-post" id="pagination"><div class="next-post pull-full"><a href="/2026/11/11/tech-digest/tech-digest-2026-11-11/" title="无线与路由技术动态 2026-11-11"><div class="cover" style="background: var(--default-bg-color)"></div><div class="pagination-info"><div class="label">下一篇</div><div class="next_info">无线与路由技术动态 2026-11-11</div></div></a></div></nav><div class="relatedPosts"><div class="headline"><i class="fas fa-thumbs-up fa-fw"></i><span>相关推荐</span></div><div class="relatedPosts-list"><div><a href="/2026/03/24/tech-digest/tech-digest-2026-03-24/" title="无线与路由技术动态 2026-03-24"><div class="cover" style="background: var(--default-bg-color)"></div><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2026-03-24</div><div class="title">无线与路由技术动态 2026-03-24</div></div></a></div><div><a href="/2026/03/25/tech-digest/tech-digest-2026-03-25/" title="无线与路由技术动态 2026-03-25"><div class="cover" style="background: var(--default-bg-color)"></div><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2026-03-25</div><div class="title">无线与路由技术动态 2026-03-25</div></div></a></div><div><a href="/2026/03/26/tech-digest/tech-digest-2026-03-26/" title="无线与路由技术动态 2026-03-26"><div class="cover" style="background: var(--default-bg-color)"></div><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2026-03-26</div><div class="title">无线与路由技术动态 2026-03-26</div></div></a></div><div><a href="/2026/03/27/tech-digest/tech-digest-2026-03-27/" title="无线与路由技术动态 2026-03-27"><div class="cover" style="background: var(--default-bg-color)"></div><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2026-03-27</div><div class="title">无线与路由技术动态 2026-03-27</div></div></a></div><div><a href="/2026/03/28/tech-digest/tech-digest-2026-03-28/" title="无线与路由技术动态 2026-03-28"><div class="cover" style="background: var(--default-bg-color)"></div><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2026-03-28</div><div class="title">无线与路由技术动态 2026-03-28</div></div></a></div><div><a href="/2026/03/29/tech-digest/tech-digest-2026-03-29/" title="无线与路由技术动态 2026-03-29"><div class="cover" style="background: var(--default-bg-color)"></div><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2026-03-29</div><div class="title">无线与路由技术动态 2026-03-29</div></div></a></div></div></div></div><div class="aside-content" id="aside-content"><div class="card-widget card-info"><div class="is-center"><div class="avatar-img"><img src="/img/brand/avatar.png" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="author-info__name">linxuew</div><div class="author-info__description">低头赶路，莫问前程！</div></div><div class="card-info-data site-data is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">47</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">15</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">5</div></a></div><a id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/linxuew"><i class="fab fa-github"></i><span>GitHub</span></a><div class="card-info-social-icons is-center"><a class="social-icon" href="mailto:linxuew@gmail.com" target="_blank" title="Email"><i class="fas fa-envelope" style="color: #4a7dbe;"></i></a></div></div><div class="card-widget card-announcement"><div class="item-headline"><i class="fas fa-bullhorn fa-shake"></i><span>公告</span></div><div class="announcement_content">This is my Blog</div></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>目录</span><span class="toc-percentage"></span></div><div class="toc-content"><ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%9C%AC%E6%9C%9F%E6%91%98%E8%A6%81"><span class="toc-number">1.</span> <span class="toc-text">本期摘要</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Linux-%E5%8A%A8%E6%80%81"><span class="toc-number">2.</span> <span class="toc-text">Linux 动态</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Zellij-0-46-%E5%8F%91%E5%B8%83%EF%BC%8C%E6%96%B0%E5%A2%9E%E6%A1%8C%E9%9D%A2%E7%BB%88%E7%AB%AF%E6%A8%A1%E5%BC%8F"><span class="toc-number">2.1.</span> <span class="toc-text">Zellij 0.46 发布，新增桌面终端模式</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%82%BC%E5%BF%B5-Tim-Peters%EF%BC%881952%E2%80%932026%EF%BC%89"><span class="toc-number">2.2.</span> <span class="toc-text">悼念 Tim Peters（1952–2026）</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#glibc-%E5%8A%A8%E6%80%81%E9%93%BE%E6%8E%A5%E5%99%A8%E8%BF%BD%E5%8A%A0%E5%8A%A0%E5%9B%BA%E6%8E%AA%E6%96%BD"><span class="toc-number">2.3.</span> <span class="toc-text">glibc 动态链接器追加加固措施</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Intel-%E6%8C%81%E7%BB%AD%E6%8E%A8%E8%BF%9B-GPU-D-%E7%B3%BB%E5%88%97%E2%80%9CCrescent-Island%E2%80%9D%E9%A9%B1%E5%8A%A8%E6%94%AF%E6%8C%81"><span class="toc-number">2.4.</span> <span class="toc-text">Intel 持续推进 GPU D 系列“Crescent Island”驱动支持</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%97%A0%E7%BA%BF%E9%80%9A%E4%BF%A1%E5%8A%A8%E6%80%81"><span class="toc-number">3.</span> <span class="toc-text">无线通信动态</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Nvidia%E3%80%81Rebellions-%E4%B8%8E-SK-Telecom-%E7%AD%BE%E7%BD%B2-NVLink-Fusion-%E4%B8%BB%E6%9D%83-AI-%E5%90%88%E4%BD%9C%E5%A4%87%E5%BF%98%E5%BD%95"><span class="toc-number">3.1.</span> <span class="toc-text">Nvidia、Rebellions 与 SK Telecom 签署 NVLink Fusion 主权 AI 合作备忘录</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%AC%A7%E6%B4%B2-MDU-%E8%BF%9E%E6%8E%A5%E6%9C%BA%E4%BC%9A%E8%83%8C%E5%90%8E%E7%9A%84%E6%88%BF%E4%B8%9C%E6%A0%BC%E5%B1%80"><span class="toc-number">3.2.</span> <span class="toc-text">欧洲 MDU 连接机会背后的房东格局</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#5G%E3%80%81%E5%9B%BA%E5%AE%9A%E6%97%A0%E7%BA%BF%E4%B8%8E-6G%EF%BC%9AInseego-CEO-%E8%B0%88%E5%85%A8%E7%90%83%E8%BF%9E%E6%8E%A5%E6%9C%AA%E6%9D%A5"><span class="toc-number">3.3.</span> <span class="toc-text">5G、固定无线与 6G：Inseego CEO 谈全球连接未来</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%A7%BB%E5%8A%A8%E8%A1%8C%E4%B8%9A%E5%A6%82%E4%BD%95%E5%B0%86%E7%94%B5%E5%AD%90%E5%BA%9F%E5%BC%83%E7%89%A9%E8%BD%AC%E5%8C%96%E4%B8%BA%E5%BE%AA%E7%8E%AF%E7%BB%8F%E6%B5%8E%E6%9C%BA%E4%BC%9A"><span class="toc-number">3.4.</span> <span class="toc-text">移动行业如何将电子废弃物转化为循环经济机会</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#WiFi-%E6%A0%87%E5%87%86-%E6%8A%80%E6%9C%AF"><span class="toc-number">4.</span> <span class="toc-text">WiFi 标准 &amp; 技术</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Grok-Build-%E7%BC%96%E7%A0%81%E4%BB%A3%E7%90%86%E6%B3%84%E9%9C%B2%E5%A4%A7%E9%87%8F%E6%9C%BA%E5%AF%86%E4%BF%A1%E6%81%AF"><span class="toc-number">4.1.</span> <span class="toc-text">Grok Build 编码代理泄露大量机密信息</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%8A%AF%E7%89%87-%E7%A1%AC%E4%BB%B6"><span class="toc-number">5.</span> <span class="toc-text">芯片 &amp; 硬件</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#NXP-CTO-Lars-Reger-%E8%B0%88%E7%89%A9%E7%90%86-AI%E3%80%81%E6%9C%BA%E5%99%A8%E4%BA%BA%E3%80%81%E6%97%A0%E4%BA%BA%E6%9C%BA%E4%B8%8E%E4%BF%A1%E4%BB%BB"><span class="toc-number">5.1.</span> <span class="toc-text">NXP CTO Lars Reger 谈物理 AI、机器人、无人机与信任</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#STMicro-%E7%9A%84-Maria-Heriz-%E8%B0%88%E5%B0%86%E6%89%80%E6%9C%89-MCU-%E7%BB%9F%E4%B8%80%E5%88%B0-STM32-%E5%B9%B3%E5%8F%B0"><span class="toc-number">5.2.</span> <span class="toc-text">STMicro 的 Maria Heriz 谈将所有 MCU 统一到 STM32 平台</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#NVHBM%EF%BC%9A%E5%AE%9A%E5%88%B6-HBM-%E4%BC%9A%E6%94%B9%E5%8F%98%E5%AD%98%E5%82%A8%E5%A0%86%E6%A0%88%E7%9A%84%E5%BB%BA%E9%80%A0%E8%80%85%E5%90%97"><span class="toc-number">5.3.</span> <span class="toc-text">NVHBM：定制 HBM 会改变存储堆栈的建造者吗</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Credo-%E5%9C%A8-OCP-2026%EF%BC%9A%E5%BE%AE%E5%8F%91%E5%B0%84%E5%99%A8%E5%85%89%E5%AD%A6%E4%B8%8E-AI-%E4%BA%92%E8%BF%9E%E5%8F%AF%E9%9D%A0%E6%80%A7"><span class="toc-number">5.4.</span> <span class="toc-text">Credo 在 OCP 2026：微发射器光学与 AI 互连可靠性</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%A7%86%E9%A2%91%E5%A4%84%E7%90%86%E4%B8%BA%E4%BD%95%E5%AF%B9%E4%B8%8B%E4%B8%80%E4%BB%A3%E6%9C%BA%E5%99%A8%E4%BA%BA%E8%87%B3%E5%85%B3%E9%87%8D%E8%A6%81"><span class="toc-number">5.5.</span> <span class="toc-text">视频处理为何对下一代机器人至关重要</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%B7%AF%E7%94%B1%E5%99%A8-OpenWrt"><span class="toc-number">6.</span> <span class="toc-text">路由器 &amp; OpenWrt</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%B8%A4%E4%B8%AA%E5%AE%B6%E5%BA%AD%E7%BD%91%E6%AE%B5%E7%9A%84-IPv4-%E8%B7%AF%E7%94%B1%E5%85%A5%E9%97%A8%E9%97%AE%E9%A2%98"><span class="toc-number">6.1.</span> <span class="toc-text">两个家庭网段的 IPv4 路由入门问题</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#QoS-Ex%EF%BC%9A%E9%9D%A2%E5%90%91%E6%B8%B8%E6%88%8F%E7%9A%84-QoS-%E4%B8%8E%E6%B8%B8%E6%88%8F%E6%9C%8D%E5%8A%A1%E5%99%A8-Ping-%E8%BF%87%E6%BB%A4%E5%99%A8%EF%BC%88OpenWrt-24-10-25-12%EF%BC%89"><span class="toc-number">6.2.</span> <span class="toc-text">QoS-Ex：面向游戏的 QoS 与游戏服务器 Ping 过滤器（OpenWrt 24.10 &#x2F; 25.12）</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#iPhone-USB-%E7%BD%91%E7%BB%9C%E5%85%B1%E4%BA%AB%E7%9A%84-CPU-%E9%9C%80%E6%B1%82"><span class="toc-number">6.3.</span> <span class="toc-text">iPhone USB 网络共享的 CPU 需求</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%98%AF%E5%90%A6%E5%BA%94%E5%9C%A8%E5%9B%BA%E4%BB%B6%E9%80%89%E6%8B%A9%E5%99%A8%E4%B8%AD%E8%BF%99%E6%A0%B7%E9%85%8D%E7%BD%AE-WiFi"><span class="toc-number">6.4.</span> <span class="toc-text">是否应在固件选择器中这样配置 WiFi</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#GCC-%E6%9B%B4%E6%96%B0%E8%87%B3-14-4-0-%E7%9A%84%E8%AE%A8%E8%AE%BA"><span class="toc-number">6.5.</span> <span class="toc-text">GCC 更新至 14.4.0 的讨论</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%BC%96%E8%BE%91%E5%B0%8F%E7%BB%93"><span class="toc-number">7.</span> <span class="toc-text">编辑小结</span></a></li></ol></div></div><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>最新文章</span></div><div class="aside-list"><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2026/11/12/tech-digest/tech-digest-2026-11-12/" title="无线与路由技术动态 2026-11-12">无线与路由技术动态 2026-11-12</a><time datetime="2026-11-11T21:00:00.000Z" title="发表于 2026-11-12 06:00:00">2026-11-12</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2026/11/11/tech-digest/tech-digest-2026-11-11/" title="无线与路由技术动态 2026-11-11">无线与路由技术动态 2026-11-11</a><time datetime="2026-11-10T21:00:00.000Z" title="发表于 2026-11-11 06:00:00">2026-11-11</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2026/11/10/tech-digest/tech-digest-2026-11-10/" title="无线与路由技术动态 2026-11-10">无线与路由技术动态 2026-11-10</a><time datetime="2026-11-09T21:00:00.000Z" title="发表于 2026-11-10 06:00:00">2026-11-10</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2026/11/09/tech-digest/tech-digest-2026-11-09/" title="无线与路由技术动态 2026-11-09">无线与路由技术动态 2026-11-09</a><time datetime="2026-11-08T21:00:00.000Z" title="发表于 2026-11-09 06:00:00">2026-11-09</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2026/11/08/tech-digest/tech-digest-2026-11-08/" title="无线与路由技术动态 2026-11-08">无线与路由技术动态 2026-11-08</a><time datetime="2026-11-07T21:00:00.000Z" title="发表于 2026-11-08 06:00:00">2026-11-08</time></div></div></div></div></div></div></main><footer id="footer"><div id="footer-wrap"><div class="copyright">&copy;2024 - 2026 By linxuew</div><div class="framework-info"><span>框架 </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo</a><span class="footer-separator">|</span><span>主题 </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly</a></div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="darkmode" type="button" title="浅色和深色模式转换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside-config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="目录"><i class="fas fa-list-ul"></i></button><button id="go-up" type="button" title="回到顶部"><span class="scroll-percent"></span><i class="fas fa-arrow-up"></i></button></div></div><div><script src="/js/utils.js?v=4.13.0"></script><script src="/js/main.js?v=4.13.0"></script><script src="https://cdn.jsdelivr.net/npm/@fancyapps/ui@5.0.33/dist/fancybox/fancybox.umd.min.js"></script><div class="js-pjax"></div><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script></div></body></html>
