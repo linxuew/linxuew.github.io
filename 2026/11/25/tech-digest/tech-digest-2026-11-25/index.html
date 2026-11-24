@@ -1,0 +1,246 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0,viewport-fit=cover"><title>无线与路由技术动态 2026-11-25 | Lmiracle</title><meta name="author" content="linxuew"><meta name="copyright" content="linxuew"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="本期摘要本期焦点集中在 OpenWrt 社区：b43-next 开源 Broadcom 驱动进入重开发阶段，ARM32 旧程序在 ARM64 filogic 平台的兼容问题引发讨论，同时多款设备（Cudy M1800 v2、Arcadyan 5G CPE）的硬件数据页更新。无线侧则有 Wi-Fi 8 与 AI-Native Wireless 的行业研讨，以及 Nokia 重申 AI-RAN 频谱效">
+<meta property="og:type" content="article">
+<meta property="og:title" content="无线与路由技术动态 2026-11-25">
+<meta property="og:url" content="https://linxuew.github.io/2026/11/25/tech-digest/tech-digest-2026-11-25/index.html">
+<meta property="og:site_name" content="Lmiracle">
+<meta property="og:description" content="本期摘要本期焦点集中在 OpenWrt 社区：b43-next 开源 Broadcom 驱动进入重开发阶段，ARM32 旧程序在 ARM64 filogic 平台的兼容问题引发讨论，同时多款设备（Cudy M1800 v2、Arcadyan 5G CPE）的硬件数据页更新。无线侧则有 Wi-Fi 8 与 AI-Native Wireless 的行业研讨，以及 Nokia 重申 AI-RAN 频谱效">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://linxuew.github.io/img/brand/avatar.png">
+<meta property="article:published_time" content="2026-11-24T21:00:00.000Z">
+<meta property="article:modified_time" content="2026-11-24T21:11:39.403Z">
+<meta property="article:author" content="linxuew">
+<meta property="article:tag" content="技术动态">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://linxuew.github.io/img/brand/avatar.png"><link rel="shortcut icon" href="/img/brand/favicon.ico"><link rel="canonical" href="https://linxuew.github.io/2026/11/25/tech-digest/tech-digest-2026-11-25/index.html"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css?v=4.13.0"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.5.1/css/all.min.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/ui@5.0.33/dist/fancybox/fancybox.min.css" media="print" onload="this.media='all'"><script>const GLOBAL_CONFIG = {
+  root: '/',
+  algolia: undefined,
+  localSearch: undefined,
+  translate: undefined,
+  noticeOutdate: undefined,
+  highlight: {"plugin":"highlight.js","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":false},
+  copy: {
+    success: '复制成功',
+    error: '复制错误',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '',
+  dateSuffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: undefined,
+  lightbox: 'fancybox',
+  Snackbar: undefined,
+  infinitegrid: {
+    js: 'https://cdn.jsdelivr.net/npm/@egjs/infinitegrid@4.11.1/dist/infinitegrid.min.js',
+    buttonText: '加载更多'
+  },
+  isPhotoFigcaption: false,
+  islazyload: false,
+  isAnchor: false,
+  percent: {
+    toc: true,
+    rightside: true,
+  },
+  autoDarkmode: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: '无线与路由技术动态 2026-11-25',
+  isPost: true,
+  isHome: false,
+  isHighlightShrink: false,
+  isToc: true,
+  postUpdate: '2026-11-25 06:11:39'
+}</script><script>(win=>{
+      win.saveToLocal = {
+        set: (key, value, ttl) => {
+          if (ttl === 0) return
+          const now = Date.now()
+          const expiry = now + ttl * 86400000
+          const item = {
+            value,
+            expiry
+          }
+          localStorage.setItem(key, JSON.stringify(item))
+        },
+      
+        get: key => {
+          const itemStr = localStorage.getItem(key)
+      
+          if (!itemStr) {
+            return undefined
+          }
+          const item = JSON.parse(itemStr)
+          const now = Date.now()
+      
+          if (now > item.expiry) {
+            localStorage.removeItem(key)
+            return undefined
+          }
+          return item.value
+        }
+      }
+    
+      win.getScript = (url, attr = {}) => new Promise((resolve, reject) => {
+        const script = document.createElement('script')
+        script.src = url
+        script.async = true
+        script.onerror = reject
+        script.onload = script.onreadystatechange = function() {
+          const loadState = this.readyState
+          if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+          script.onload = script.onreadystatechange = null
+          resolve()
+        }
+
+        Object.keys(attr).forEach(key => {
+          script.setAttribute(key, attr[key])
+        })
+
+        document.head.appendChild(script)
+      })
+    
+      win.getCSS = (url, id = false) => new Promise((resolve, reject) => {
+        const link = document.createElement('link')
+        link.rel = 'stylesheet'
+        link.href = url
+        if (id) link.id = id
+        link.onerror = reject
+        link.onload = link.onreadystatechange = function() {
+          const loadState = this.readyState
+          if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+          link.onload = link.onreadystatechange = null
+          resolve()
+        }
+        document.head.appendChild(link)
+      })
+    
+      win.activateDarkMode = () => {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      win.activateLightMode = () => {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+        }
+      }
+      const t = saveToLocal.get('theme')
+    
+        if (t === 'dark') activateDarkMode()
+        else if (t === 'light') activateLightMode()
+      
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        if (asideStatus === 'hide') {
+          document.documentElement.classList.add('hide-aside')
+        } else {
+          document.documentElement.classList.remove('hide-aside')
+        }
+      }
+    
+      const detectApple = () => {
+        if(/iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)){
+          document.documentElement.classList.add('apple')
+        }
+      }
+      detectApple()
+    })(window)</script><link rel="icon" type="image/svg+xml" sizes="any" href="/img/brand/favicon.svg"><link rel="apple-touch-icon" sizes="180x180" href="/img/brand/apple-touch-icon.png"><meta name="generator" content="Hexo 7.1.1"></head><body><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img is-center"><img src="/img/brand/avatar.png" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"/></div><div class="sidebar-site-data site-data is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">60</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">15</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">5</div></a></div><hr class="custom-hr"/><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> Home</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> Archives</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> Tags</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> Categories</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> About</span></a></div></div></div></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header"><nav id="nav"><span id="blog-info"><a href="/" title="Lmiracle"><span class="site-name">Lmiracle</span></a></span><div id="menus"><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> Home</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> Archives</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> Tags</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> Categories</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> About</span></a></div></div><div id="toggle-menu"><a class="site-page" href="javascript:void(0);"><i class="fas fa-bars fa-fw"></i></a></div></div></nav><div id="post-info"><h1 class="post-title">无线与路由技术动态 2026-11-25</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2026-11-24T21:00:00.000Z" title="发表于 2026-11-25 06:00:00">2026-11-25</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2026-11-24T21:11:39.403Z" title="更新于 2026-11-25 06:11:39">2026-11-25</time></span><span class="post-meta-categories"><span class="post-meta-separator">|</span><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/%E6%8A%80%E6%9C%AF%E5%8A%A8%E6%80%81/">技术动态</a></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title="无线与路由技术动态 2026-11-25"><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">阅读量:</span><span id="busuanzi_value_page_pv"><i class="fa-solid fa-spinner fa-spin"></i></span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="post-content" id="article-container"><h2 id="本期摘要"><a href="#本期摘要" class="headerlink" title="本期摘要"></a>本期摘要</h2><p>本期焦点集中在 OpenWrt 社区：b43-next 开源 Broadcom 驱动进入重开发阶段，ARM32 旧程序在 ARM64 filogic 平台的兼容问题引发讨论，同时多款设备（Cudy M1800 v2、Arcadyan 5G CPE）的硬件数据页更新。无线侧则有 Wi-Fi 8 与 AI-Native Wireless 的行业研讨，以及 Nokia 重申 AI-RAN 频谱效率目标。</p>
+<h2 id="Linux-动态"><a href="#Linux-动态" class="headerlink" title="Linux 动态"></a>Linux 动态</h2><h3 id="Firefox-161-0-发布"><a href="#Firefox-161-0-发布" class="headerlink" title="Firefox 161.0 发布"></a>Firefox 161.0 发布</h3><p>Firefox 161.0 正式发布，新增为”复制当前标签页 URL”分配快捷键的能力，加入 Tab Groups 菜单项，并允许按站点单独开启或关闭内置 VPN。该版本还包含多项安全修复。对路由器用户而言，Firefox 的 DoH 与代理行为变化值得留意。</p>
+<blockquote>
+<p>🔗 <a target="_blank" rel="noopener" href="https://lwn.net/Articles/1109478/">原文</a></p>
+</blockquote>
+<h3 id="周二安全更新汇总"><a href="#周二安全更新汇总" class="headerlink" title="周二安全更新汇总"></a>周二安全更新汇总</h3><p>AlmaLinux 发布了一批安全更新，覆盖 curl、kernel、kernel-rt、openssh、php 系列、nodejs26、grafana 等组件。其中 kernel 与网络栈相关包（如 libpcap）的修复对路由与网关设备维护有参考价值，建议运维人员对照清单核查。</p>
+<blockquote>
+<p>🔗 <a target="_blank" rel="noopener" href="https://lwn.net/Articles/1109472/">原文</a></p>
+</blockquote>
+<h3 id="周一安全更新汇总"><a href="#周一安全更新汇总" class="headerlink" title="周一安全更新汇总"></a>周一安全更新汇总</h3><p>AlmaLinux 周一更新涉及 buildah、cifs-utils、curl、expat、kernel、libpcap 等。连续两日均有 kernel 与网络基础库更新，说明近期上游安全修复较为集中，自建 OpenWrt 编译环境的读者可关注对应 CVE 是否波及自己的软件包版本。</p>
+<blockquote>
+<p>🔗 <a target="_blank" rel="noopener" href="https://lwn.net/Articles/1109268/">原文</a></p>
+</blockquote>
+<h3 id="Linus-Torvalds-就-EXT4-大型-AI-生成补丁发声"><a href="#Linus-Torvalds-就-EXT4-大型-AI-生成补丁发声" class="headerlink" title="Linus Torvalds 就 EXT4 大型 AI 生成补丁发声"></a>Linus Torvalds 就 EXT4 大型 AI 生成补丁发声</h3><p>一份面向 Linux 7.4-rc5 的 EXT4 拉取请求包含超过 4.1 万行新代码，以”修复”名义提交，其中大量是用于验证 AI 生成补丁的 KUnit 测试覆盖。Torvalds 对此公开表达不满，要求”让你的 AI 助手端正态度”。这反映出 AI 辅助开发在 mainline 流程中的边界争议。</p>
+<blockquote>
+<p>🔗 <a target="_blank" rel="noopener" href="https://www.phoronix.com/news/Linus-Torvalds-EXT4-AI-Big">原文</a></p>
+</blockquote>
+<h2 id="无线通信动态"><a href="#无线通信动态" class="headerlink" title="无线通信动态"></a>无线通信动态</h2><h3 id="eRedCap-与-eSIM-推动传统-IoT-走向-AI-就绪运营"><a href="#eRedCap-与-eSIM-推动传统-IoT-走向-AI-就绪运营" class="headerlink" title="eRedCap 与 eSIM 推动传统 IoT 走向 AI 就绪运营"></a>eRedCap 与 eSIM 推动传统 IoT 走向 AI 就绪运营</h3><p>文章讨论 eRedCap、eSIM 与分层安全如何按应用匹配连接方案，认为 IoT 市场正进入新一轮连接技术过渡期。对低功耗广域场景而言，RedCap 精简版本与 eSIM 远程配置的组合值得关注。</p>
+<blockquote>
+<p>🔗 <a target="_blank" rel="noopener" href="https://rcrwireless.com/20261124/ai/eredcap-esim-legacy-iot-ai-ready">原文</a></p>
+</blockquote>
+<h3 id="提升-6G-数字孪生保真度"><a href="#提升-6G-数字孪生保真度" class="headerlink" title="提升 6G 数字孪生保真度"></a>提升 6G 数字孪生保真度</h3><p>读者论坛文章指出，6G 数字孪生需融合实时网络遥测、3D 空间数据与现场测量，并引入生成式 AI 场景，才能为自治网络管理提供更真实的测试环境。这对未来无线系统仿真方法论提出了更高要求。</p>
+<blockquote>
+<p>🔗 <a target="_blank" rel="noopener" href="https://rcrwireless.com/20261124/reader-forum/improving-digital-twin-fidelity-for-6g-development-reader-forum">原文</a></p>
+</blockquote>
+<h3 id="Nokia-重申-AI-RAN-目标：2028-年实现-100-频谱效率提升"><a href="#Nokia-重申-AI-RAN-目标：2028-年实现-100-频谱效率提升" class="headerlink" title="Nokia 重申 AI-RAN 目标：2028 年实现 100% 频谱效率提升"></a>Nokia 重申 AI-RAN 目标：2028 年实现 100% 频谱效率提升</h3><p>Nokia CFO 在摩根士丹利会议上表示，公司已与两家客户完成商用现场概念验证，目标是在 2028 年实现频谱效率翻倍。AI-RAN 正从概念走向运营商现网验证阶段。</p>
+<blockquote>
+<p>🔗 <a target="_blank" rel="noopener" href="https://rcrwireless.com/20261124/network-infrastructure/nokia-ai-ran">原文</a></p>
+</blockquote>
+<h3 id="中立主机无线：企业买单，商业模式生变"><a href="#中立主机无线：企业买单，商业模式生变" class="headerlink" title="中立主机无线：企业买单，商业模式生变"></a>中立主机无线：企业买单，商业模式生变</h3><p>随着移动运营商 increasingly 让企业承担室内覆盖成本，中立主机供应商以更灵活的基础设施回应，融合公共蜂窝、私有 5G 与 IoT。室内覆盖的投资主体正在从运营商向物业与企业转移。</p>
+<blockquote>
+<p>🔗 <a target="_blank" rel="noopener" href="https://rcrwireless.com/20261124/private-5g/neutral-host-wireless-enterprises-pick-up-the-bill-as-the-business-case-shifts">原文</a></p>
+</blockquote>
+<h3 id="Vodafone-与-AST-达成-NTN-研发协议，中国加码工业-5G"><a href="#Vodafone-与-AST-达成-NTN-研发协议，中国加码工业-5G" class="headerlink" title="Vodafone 与 AST 达成 NTN 研发协议，中国加码工业 5G"></a>Vodafone 与 AST 达成 NTN 研发协议，中国加码工业 5G</h3><p>Vodafone 与 AST SpaceMobile 将在西班牙开发集成卫星-5G 服务，面向工业安全与灾害响应；同期中国在工业私有 5G 上持续加码。非地面网络（NTN）与地面网络的融合进入实操阶段。</p>
+<blockquote>
+<p>🔗 <a target="_blank" rel="noopener" href="https://rcrwireless.com/20261124/opinion/vdf-ast-strike-ntn-rd-deal-china-goes-big-on-industrial-p5g-telco-diary">原文</a></p>
+</blockquote>
+<h2 id="WiFi-标准-技术"><a href="#WiFi-标准-技术" class="headerlink" title="WiFi 标准 &amp; 技术"></a>WiFi 标准 &amp; 技术</h2><h3 id="网络研讨会：Wi-Fi-8-与-AI-原生无线的崛起"><a href="#网络研讨会：Wi-Fi-8-与-AI-原生无线的崛起" class="headerlink" title="网络研讨会：Wi-Fi 8 与 AI 原生无线的崛起"></a>网络研讨会：Wi-Fi 8 与 AI 原生无线的崛起</h3><p>随着企业采用 AI 驱动应用，无线基础设施需超越传统速度与容量指标。Wi-Fi 8 计划提供超高可靠性与更低时延，研讨会将探讨 AI 原生无线对架构的新要求。这是观察 802.11bn 走向的重要窗口。</p>
+<blockquote>
+<p>🔗 <a target="_blank" rel="noopener" href="https://pages.rcrtech.com/webinar-wi-fi-8-and-the-rise-of-ai-native-wireless?utm_campaign=RCR%20Newsletter&utm_source=hs_email&utm_medium=email&_hsenc=p2ANqtz-_X5LjmTFSuWtz1_Y3VdLyLX64U4N8WhjB9lA7EUL26KQ6yk4c0uctJ7JBTOo0yj3HYgNl2">原文</a></p>
+</blockquote>
+<h3 id="亚马逊称黑客-AI-Agent-以极少人工干预发现并利用-0-day"><a href="#亚马逊称黑客-AI-Agent-以极少人工干预发现并利用-0-day" class="headerlink" title="亚马逊称黑客 AI Agent 以极少人工干预发现并利用 0-day"></a>亚马逊称黑客 AI Agent 以极少人工干预发现并利用 0-day</h3><p>亚马逊披露其 Cairn AI 框架同时被攻防双方利用。对 WiFi 与路由器固件安全而言，AI 自动化漏洞挖掘将加快 0-day 被发现的速度，固件维护者的响应窗口可能进一步缩短。</p>
+<blockquote>
+<p>🔗 <a target="_blank" rel="noopener" href="https://arstechnica.com/security/2026/11/amazon-says-hackers-ai-agents-found-and-exploited-0-day-with-little-human-input/">原文</a></p>
+</blockquote>
+<h3 id="研究者向-AI-供应链植入-200-万个”金丝雀”，隐私灾难浮现"><a href="#研究者向-AI-供应链植入-200-万个”金丝雀”，隐私灾难浮现" class="headerlink" title="研究者向 AI 供应链植入 200 万个”金丝雀”，隐私灾难浮现"></a>研究者向 AI 供应链植入 200 万个”金丝雀”，隐私灾难浮现</h3><p>通过带有唯一可追踪密钥的提示词测试，研究者证明数据在 AI 供应链中难以保持私密。对将 AI 能力引入网络设备管理的厂商而言，数据流向与合规边界需重新评估。</p>
+<blockquote>
+<p>🔗 <a target="_blank" rel="noopener" href="https://arstechnica.com/security/2026/11/a-leaky-ai-supply-chain-is-exposing-secret-user-data-at-an-alarming-rate/">原文</a></p>
+</blockquote>
+<h2 id="芯片-硬件"><a href="#芯片-硬件" class="headerlink" title="芯片 &amp; 硬件"></a>芯片 &amp; 硬件</h2><h3 id="Moores-Lab-AI-基准计划：衡量-AI-能否真正验证芯片"><a href="#Moores-Lab-AI-基准计划：衡量-AI-能否真正验证芯片" class="headerlink" title="Moores Lab AI 基准计划：衡量 AI 能否真正验证芯片"></a>Moores Lab AI 基准计划：衡量 AI 能否真正验证芯片</h3><p>AI 工具能快速生成硬件代码，但更难的问题是能否证明设计行为正确。该基准计划将关注点从生成代码的体量转向验证结果，对芯片设计流程中的 AI 采用具有导向意义。</p>
+<blockquote>
+<p>🔗 <a target="_blank" rel="noopener" href="https://semiwiki.com/eda/moores-lab-ai/375754-moores-lab-ais-benchmark-push-measuring-whether-ai-can-actually-verify-chips/">原文</a></p>
+</blockquote>
+<h3 id="西门子收购-Breker-对下一代-AI-芯片的意义"><a href="#西门子收购-Breker-对下一代-AI-芯片的意义" class="headerlink" title="西门子收购 Breker 对下一代 AI 芯片的意义"></a>西门子收购 Breker 对下一代 AI 芯片的意义</h3><p>芯片各组件单独测试通过，仍可能在协同工作时出问题——处理器、内存控制器与加速器同时忙碌并切换功耗状态时，缺陷才会暴露。此类系统级验证需求正推动 EDA 厂商整合验证资产。</p>
+<blockquote>
+<p>🔗 <a target="_blank" rel="noopener" href="https://semiwiki.com/eda/376542-why-siemens-breker-deal-matters-for-the-next-generation-of-ai-chips/">原文</a></p>
+</blockquote>
+<h3 id="为何峰值-FLOPS-不是推理硬件的正确标尺"><a href="#为何峰值-FLOPS-不是推理硬件的正确标尺" class="headerlink" title="为何峰值 FLOPS 不是推理硬件的正确标尺"></a>为何峰值 FLOPS 不是推理硬件的正确标尺</h3><p>过去十年业界以峰值 FLOPS 排名 AI 处理器，这在训练为主的时代合理；但 AI 经济性转向推理后，推理并非训练的轻量版，峰值算力与实际吞吐、能效的错配愈发明显。</p>
+<blockquote>
+<p>🔗 <a target="_blank" rel="noopener" href="https://semiwiki.com/semiconductor-manufacturers/vsora/376702-why-peak-flops-is-the-wrong-yardstick-for-inference-hardware/">原文</a></p>
+</blockquote>
+<h3 id="边缘-AI-与机器人：从精准农业到自主农业"><a href="#边缘-AI-与机器人：从精准农业到自主农业" class="headerlink" title="边缘 AI 与机器人：从精准农业到自主农业"></a>边缘 AI 与机器人：从精准农业到自主农业</h3><p>边缘 AI 与机器人正为农业机械带来更高精度与自主性，从靶向喷洒到收割。这类场景对无线连接的可靠性与时延提出要求，也构成 WiFi&#x2F;5G 在垂直行业的落地样本。</p>
+<blockquote>
+<p>🔗 <a target="_blank" rel="noopener" href="https://www.eetimes.com/from-precision-to-autonomous-agriculture-the-role-of-edge-ai-and-robotics/">原文</a></p>
+</blockquote>
+<h2 id="路由器-OpenWrt"><a href="#路由器-OpenWrt" class="headerlink" title="路由器 &amp; OpenWrt"></a>路由器 &amp; OpenWrt</h2><h3 id="b43-页面新增-b43-next-驱动信息"><a href="#b43-页面新增-b43-next-驱动信息" class="headerlink" title="b43 页面新增 b43-next 驱动信息"></a>b43 页面新增 b43-next 驱动信息</h3><p>OpenWrt 文档更新，补充了仍处于重度开发阶段的开源 Broadcom WiFi 驱动 b43-next 的说明，并链接到论坛讨论。对仍在使用 Broadcom 老平台的路由器用户，这是值得持续跟踪的替代方案。</p>
+<blockquote>
+<p>🔗 <a target="_blank" rel="noopener" href="https://openwrt.org/docs/techref/driver.wlan/b43?rev=1795528220&do=diff">原文</a></p>
+</blockquote>
+<h3 id="在现代-ARM64（filogic）上运行旧-ARM32-ELF-可执行文件"><a href="#在现代-ARM64（filogic）上运行旧-ARM32-ELF-可执行文件" class="headerlink" title="在现代 ARM64（filogic）上运行旧 ARM32 ELF 可执行文件"></a>在现代 ARM64（filogic）上运行旧 ARM32 ELF 可执行文件</h3><p>论坛用户询问在 filogic 平台运行修改版 udpxy（ARM32 ELF）的最小代价方案，涉及是否需自建 32 位环境、以及官方构建是否启用 CONFIG_COMPAT。这是 ARM32 向 ARM64 迁移中的典型兼容性问题。</p>
+<blockquote>
+<p>🔗 <a target="_blank" rel="noopener" href="https://forum.openwrt.org/t/running-an-old-arm32-elf-executable-on-a-modern-arm64-filogic/255765">原文</a></p>
+</blockquote>
+<h3 id="Cudy-M1800-v2-页面更新闪存版本警告"><a href="#Cudy-M1800-v2-页面更新闪存版本警告" class="headerlink" title="Cudy M1800 v2 页面更新闪存版本警告"></a>Cudy M1800 v2 页面更新闪存版本警告</h3><p>文档修改了关于硬件版本与 OpenWrt 支持闪存容量的警告：仅支持 32 MB flash 的 v2 设备。该机型为 Wi-Fi 6 Mesh 系统，带两个千兆 LAN 口，常以两只或三只套装出售，购买前需核对版本。</p>
+<blockquote>
+<p>🔗 <a target="_blank" rel="noopener" href="https://openwrt.org/toh/cudy/m1800?rev=1795513924&do=diff">原文</a></p>
+</blockquote>
+<h3 id="Arcadyan-5G-Box-Meteor（AW1000-Ultra）硬件页更新"><a href="#Arcadyan-5G-Box-Meteor（AW1000-Ultra）硬件页更新" class="headerlink" title="Arcadyan 5G Box Meteor（AW1000 Ultra）硬件页更新"></a>Arcadyan 5G Box Meteor（AW1000 Ultra）硬件页更新</h3><p>页面新增了第三方定制 WebUI 链接，并再次警告：该设备硬件与 Arcadyan AW1000 并不相同，尽管有说法称二者为同一产品。该 5G CPE 由多家运营商部署，购买前务必确认型号。</p>
+<blockquote>
+<p>🔗 <a target="_blank" rel="noopener" href="https://openwrt.org/inbox/toh/arcadyan/5g_box_meteor_a.k.a._aw1000_ultra?rev=1795525353&do=diff">原文</a></p>
+</blockquote>
+<h3 id="“使用-OpenWrt-的理由”页面措辞修订"><a href="#“使用-OpenWrt-的理由”页面措辞修订" class="headerlink" title="“使用 OpenWrt 的理由”页面措辞修订"></a>“使用 OpenWrt 的理由”页面措辞修订</h3><p>该页面更新了对”注意事项（Caveats）”部分的表述，强调 OpenWrt 相较原厂固件在性能与稳定性上的设计取向。作为面向新用户的入口文档，措辞更严谨有助于减少预期偏差。</p>
+<blockquote>
+<p>🔗 <a target="_blank" rel="noopener" href="https://openwrt.org/reasons_to_use_openwrt?rev=1795539220&do=diff">原文</a></p>
+</blockquote>
+<h3 id="论坛：新-ToH-数据录入表单出现串设备数据"><a href="#论坛：新-ToH-数据录入表单出现串设备数据" class="headerlink" title="论坛：新 ToH 数据录入表单出现串设备数据"></a>论坛：新 ToH 数据录入表单出现串设备数据</h3><p>用户反映使用新建设备表单录入 Ubiquiti UniFi USW Pro Max 24 PoE 时，生成页面混入了另一台 MT7621 路由器的数据。这提示 ToH 数据录入流程可能存在模板或缓存问题，录入者需复核提交结果。</p>
+<blockquote>
+<p>🔗 <a target="_blank" rel="noopener" href="https://forum.openwrt.org/t/new-toh-dataentry-form-saved-values-from-a-different-device/255759">原文</a></p>
+</blockquote>
+<h2 id="编辑小结"><a href="#编辑小结" class="headerlink" title="编辑小结"></a>编辑小结</h2><p>本期 OpenWrt 侧的信息密度明显高于无线标准侧：b43-next 的推进为 Broadcom 老设备带来新希望，但”重度开发中”的定位意味着短期内不宜作为生产依赖。ARM32 程序在 ARM64 filogic 上的兼容问题，提醒自编译用户关注 CONFIG_COMPAT 与 multilib 方案的选择成本。设备数据页的多次修订（Cudy M1800 v2、Arcadyan 5G Box Meteor）说明购买前的硬件版本核对仍不可省略。无线行业方面，Wi-Fi 8 与 AI-RAN 的讨论都指向”可靠性优先于峰值速率”的取向，值得在选型时纳入考量。安全层面，AI 自动化漏洞挖掘的成熟意味着固件更新节奏需要更紧。</p>
+</article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta"><i class="fas fa-circle-user fa-fw"></i>文章作者: </span><span class="post-copyright-info"><a href="https://linxuew.github.io">linxuew</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta"><i class="fas fa-square-arrow-up-right fa-fw"></i>文章链接: </span><span class="post-copyright-info"><a href="https://linxuew.github.io/2026/11/25/tech-digest/tech-digest-2026-11-25/">https://linxuew.github.io/2026/11/25/tech-digest/tech-digest-2026-11-25/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta"><i class="fas fa-circle-exclamation fa-fw"></i>版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来自 <a href="https://linxuew.github.io" target="_blank">Lmiracle</a>！</span></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/%E6%8A%80%E6%9C%AF%E5%8A%A8%E6%80%81/">技术动态</a></div><div class="post_share"></div></div><nav class="pagination-post" id="pagination"><div class="next-post pull-full"><a href="/2026/11/24/tech-digest/tech-digest-2026-11-24/" title="无线与路由技术动态 2026-11-24"><div class="cover" style="background: var(--default-bg-color)"></div><div class="pagination-info"><div class="label">下一篇</div><div class="next_info">无线与路由技术动态 2026-11-24</div></div></a></div></nav><div class="relatedPosts"><div class="headline"><i class="fas fa-thumbs-up fa-fw"></i><span>相关推荐</span></div><div class="relatedPosts-list"><div><a href="/2026/03/24/tech-digest/tech-digest-2026-03-24/" title="无线与路由技术动态 2026-03-24"><div class="cover" style="background: var(--default-bg-color)"></div><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2026-03-24</div><div class="title">无线与路由技术动态 2026-03-24</div></div></a></div><div><a href="/2026/03/25/tech-digest/tech-digest-2026-03-25/" title="无线与路由技术动态 2026-03-25"><div class="cover" style="background: var(--default-bg-color)"></div><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2026-03-25</div><div class="title">无线与路由技术动态 2026-03-25</div></div></a></div><div><a href="/2026/03/27/tech-digest/tech-digest-2026-03-27/" title="无线与路由技术动态 2026-03-27"><div class="cover" style="background: var(--default-bg-color)"></div><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2026-03-27</div><div class="title">无线与路由技术动态 2026-03-27</div></div></a></div><div><a href="/2026/03/26/tech-digest/tech-digest-2026-03-26/" title="无线与路由技术动态 2026-03-26"><div class="cover" style="background: var(--default-bg-color)"></div><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2026-03-26</div><div class="title">无线与路由技术动态 2026-03-26</div></div></a></div><div><a href="/2026/03/28/tech-digest/tech-digest-2026-03-28/" title="无线与路由技术动态 2026-03-28"><div class="cover" style="background: var(--default-bg-color)"></div><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2026-03-28</div><div class="title">无线与路由技术动态 2026-03-28</div></div></a></div><div><a href="/2026/03/29/tech-digest/tech-digest-2026-03-29/" title="无线与路由技术动态 2026-03-29"><div class="cover" style="background: var(--default-bg-color)"></div><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2026-03-29</div><div class="title">无线与路由技术动态 2026-03-29</div></div></a></div></div></div></div><div class="aside-content" id="aside-content"><div class="card-widget card-info"><div class="is-center"><div class="avatar-img"><img src="/img/brand/avatar.png" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="author-info__name">linxuew</div><div class="author-info__description">低头赶路，莫问前程！</div></div><div class="card-info-data site-data is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">60</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">15</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">5</div></a></div><a id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/linxuew"><i class="fab fa-github"></i><span>GitHub</span></a><div class="card-info-social-icons is-center"><a class="social-icon" href="mailto:linxuew@gmail.com" target="_blank" title="Email"><i class="fas fa-envelope" style="color: #4a7dbe;"></i></a></div></div><div class="card-widget card-announcement"><div class="item-headline"><i class="fas fa-bullhorn fa-shake"></i><span>公告</span></div><div class="announcement_content">This is my Blog</div></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>目录</span><span class="toc-percentage"></span></div><div class="toc-content"><ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%9C%AC%E6%9C%9F%E6%91%98%E8%A6%81"><span class="toc-number">1.</span> <span class="toc-text">本期摘要</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Linux-%E5%8A%A8%E6%80%81"><span class="toc-number">2.</span> <span class="toc-text">Linux 动态</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Firefox-161-0-%E5%8F%91%E5%B8%83"><span class="toc-number">2.1.</span> <span class="toc-text">Firefox 161.0 发布</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%91%A8%E4%BA%8C%E5%AE%89%E5%85%A8%E6%9B%B4%E6%96%B0%E6%B1%87%E6%80%BB"><span class="toc-number">2.2.</span> <span class="toc-text">周二安全更新汇总</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%91%A8%E4%B8%80%E5%AE%89%E5%85%A8%E6%9B%B4%E6%96%B0%E6%B1%87%E6%80%BB"><span class="toc-number">2.3.</span> <span class="toc-text">周一安全更新汇总</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Linus-Torvalds-%E5%B0%B1-EXT4-%E5%A4%A7%E5%9E%8B-AI-%E7%94%9F%E6%88%90%E8%A1%A5%E4%B8%81%E5%8F%91%E5%A3%B0"><span class="toc-number">2.4.</span> <span class="toc-text">Linus Torvalds 就 EXT4 大型 AI 生成补丁发声</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%97%A0%E7%BA%BF%E9%80%9A%E4%BF%A1%E5%8A%A8%E6%80%81"><span class="toc-number">3.</span> <span class="toc-text">无线通信动态</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#eRedCap-%E4%B8%8E-eSIM-%E6%8E%A8%E5%8A%A8%E4%BC%A0%E7%BB%9F-IoT-%E8%B5%B0%E5%90%91-AI-%E5%B0%B1%E7%BB%AA%E8%BF%90%E8%90%A5"><span class="toc-number">3.1.</span> <span class="toc-text">eRedCap 与 eSIM 推动传统 IoT 走向 AI 就绪运营</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%8F%90%E5%8D%87-6G-%E6%95%B0%E5%AD%97%E5%AD%AA%E7%94%9F%E4%BF%9D%E7%9C%9F%E5%BA%A6"><span class="toc-number">3.2.</span> <span class="toc-text">提升 6G 数字孪生保真度</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Nokia-%E9%87%8D%E7%94%B3-AI-RAN-%E7%9B%AE%E6%A0%87%EF%BC%9A2028-%E5%B9%B4%E5%AE%9E%E7%8E%B0-100-%E9%A2%91%E8%B0%B1%E6%95%88%E7%8E%87%E6%8F%90%E5%8D%87"><span class="toc-number">3.3.</span> <span class="toc-text">Nokia 重申 AI-RAN 目标：2028 年实现 100% 频谱效率提升</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%B8%AD%E7%AB%8B%E4%B8%BB%E6%9C%BA%E6%97%A0%E7%BA%BF%EF%BC%9A%E4%BC%81%E4%B8%9A%E4%B9%B0%E5%8D%95%EF%BC%8C%E5%95%86%E4%B8%9A%E6%A8%A1%E5%BC%8F%E7%94%9F%E5%8F%98"><span class="toc-number">3.4.</span> <span class="toc-text">中立主机无线：企业买单，商业模式生变</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Vodafone-%E4%B8%8E-AST-%E8%BE%BE%E6%88%90-NTN-%E7%A0%94%E5%8F%91%E5%8D%8F%E8%AE%AE%EF%BC%8C%E4%B8%AD%E5%9B%BD%E5%8A%A0%E7%A0%81%E5%B7%A5%E4%B8%9A-5G"><span class="toc-number">3.5.</span> <span class="toc-text">Vodafone 与 AST 达成 NTN 研发协议，中国加码工业 5G</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#WiFi-%E6%A0%87%E5%87%86-%E6%8A%80%E6%9C%AF"><span class="toc-number">4.</span> <span class="toc-text">WiFi 标准 &amp; 技术</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%BD%91%E7%BB%9C%E7%A0%94%E8%AE%A8%E4%BC%9A%EF%BC%9AWi-Fi-8-%E4%B8%8E-AI-%E5%8E%9F%E7%94%9F%E6%97%A0%E7%BA%BF%E7%9A%84%E5%B4%9B%E8%B5%B7"><span class="toc-number">4.1.</span> <span class="toc-text">网络研讨会：Wi-Fi 8 与 AI 原生无线的崛起</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%BA%9A%E9%A9%AC%E9%80%8A%E7%A7%B0%E9%BB%91%E5%AE%A2-AI-Agent-%E4%BB%A5%E6%9E%81%E5%B0%91%E4%BA%BA%E5%B7%A5%E5%B9%B2%E9%A2%84%E5%8F%91%E7%8E%B0%E5%B9%B6%E5%88%A9%E7%94%A8-0-day"><span class="toc-number">4.2.</span> <span class="toc-text">亚马逊称黑客 AI Agent 以极少人工干预发现并利用 0-day</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%A0%94%E7%A9%B6%E8%80%85%E5%90%91-AI-%E4%BE%9B%E5%BA%94%E9%93%BE%E6%A4%8D%E5%85%A5-200-%E4%B8%87%E4%B8%AA%E2%80%9D%E9%87%91%E4%B8%9D%E9%9B%80%E2%80%9D%EF%BC%8C%E9%9A%90%E7%A7%81%E7%81%BE%E9%9A%BE%E6%B5%AE%E7%8E%B0"><span class="toc-number">4.3.</span> <span class="toc-text">研究者向 AI 供应链植入 200 万个”金丝雀”，隐私灾难浮现</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%8A%AF%E7%89%87-%E7%A1%AC%E4%BB%B6"><span class="toc-number">5.</span> <span class="toc-text">芯片 &amp; 硬件</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Moores-Lab-AI-%E5%9F%BA%E5%87%86%E8%AE%A1%E5%88%92%EF%BC%9A%E8%A1%A1%E9%87%8F-AI-%E8%83%BD%E5%90%A6%E7%9C%9F%E6%AD%A3%E9%AA%8C%E8%AF%81%E8%8A%AF%E7%89%87"><span class="toc-number">5.1.</span> <span class="toc-text">Moores Lab AI 基准计划：衡量 AI 能否真正验证芯片</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%A5%BF%E9%97%A8%E5%AD%90%E6%94%B6%E8%B4%AD-Breker-%E5%AF%B9%E4%B8%8B%E4%B8%80%E4%BB%A3-AI-%E8%8A%AF%E7%89%87%E7%9A%84%E6%84%8F%E4%B9%89"><span class="toc-number">5.2.</span> <span class="toc-text">西门子收购 Breker 对下一代 AI 芯片的意义</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%B8%BA%E4%BD%95%E5%B3%B0%E5%80%BC-FLOPS-%E4%B8%8D%E6%98%AF%E6%8E%A8%E7%90%86%E7%A1%AC%E4%BB%B6%E7%9A%84%E6%AD%A3%E7%A1%AE%E6%A0%87%E5%B0%BA"><span class="toc-number">5.3.</span> <span class="toc-text">为何峰值 FLOPS 不是推理硬件的正确标尺</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%BE%B9%E7%BC%98-AI-%E4%B8%8E%E6%9C%BA%E5%99%A8%E4%BA%BA%EF%BC%9A%E4%BB%8E%E7%B2%BE%E5%87%86%E5%86%9C%E4%B8%9A%E5%88%B0%E8%87%AA%E4%B8%BB%E5%86%9C%E4%B8%9A"><span class="toc-number">5.4.</span> <span class="toc-text">边缘 AI 与机器人：从精准农业到自主农业</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%B7%AF%E7%94%B1%E5%99%A8-OpenWrt"><span class="toc-number">6.</span> <span class="toc-text">路由器 &amp; OpenWrt</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#b43-%E9%A1%B5%E9%9D%A2%E6%96%B0%E5%A2%9E-b43-next-%E9%A9%B1%E5%8A%A8%E4%BF%A1%E6%81%AF"><span class="toc-number">6.1.</span> <span class="toc-text">b43 页面新增 b43-next 驱动信息</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%9C%A8%E7%8E%B0%E4%BB%A3-ARM64%EF%BC%88filogic%EF%BC%89%E4%B8%8A%E8%BF%90%E8%A1%8C%E6%97%A7-ARM32-ELF-%E5%8F%AF%E6%89%A7%E8%A1%8C%E6%96%87%E4%BB%B6"><span class="toc-number">6.2.</span> <span class="toc-text">在现代 ARM64（filogic）上运行旧 ARM32 ELF 可执行文件</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Cudy-M1800-v2-%E9%A1%B5%E9%9D%A2%E6%9B%B4%E6%96%B0%E9%97%AA%E5%AD%98%E7%89%88%E6%9C%AC%E8%AD%A6%E5%91%8A"><span class="toc-number">6.3.</span> <span class="toc-text">Cudy M1800 v2 页面更新闪存版本警告</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Arcadyan-5G-Box-Meteor%EF%BC%88AW1000-Ultra%EF%BC%89%E7%A1%AC%E4%BB%B6%E9%A1%B5%E6%9B%B4%E6%96%B0"><span class="toc-number">6.4.</span> <span class="toc-text">Arcadyan 5G Box Meteor（AW1000 Ultra）硬件页更新</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E2%80%9C%E4%BD%BF%E7%94%A8-OpenWrt-%E7%9A%84%E7%90%86%E7%94%B1%E2%80%9D%E9%A1%B5%E9%9D%A2%E6%8E%AA%E8%BE%9E%E4%BF%AE%E8%AE%A2"><span class="toc-number">6.5.</span> <span class="toc-text">“使用 OpenWrt 的理由”页面措辞修订</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%AE%BA%E5%9D%9B%EF%BC%9A%E6%96%B0-ToH-%E6%95%B0%E6%8D%AE%E5%BD%95%E5%85%A5%E8%A1%A8%E5%8D%95%E5%87%BA%E7%8E%B0%E4%B8%B2%E8%AE%BE%E5%A4%87%E6%95%B0%E6%8D%AE"><span class="toc-number">6.6.</span> <span class="toc-text">论坛：新 ToH 数据录入表单出现串设备数据</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%BC%96%E8%BE%91%E5%B0%8F%E7%BB%93"><span class="toc-number">7.</span> <span class="toc-text">编辑小结</span></a></li></ol></div></div><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>最新文章</span></div><div class="aside-list"><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2026/11/25/tech-digest/tech-digest-2026-11-25/" title="无线与路由技术动态 2026-11-25">无线与路由技术动态 2026-11-25</a><time datetime="2026-11-24T21:00:00.000Z" title="发表于 2026-11-25 06:00:00">2026-11-25</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2026/11/24/tech-digest/tech-digest-2026-11-24/" title="无线与路由技术动态 2026-11-24">无线与路由技术动态 2026-11-24</a><time datetime="2026-11-23T21:00:00.000Z" title="发表于 2026-11-24 06:00:00">2026-11-24</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2026/11/23/tech-digest/tech-digest-2026-11-23/" title="无线与路由技术动态 2026-11-23">无线与路由技术动态 2026-11-23</a><time datetime="2026-11-22T21:00:00.000Z" title="发表于 2026-11-23 06:00:00">2026-11-23</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2026/11/22/tech-digest/tech-digest-2026-11-22/" title="无线与路由技术动态 2026-11-22">无线与路由技术动态 2026-11-22</a><time datetime="2026-11-21T21:00:00.000Z" title="发表于 2026-11-22 06:00:00">2026-11-22</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2026/11/21/tech-digest/tech-digest-2026-11-21/" title="无线与路由技术动态 2026-11-21">无线与路由技术动态 2026-11-21</a><time datetime="2026-11-20T21:00:00.000Z" title="发表于 2026-11-21 06:00:00">2026-11-21</time></div></div></div></div></div></div></main><footer id="footer"><div id="footer-wrap"><div class="copyright">&copy;2024 - 2026 By linxuew</div><div class="framework-info"><span>框架 </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo</a><span class="footer-separator">|</span><span>主题 </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly</a></div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="darkmode" type="button" title="浅色和深色模式转换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside-config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="目录"><i class="fas fa-list-ul"></i></button><button id="go-up" type="button" title="回到顶部"><span class="scroll-percent"></span><i class="fas fa-arrow-up"></i></button></div></div><div><script src="/js/utils.js?v=4.13.0"></script><script src="/js/main.js?v=4.13.0"></script><script src="https://cdn.jsdelivr.net/npm/@fancyapps/ui@5.0.33/dist/fancybox/fancybox.umd.min.js"></script><div class="js-pjax"></div><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script></div></body></html>
